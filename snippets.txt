@@ -1,0 +1,56 @@
+ //INIZIALIZA DB
+      myDB = window.sqlitePlugin.openDatabase({
+        name: 'my.db',
+        location: 'default'
+      })
+      myDB.transaction(function (transaction) {
+        transaction.executeSql('CREATE TABLE IF NOT EXISTS codesundar (id integer primary key, title text, desc text)', [],
+          function (tx, result) {
+            alert("Table created successfully");
+          },
+          function (error) {
+            alert("Error occurred while creating the table.");
+          });
+      });
+
+      let quries =
+        myDB.sqlBatch([
+          'CREATE TABLE Post (uid INTEGER PRIMARY KEY, pid INTEGER PRIMARY KEY, username Text, pversion INTEGER NOT NULL, type TEXT NOT NULL)',
+          'CREATE TABLE Profile_img (uid INTEGER PRIMARY KEY, pversion INTEGER NOT NULL, profile_image_content TEXT)',
+          'CREATE TABLE Post_img (pid INTEGER PRIMARY KEY, post_image_content TEXT)'
+        ], function () {
+          console.log('Populated database OK');
+        }, function (error) {
+          console.log('SQL batch ERROR: ' + error.message);
+        })
+
+
+ //SALVA FOTO PROFILO
+        document.addEventListener("deviceready", onDeviceReady_save_profilo, false);
+                function onDeviceReady_save_profilo(){     
+                  console.log("STO SALVANDO IMMAGINE PROFILO...");     
+                  this.$.myDB.query('INSERT INTO Profile_img ( uid, pversion, post_image_content ) VALUES ( ?,? )', {
+                  values: [userPicture_uid, userPicture_pversion, userPicture_img]
+                });
+
+
+            //SALVA FOTO POST
+            function onDeviceReady_save_post(){          
+              this.$.db.query('INSERT INTO Post_img ( pid, post_image_content ) VALUES ( ?,? )', {
+                values: [post_pid, post_img]
+              });}
+
+
+    //LOGICA IMMAGINE PROFILO
+    document.addEventListener("deviceready", onDeviceReady_check_profilo, false);
+    function onDeviceReady_check_profilo(){
+      myDB.transaction(function (transaction) {
+        var executeQuery = 'SELECT pversion FROM Profile_img WHERE UID=?'
+        transaction.executeSql(executeQuery, [uid], function (tx, result) {
+          console.log("LOG DA TRANSACTION PROFILO SUCCESS")
+
+        }, function (error) {
+          console.log(error)
+        })
+      })
+    }

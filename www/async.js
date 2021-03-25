@@ -1,28 +1,27 @@
 const base_url = "https://ewserver.di.unimi.it/mobicomp/accordo/"
 
 var sid = "dDYkswaNkBtycWDS"
+var firstUse = true
+var myDB
 
 window.onload = function () {
-  console.log("sid " + sid);
-  var http = new XMLHttpRequest()
-  $.ajax({
-    type: "POST",
-    url: base_url + "getWall.php",
-    data: JSON.stringify({
-      "sid": sid
-    }),
-    success: function (data) {
-      json = JSON.parse(data);
-      all_channels = json.channels;
-      console.log(all_channels);
 
-      document.getElementById("parent-list").innerHTML = printLista()
+  document.addEventListener("deviceready", onDeviceReady, false);
 
-    },
-    error: function (error) {
-      console.log(error.responseText);
+  function onDeviceReady() {
+    // Now safe to use device APIs
+    
+    if (firstUse) {
+      //TODO: Registrazione implicità
+      //TODO: Inizializza db
+      firstUse = false
     }
-  })
+  }
+
+  //CHIAMA LA WALL E LA MOSTRA
+    getWall()
+    //TODO: printWall()
+
 
   //CONTROLLA SE C'è IL CLICK
   // locate your element and add the Click Event Listener
@@ -31,11 +30,10 @@ window.onload = function () {
     // try doing console.log(e.target.nodeName), it will result LI
     if (e.target && e.target.nodeName == "LI") {
       console.log(e.target.id + " was clicked");
-      cn = e.target.id.substring(3, e.target.id.length - 3);
-      console.log(cn + " was clicked");
-      //goToChannel(e.target.id)
+      channel_name = e.target.id.substring(3, e.target.id.length - 3);
+      console.log(channel_name + " was clicked");
 
-      getChannel(cn)
+      getChannel(channel_name)
       showscreen("#screen_canale")
 
 
@@ -55,9 +53,9 @@ function getChannel(nomeCanale) {
     success: function (data) {
       json = JSON.parse(data);
       elenco_posts = json.posts;
-      console.log("The ajax request succeeded!");
-      console.log("The result is: ");
-      console.dir(data);
+      console.log("The ajax request for getChannel succeeded!");
+      //console.log("The result is: ");
+      //console.dir(data);
 
 
       document.getElementById("parent-list-post").innerHTML = printPost()
@@ -74,33 +72,6 @@ function showscreen(idToShow) {
   $(idToShow).show()
 }
 
-function goToChannel(nomeCanale) {
-  document.getElementById("p2").innerHTML = nomeCanale
-  //FA LA CHIAMATA
-  $.ajax({
-    type: "POST",
-    url: base_url + "getChannel.php",
-    data: JSON.stringify({
-      "sid": sid,
-      "ctitle": nomeCanale
-    }),
-    success: function (data) {
-      json = JSON.parse(data);
-      elenco_posts = json.posts;
-      console.log("The ajax request succeeded!");
-      console.log("The result is: ");
-      console.dir(data);
-
-
-      document.getElementById("p2").innerHTML = printPost()
-    },
-    error: function (error) {
-      console.log(error.responseText);
-    }
-  })
-  showscreen("#screen_canale")
-}
-
 function printPost() {
   console.log("printPost()");
   postList = "";
@@ -112,10 +83,11 @@ function printPost() {
     pid = item.pid
     pversion = item.pversion
 
-    //LOGICA IMMAGINE PROFILO
-    if (false){
-      //SE HA LA FOTO LA CARICA
-    }else{
+
+    result = "a"
+    if (result == pversion) {
+      console.log("IMMAGINE GIA NEL DB");
+    } else {
       //CHIAMATA IMMAGINE PROFILO
       //CHIAMATA PRENDI IMMAGINE POST
       $.ajax({
@@ -131,13 +103,16 @@ function printPost() {
           userPicture_uid = json.uid
           userPicture_pversion = json.pversion
 
-          console.log("The ajax request succeeded!");
-          console.log("The result is: ");
-          console.dir(data);
+          console.log("The ajax request fro getUserPicture succeeded!");
+          //console.log("The result is: ");
+          //console.dir(data);
 
 
           document.getElementById("parent-list-post").innerHTML += "<li id=%22" + uid + "%22>" + userPicture_img + "</li>"
-          //TODO: SALVA FOTO
+          
+          
+          //SALVA FOTO PROFILO
+
         },
         error: function (error) {
           console.log(error.responseText);
@@ -145,17 +120,18 @@ function printPost() {
       })
     }
 
+
+
+
     //LOGICA CONTENUTO POST
     if (type == "t") {
       content = item.content
       postList += "<li id=%22" + uid + "%22>" + content + "</li>";
     } else if (type == "i") {
       //postList += "<li id=%22" + uid + "%22>" + "img" + "</li>";
-      if (false==true) {
+      if (false == true) {
         //se la hai salvata caricala
-        console.log("foto post caricata da DB");
       } else {
-        //CHIAMATA PRENDI IMMAGINE POST
         $.ajax({
           type: "POST",
           url: base_url + "getPostImage.php",
@@ -167,13 +143,15 @@ function printPost() {
             json = JSON.parse(data);
             post_img = json.content;
             post_pid = json.pid
-            console.log("The ajax request succeeded!");
-            console.log("The result is: ");
-            console.dir(data);
+            console.log("The ajax request for getPostImage succeeded!");
+            //console.log("The result is: ");
+            //console.dir(data);
 
 
             document.getElementById("parent-list-post").innerHTML += "<li id=%22" + uid + "%22>" + "post_img" + "</li>"
-                      //TODO: SALVA FOTO
+            
+            //SALVA FOTO POST
+            
           },
           error: function (error) {
             console.log(error.responseText);
@@ -190,16 +168,40 @@ function printPost() {
 
 }
 
-function printLista() {
+function getWall(){
+  var http = new XMLHttpRequest()
+  $.ajax({
+    type: "POST",
+    url: base_url + "getWall.php",
+    data: JSON.stringify({
+      "sid": sid
+    }),
+    success: function (data) {
+      json = JSON.parse(data);
+      all_channels = json.channels;
+      //console.log(all_channels);
+
+      //TODO: SALVALA NEL MODEL
+      document.getElementById("parent-list").innerHTML = printWall()
+
+    },
+    error: function (error) {
+      console.log(error.responseText);
+    }
+  })
+}
+
+function printWall() {
   // Selecting the input element and get its value
   console.log("printLista()");
   nameList = "";
 
   all_channels.forEach((item, i) => {
 
-    nameList += "<li id=%22" + item.ctitle + "%22 class=%22nome_canale%22>" + item.ctitle + "</li>";
+    nameList += "<li id=%22" + item.ctitle + "%22 id=%22nome_canale%22>" + item.ctitle + "</li>";
 
   });
 
   return nameList
 }
+
