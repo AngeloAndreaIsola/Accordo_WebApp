@@ -131,6 +131,22 @@ class Controller {
   constructor(model, view) {
     this.model = model
     this.view = view
+
+    //Display initial channels
+    this.onChannelListChanged(this.model._channels)
+  }
+
+  onChannelListChanged = (_channels) => {
+    this.view.displayTodos(_channels)
+  }
+
+  handleClickOnChannel = (channelName) => {
+    getChannel(channelName)
+    showscreen("#screen_canale")
+  }
+
+  handleRefresh = () => {
+
   }
 }
 
