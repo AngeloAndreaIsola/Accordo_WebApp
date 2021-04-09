@@ -1,6 +1,7 @@
 const base_url = "https://ewserver.di.unimi.it/mobicomp/accordo/"
 import {
-  getWall
+  getWall,
+  getChannel
 } from './comunicationController.js'
 
 
@@ -130,12 +131,17 @@ class View {
   }
 
   bindClickOnChannel(handler){
+    console.log("bindClickOnChannel");
     this.channelList.addEventListener('click', event => {
       console.log(event);
-      if (event.target && event.target.nodeName == "LI") {
+
+      console.log("target: "+event.target);
+      console.log("target.nodename: "+event.target.nodeName);
+
+      if (event.target && event.target.nodeName == "SPAN") {
         
-        const channelName = e.target.parentElemnt.ctitle 
-        console.log(e.target.parentElemnt.ctitle + " was clicked");
+        const channelName = event.target.parentElement.id 
+        console.log(event.target.parentElement.id + " was clicked");
 
         handler(channelName)
         //channel_name = e.target.id.substring(3, e.target.id.length - 3);
@@ -163,15 +169,31 @@ class Controller {
     this.view.displayTodos(_channels)
   }
 
+  
   handleClickOnChannel = (channelName) => {
-    console.log("handleClickOnChannel");
-    //getChannel(channelName)
-    showscreen("#screen_canale")
+    
+    console.log("Hai cliccato su : " + channelName);
+
+    /*
+    //1) chiama getchannel
+    var listaPost = getChannel(sid,channelName, (response) => {
+      console.log("Call %22getChannel%22 succeded")
+
+      json = JSON.parse(data);
+      elenco_posts = json.posts;
+
+      //console.log("The result is: ");
+      //console.dir(data);
+  
+    //2) displayChannel
+    this.view.displayPosts(elenco_posts)  
+    })
+    */
+
+
   }
 
-  handleRefresh = () => {
-
-  }
+  //handleRefresh = () => {}
 
 
 }
@@ -204,4 +226,10 @@ window.onload = function () {
 
   })
 
+}
+
+function showscreen(idToShow) {
+  console.log("showscreen")
+  $(".screen").hide()
+  $(idToShow).show()
 }

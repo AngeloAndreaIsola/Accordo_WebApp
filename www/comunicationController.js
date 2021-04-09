@@ -19,6 +19,20 @@
                 }
             })
         }
+        export const getChannel = (nomeCanale) => {
+            $.ajax({
+                type: "POST",
+                url: 'https://ewserver.di.unimi.it/mobicomp/accordo/' + "getChannel.php",
+                data: JSON.stringify({
+                    "sid": sid,
+                    "ctitle": nomeCanale
+                }),
+                success: callback,
+                error: function (error) {
+                    console.log(error.responseText);
+                }
+            })
+        }
 
         
 
