@@ -37,6 +37,10 @@ class Model {
     console.log("All channles save into model");
     console.log(this._channels);
   }
+
+  bindOnChannelListChanged(callback) {
+    this.onChannelListChanged = callback
+  }
 }
 
 
@@ -72,7 +76,7 @@ class View {
   }
 
   displayTodos(_channels) {
-    console.log("_channels da displayTodos: "+_channels);
+    //console.log("_channels da displayTodos: "+_channels);
 
     var channels = [
       {ctitle: 'CANALE INSERISTO STATICAMENTE 1', mine: 'f'},
@@ -89,7 +93,6 @@ class View {
     // Create todo item nodes for each todo in state
     _channels.forEach(channel => {                         
       const li = this.createElement('li')
-      console.log("CHANNEL.CTITLE"+channel.ctitle);
       li.id = channel.ctitle
 
       // The todo item text will be in a contenteditable span
@@ -125,6 +128,22 @@ class View {
 
     return element
   }
+
+  bindClickOnChannel(handler){
+    this.channelList.addEventListener('click', event => {
+      console.log(event);
+      if (event.target && event.target.nodeName == "LI") {
+        
+        const channelName = e.target.parentElemnt.ctitle 
+        console.log(e.target.parentElemnt.ctitle + " was clicked");
+
+        handler(channelName)
+        //channel_name = e.target.id.substring(3, e.target.id.length - 3);
+        //console.log(channel_name + " was clicked");
+      }
+
+    })
+  }
 }
 
 class Controller {
@@ -134,6 +153,10 @@ class Controller {
 
     //Display initial channels
     this.onChannelListChanged(this.model._channels)
+
+    this.model.bindOnChannelListChanged(this.onChannelListChanged)
+    this.view.bindClickOnChannel(this.handleClickOnChannel)
+
   }
 
   onChannelListChanged = (_channels) => {
@@ -141,18 +164,19 @@ class Controller {
   }
 
   handleClickOnChannel = (channelName) => {
-    getChannel(channelName)
+    console.log("handleClickOnChannel");
+    //getChannel(channelName)
     showscreen("#screen_canale")
   }
 
   handleRefresh = () => {
 
   }
+
+
 }
 
-console.log("1");
 const app = new Controller(new Model(), new View())
-console.log("2");
 
 
 
