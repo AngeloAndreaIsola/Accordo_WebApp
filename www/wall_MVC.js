@@ -4,7 +4,7 @@ export class ModelWall {
       this._channels = []
   
     }
-  
+    
     saveChannels = (response) => {
       var json = JSON.parse(response);
       var channels_list = json.channels;
@@ -153,6 +153,8 @@ export class ModelWall {
     handleClickOnChannel = (channelName) => {
       
       console.log("Hai cliccato su : " + channelName);
+
+      this.view.showscreen("channelScreen")
   
       /*
       //1) chiama getchannel
