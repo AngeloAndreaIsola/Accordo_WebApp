@@ -1,4 +1,4 @@
-export class Model {
+export class ModelWall {
     constructor() {
   
       this._channels = []
@@ -25,7 +25,7 @@ export class Model {
     }
   }
   
-  export class View {
+  export class ViewWall {
     constructor() {
       // The root element
       this.app = this.getElement('#root')
@@ -55,6 +55,10 @@ export class Model {
       this.app.append(this.title, this.form, this.channelList)
   
     }
+    showscreen(idToShow) {
+        $(".screen").hide()
+        $(idToShow).show()
+      }
   
     displayTodos(_channels) {
   
@@ -128,7 +132,7 @@ export class Model {
     }
   }
   
-  export class Controller {
+  export class ControllerWall {
     constructor(model, view) {
       this.model = model
       this.view = view

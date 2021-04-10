@@ -5,9 +5,9 @@ import {
 } from './comunicationController.js'
 
 import {
-  Model,
-  View,
-  Controller
+  ModelWall,
+  ViewWall,
+  ControllerWall
 } from './wall_MVC.js'
 
 
@@ -193,7 +193,7 @@ class Controller {
 }
 */
 
-const app = new Controller(new Model(), new View())
+const app = new ControllerWall(new ModelWall(), new ViewWall())
 
 
 
@@ -222,9 +222,4 @@ window.onload = function () {
   })
 
 }
-
-function showscreen(idToShow) {
-  console.log("showscreen")
-  $(".screen").hide()
-  $(idToShow).show()
-}
+  
