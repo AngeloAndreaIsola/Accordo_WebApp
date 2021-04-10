@@ -4,24 +4,22 @@ import {
   getChannel
 } from './comunicationController.js'
 
+import {
+  Model,
+  View,
+  Controller
+} from './wall_MVC.js'
+
 
 var sid = "dDYkswaNkBtycWDS"
 var firstUse = true
 
-
+/*
 class Model {
   constructor() {
 
     this._channels = []
 
-    /*
-       this._channels = [
-          {ctitle: 'CANALE INSERISTO STATICAMENTE 1', mine: 'f'},
-          {ctitle: 'CANALE INSERISTO STATICAMENTE 2', mine: 't'},
-        ]
-    */
-
-    //console.log(_channels);
   }
 
   saveChannels = (response) => {
@@ -77,7 +75,6 @@ class View {
   }
 
   displayTodos(_channels) {
-    //console.log("_channels da displayTodos: "+_channels);
 
     var channels = [
       {ctitle: 'CANALE INSERISTO STATICAMENTE 1', mine: 'f'},
@@ -131,7 +128,6 @@ class View {
   }
 
   bindClickOnChannel(handler){
-    console.log("bindClickOnChannel");
     this.channelList.addEventListener('click', event => {
       console.log(event);
 
@@ -144,8 +140,6 @@ class View {
         console.log(event.target.parentElement.id + " was clicked");
 
         handler(channelName)
-        //channel_name = e.target.id.substring(3, e.target.id.length - 3);
-        //console.log(channel_name + " was clicked");
       }
 
     })
@@ -188,7 +182,7 @@ class Controller {
     //2) displayChannel
     this.view.displayPosts(elenco_posts)  
     })
-    */
+     //
 
 
   }
@@ -197,6 +191,7 @@ class Controller {
 
 
 }
+*/
 
 const app = new Controller(new Model(), new View())
 
