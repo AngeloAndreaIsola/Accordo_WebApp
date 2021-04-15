@@ -24,6 +24,7 @@ export class ModelWall {
       this.onChannelListChanged = callback
     }
   }
+
   
   export class ViewWall {
     constructor() {
@@ -55,17 +56,13 @@ export class ModelWall {
       this.app.append(this.title, this.form, this.channelList)
   
     }
+    
     showscreen(idToShow) {
         $(".screen").hide()
         $(idToShow).show()
       }
   
     displayTodos(_channels) {
-  
-      var channels = [
-        {ctitle: 'CANALE INSERISTO STATICAMENTE 1', mine: 'f'},
-        {ctitle: 'CANALE INSERISTO STATICAMENTE 2', mine: 't'},
-      ]
   
       // Delete all nodes
       while (this.channelList.firstChild) {
@@ -80,7 +77,7 @@ export class ModelWall {
         li.id = channel.ctitle
   
         // The todo item text will be in a contenteditable span
-        const span = this.createElement('span')
+        const span = this.createElement('span', 'channel_title')
   
         // Display the title
         span.textContent = channel.ctitle
@@ -154,7 +151,7 @@ export class ModelWall {
       
       console.log("Hai cliccato su : " + channelName);
 
-      this.view.showscreen("channelScreen")
+      this.view.showscreen("#channelScreen")
   
       /*
       //1) chiama getchannel

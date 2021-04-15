@@ -10,6 +10,12 @@ import {
   ControllerWall
 } from './wall_MVC.js'
 
+import {
+  ModelChannel,
+  ViewChannel,
+  ControllerChannel
+} from './channel_MVC.js'
+
 
 var sid = "dDYkswaNkBtycWDS"
 var firstUse = true
@@ -194,6 +200,7 @@ class Controller {
 */
 
 const app = new ControllerWall(new ModelWall(), new ViewWall())
+const appc = new ControllerChannel(new ModelChannel(), new ViewChannel())
 
 
 
@@ -212,12 +219,32 @@ window.onload = function () {
   }
 
   //CHIAMA LA WALL
-  var listaCanali = getWall(sid, (response) => {
+  getWall(sid, (response) => {
     console.log("Call %22getWall%22 succeded");
 
     //SALVA LISTA CANALI NEL MODEL
     app.model.saveChannels(response)
     app.view.displayTodos(app.model._channels)
+
+    $('.channel_title').click(function(event){
+      console.log("CLICK DA MAIN");
+  
+      if (event.target && event.target.nodeName == "SPAN") {
+          
+        const channelName = event.target.parentElement.id 
+        console.log(event.target.parentElement.id + " MAIN: was clicked");
+  
+        var listaPost = getChannel(sid, channelName, (response) => {
+          console.log("Call %22getChannel%22 succeded");
+          console.log(response);
+  
+          appc.model.savePosts(response)
+          appc.view.displayPosts(appc.model._posts)
+        })
+   
+      }
+  
+    })
 
   })
 
