@@ -239,7 +239,7 @@ window.onload = function () {
           console.log(response);
   
           appc.model.savePosts(response)
-          appc.view.displayPosts(appc.model._posts)
+          appc.view.displayPosts(appc.model._posts, channelName)
         })
    
       }

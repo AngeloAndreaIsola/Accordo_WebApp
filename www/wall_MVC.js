@@ -89,6 +89,8 @@ export class ModelWall {
         this.channelList.append(li)
   
       })
+
+      this.showscreen('#root')
     }
   
     _resetInput() {
