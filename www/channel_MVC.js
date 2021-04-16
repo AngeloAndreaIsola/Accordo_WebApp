@@ -8,9 +8,6 @@ export class ModelChannel {
 
 
   savePosts = (response) => {
-
-
-
     var json = JSON.parse(response);
     var post_list = json.posts;
 

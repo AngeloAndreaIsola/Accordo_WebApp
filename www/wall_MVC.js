@@ -62,7 +62,7 @@ export class ModelWall {
         $(idToShow).show()
       }
   
-    displayTodos(_channels) {
+    displayChannels(_channels) {
   
       // Delete all nodes
       while (this.channelList.firstChild) {
@@ -145,7 +145,7 @@ export class ModelWall {
     }
   
     onChannelListChanged = (_channels) => {
-      this.view.displayTodos(_channels)
+      this.view.displayChannels(_channels)
     }
   
     

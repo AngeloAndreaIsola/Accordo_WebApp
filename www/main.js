@@ -1,7 +1,8 @@
 const base_url = "https://ewserver.di.unimi.it/mobicomp/accordo/"
 import {
   getWall,
-  getChannel
+  getChannel,
+  getProfile
 } from './comunicationController.js'
 
 import {
@@ -224,7 +225,7 @@ window.onload = function () {
 
     //SALVA LISTA CANALI NEL MODEL
     app.model.saveChannels(response)
-    app.view.displayTodos(app.model._channels)
+    app.view.displayChannels(app.model._channels)
 
     $('.channel_title').click(function(event){
       console.log("CLICK DA MAIN");

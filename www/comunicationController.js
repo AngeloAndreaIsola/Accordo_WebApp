@@ -19,6 +19,7 @@
                 }
             })
         }
+
         export const getChannel = (sid,nomeCanale, callback) => {
             $.ajax({
                 type: "POST",
@@ -28,6 +29,27 @@
                     "ctitle": nomeCanale
                 }),
                 success: callback,
+                error: function (error) {
+                    console.log(error.responseText);
+                }
+            })
+        }
+
+        export function getProfile(sid) {
+            $.ajax({
+                type: "POST",
+                url: 'https://ewserver.di.unimi.it/mobicomp/accordo/' + "getProfile.php",
+                data: JSON.stringify({
+                    "sid": sid
+                }),
+                success: function (data) {
+                    json = JSON.parse(data);
+                    console.log("The ajax request for %22getProfile%22 succeeded!");
+                    console.log("The result is: ");
+                    console.dir(data);
+
+                    return json
+                },
                 error: function (error) {
                     console.log(error.responseText);
                 }
