@@ -1,11 +1,31 @@
+import {
+  getWall,
+  getChannel,
+  getProfile,
+  addChannel
+} from './comunicationController.js'
+
+var sid = "dDYkswaNkBtycWDS"
+
 export class ModelWall {
     constructor() {
   
       this._channels = []
   
     }
+
+    refreshWall =  (response) => {
+      getWall(sid, (response) => {
+        console.log("Call %22getWall%22 succeded");
+    
+        //SALVA LISTA CANALI NEL MODEL
+        app.model.saveChannels(response)
+        
+      })
+    }
     
     saveChannels = (response) => {
+      this._channels = []
       var json = JSON.parse(response);
       var channels_list = json.channels;
   
@@ -18,6 +38,24 @@ export class ModelWall {
       });
       console.log("All channles save into model");
       console.log(this._channels);
+    }
+
+    addTodo(todoText) {
+      /*
+      const todo = {
+        id: this._channels.length > 0 ? this._channels[this._channels.length - 1].id + 1 : 1,
+        ctitle: todoText,
+        mine: true,
+      }
+  
+      this._channels.push(todo)
+      */
+      addChannel(sid, todoText, ()=> {
+        console.log("Call %22addChannel%22 succeded");
+  
+        refreshWall()
+      })
+
     }
   
     bindOnChannelListChanged(callback) {
@@ -35,16 +73,16 @@ export class ModelWall {
       this.title = this.createElement('h1')
       this.title.textContent = 'Bacheca'
   
-      // The form, with a [type="text"] input, and a submit button
-      this.form = this.createElement('form')
-  
-      this.input = this.createElement('input')
-      this.input.type = 'text'
-      this.input.placeholder = 'Add channel'
-      this.input.name = 'channel'
-  
-      this.submitButton = this.createElement('button')
-      this.submitButton.textContent = 'Submit'
+    // The form, with a [type="text"] input, and a submit button
+    this.form = this.createElement('form')
+
+    this.input = this.createElement('input')
+    this.input.type = 'text'
+    this.input.placeholder = 'Add todo'
+    this.input.name = 'todo'
+
+    this.submitButton = this.createElement('button')
+    this.submitButton.textContent = 'Submit'
   
       // The visual representation of the todo list
       this.channelList = this.createElement('ul', 'channel-list')
@@ -92,7 +130,11 @@ export class ModelWall {
 
       this.showscreen('#root')
     }
-  
+
+    get _todoText() {
+      return this.input.value
+    }
+    
     _resetInput() {
       this.input.value = ''
     }
@@ -129,6 +171,19 @@ export class ModelWall {
   
       })
     }
+
+    bindAddTodo(handler) {
+      this.form.addEventListener('submit', event => {
+        event.preventDefault()
+    
+        if (this._todoText) {
+          handler(this._todoText)
+          this._resetInput()
+        }
+      })
+    }
+
+
   }
   
   export class ControllerWall {
@@ -141,6 +196,7 @@ export class ModelWall {
   
       this.model.bindOnChannelListChanged(this.onChannelListChanged)
       this.view.bindClickOnChannel(this.handleClickOnChannel)
+      this.view.bindAddTodo(this.handleAddTodo)
   
     }
   
@@ -154,27 +210,12 @@ export class ModelWall {
       console.log("Hai cliccato su : " + channelName);
 
       this.view.showscreen("#channelScreen")
-  
-      /*
-      //1) chiama getchannel
-      var listaPost = getChannel(sid,channelName, (response) => {
-        console.log("Call %22getChannel%22 succeded")
-  
-        json = JSON.parse(data);
-        elenco_posts = json.posts;
-  
-        //console.log("The result is: ");
-        //console.dir(data);
     
-      //2) displayChannel
-      this.view.displayPosts(elenco_posts)  
-      })
-       */
-  
-  
     }
-  
-    //handleRefresh = () => {}
+
+    handleAddTodo = (todoText) => {
+      this.model.addTodo(todoText)
+    }
   
   
   }
