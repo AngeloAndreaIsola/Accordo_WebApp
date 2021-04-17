@@ -32,6 +32,11 @@ window.onload = function () {
 
   document.addEventListener("deviceready", onDeviceReady, false);
 
+  function showscreen(idToShow){
+    $(".screen").hide()
+    $(idToShow).show()
+  }
+
   function onDeviceReady() {
     // Now safe to use device APIs
 
@@ -50,6 +55,7 @@ window.onload = function () {
     app.model.saveChannels(response)
     app.view.displayChannels(app.model._channels)
 
+    
     $('.channel_title').click(function(event){
       console.log("CLICK DA MAIN");
   
@@ -70,21 +76,28 @@ window.onload = function () {
   
     })
 
-  })
-
-  /
-  $('#addChannelButton').click(function(){
-    console.log("CLick su addChannel");
-
-    channelName= this.view._channelText()
-
-    addChannel(sid, channelName, (response)=> {
-      console.log("Call %22addChannel%22 succeded");
-
-      //refresh()
-    })
-  })
+    $('#settingsButton').click(function(event){
+      console.log("Click su settings");
+      console.log(event.target);
+      console.log(event.target.nodeName);
   
+      if (event.target && event.target.nodeName == "svg") {
+          
+
+        console.log(event.target.parentElement.id + " MAIN: was clicked");
+        
+        showscreen('#settings')
+        
+      }
+  
+    })
+
+  })
+
+
 
 }
+
+
+
   
