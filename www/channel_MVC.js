@@ -3,7 +3,6 @@ export class ModelChannel {
 
     this._posts = []
 
-
   }
 
 
@@ -42,25 +41,30 @@ export class ViewChannel {
     //this.title = this.createElement('h1')
     //this.title.textContent = 'Canale'
 
+
     // The form, with a [type="text"] input, and a submit button
-    this.form = this.createElement('form')
+    //this.form = this.createElement('form')
+    this.form = this.getElement('#channelForm')
 
-    this.input = this.createElement('input')
-    this.input.type = 'text'
-    this.input.placeholder = 'Aggiungi post'
-    this.input.name = 'post'
+    //this.input = this.createElement('input')
+    //this.input.type = 'text'
+    //this.input.placeholder = 'Aggiungi post'
+    //this.input.name = 'post'
 
-    this.submitButton = this.createElement('button')
-    this.submitButton.textContent = 'Submit'
+    //this.submitButton = this.createElement('button')
+    //this.submitButton.textContent = 'Submit'
 
     // The visual representation of the todo list
-    this.postList = this.createElement('ul', 'post-list')
+    //this.postList = this.createElement('ul', 'post-list')
+    this.postList=this.getElement('#post-list')
 
     // Append the input and submit button to the form
-    this.form.append(this.input, this.submitButton)
+    //this.form.append(this.input, this.submitButton)
 
     // Append the title, form, and todo list to the app
-    this.app.append(this.form, this.postList) //this.title,
+    //this.app.append(this.postList) //this.title, this.form,
+    //this.postList.insertAfter('#topChannel')
+    //$('#post-list').insertAfter('#topChannel')
 
   }
 
@@ -75,7 +79,8 @@ export class ViewChannel {
     this.app = this.getElement('#channelScreen')
 
     // The title of the app
-    this.title = this.createElement('h1')
+    //this.title = this.createElement('h1')
+    this.title= this.getElement('.titolo')
     this.title.textContent = channelName
     this.app.prepend(this.title)
 
@@ -93,11 +98,23 @@ export class ViewChannel {
 
       // The todo item text will be in a contenteditable span
       const spanName = this.createElement('span')
-      const spanContennt = this.createElement('span')
+
 
       // Display the name
       spanName.textContent = post.name
-      spanContennt.textContent = post.content
+
+
+      //Display content
+      const spanContennt = this.createElement('span')
+      if(post.type=='t'){
+        spanContennt.textContent = post.content
+      }else if (post.type=='l'){
+        const posButton = this.createElement('button')
+        posButton.textContent = "Posizione condivisa"
+        spanContennt.append(posButton)
+      }else if (post.type=='i'){
+        spanContennt.textContent = "IMMAGINE"
+      }
 
       li.append(spanName, spanContennt);
 

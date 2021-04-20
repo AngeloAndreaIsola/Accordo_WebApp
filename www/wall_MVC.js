@@ -73,28 +73,30 @@ export class ViewWall {
     this.app = this.getElement('#root')
 
     // The title of the app
-    this.title = this.createElement('h1')
-    this.title.textContent = 'Bacheca'
+    //this.title = this.createElement('h1')
+    //this.title.textContent = 'Bacheca'
 
     // The form, with a [type="text"] input, and a submit button
-    this.form = this.createElement('form')
+    //this.form = this.createElement('form')
+    this.form= this.getElement('#form')
 
-    this.input = this.createElement('input')
-    this.input.type = 'text'
-    this.input.placeholder = 'Add todo'
-    this.input.name = 'todo'
+    //this.input = this.createElement('input')
+    //this.input.type = 'text'
+    //this.input.placeholder = 'Add todo'
+    //this.input.name = 'todo'
 
-    this.submitButton = this.createElement('button')
-    this.submitButton.textContent = 'Submit'
+    //this.submitButton = this.createElement('button')
+    //this.submitButton.textContent = 'Submit'
 
     // The visual representation of the todo list
     this.channelList = this.createElement('ul', 'channel-list')
 
     // Append the input and submit button to the form
-    this.form.append(this.input, this.submitButton)
+    //this.form.append(this.input, this.submitButton)
 
     // Append the title, form, and todo list to the app
-    this.app.append(this.title, this.form, this.channelList)
+    //this.app.append(this.title, this.form, this.channelList)
+    this.app.append(this.channelList)
 
   }
 
