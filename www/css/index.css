@@ -24,7 +24,7 @@ html {
 
 .bottom{
   position: -webkit-sticky;
-  position: sticky;
+  position: fixed;
   bottom: 5px;
   background-color: white;
   margin: 0px;

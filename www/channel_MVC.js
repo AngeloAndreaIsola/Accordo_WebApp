@@ -80,7 +80,7 @@ export class ViewChannel {
 
     // The title of the app
     //this.title = this.createElement('h1')
-    this.title= this.getElement('.titolo')
+    this.title= this.getElement('#titoloCanale')
     this.title.textContent = channelName
     this.app.prepend(this.title)
 

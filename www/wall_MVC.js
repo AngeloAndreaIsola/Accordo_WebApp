@@ -73,8 +73,8 @@ export class ViewWall {
     this.app = this.getElement('#root')
 
     // The title of the app
-    //this.title = this.createElement('h1')
-    //this.title.textContent = 'Bacheca'
+    this.title = this.createElement('h1')
+    this.title.textContent = 'Bacheca'
 
     // The form, with a [type="text"] input, and a submit button
     //this.form = this.createElement('form')
