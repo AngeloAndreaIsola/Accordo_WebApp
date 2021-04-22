@@ -113,6 +113,8 @@ window.onload = function () {
     $('#mapButton').click(function (event){
       if (event.target && event.target.nodeName == "svg") {
 
+        //TODO: Crea il bottone invia
+
         showscreen('#mapScreen')
 
       }
@@ -125,6 +127,8 @@ window.onload = function () {
 
       }
     })
+
+
 
 
   })

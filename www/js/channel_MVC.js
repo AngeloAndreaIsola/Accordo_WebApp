@@ -109,7 +109,7 @@ export class ViewChannel {
       if(post.type=='t'){
         spanContennt.textContent = post.content
       }else if (post.type=='l'){
-        const posButton = this.createElement('button')
+        const posButton = this.createElement('button', "posizioneCondivisa")
         posButton.textContent = "Posizione condivisa"
         spanContennt.append(posButton)
       }else if (post.type=='i'){
@@ -160,5 +160,13 @@ export class ControllerChannel {
   onPostListChanged = (_posts) => {
     this.view.displayPosts(_posts)
   }
+
+  //handleClickOnPosizioneCondivisa
+
+  //handleClickOnCreaPost
+
+  //handleClickOnCondividiImmgagine
+
+  //handleClickOnImmagine
 
 }
