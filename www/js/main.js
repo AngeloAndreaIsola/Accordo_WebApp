@@ -34,8 +34,6 @@ window.onload = function () {
 
   document.addEventListener("deviceready", onDeviceReady, false);
 
-
-
   function onDeviceReady() {
     // Now safe to use device APIs
 
@@ -49,7 +47,25 @@ window.onload = function () {
     }
   }
 
-  //CHIAMA LA WALL
+  //Setta profilo nelle impostazioni
+  getProfile(sid, (response)=> {
+    console.log("Call %22getWall%22 succeded");
+
+    var json = JSON.parse(response);
+    var username = json.name;
+    var picture = json.picture;
+
+    $("#usernameSettings").text("")
+    $("#usernameSettings").text(username)
+
+    $("#settingsImmagineProfilo").attr("src","")
+    $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + picture)
+    //$("settingsImmagineProfilo").attr('<img src="data:image/png;base64,' + picture + '">')
+
+    console.log("Settings inizialaized");
+  })
+  
+  //Prende e mostra wall
   getWall(sid, (response) => {
     console.log("Call %22getWall%22 succeded");
 
@@ -136,6 +152,7 @@ window.onload = function () {
 
 
 }
+
 
 function showscreen(idToShow) {
   $(".screen").hide()
