@@ -109,3 +109,8 @@ li span:focus {
   background: rgba(179, 207, 255, 0.52)
 }
 
+.bottomSettings {
+  position: fixed;
+  bottom: 5px;
+}
+

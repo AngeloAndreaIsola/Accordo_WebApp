@@ -1,4 +1,4 @@
-export const getWall = (sid, callback) => {
+ const getWall = (sid, callback) => {
     var http = new XMLHttpRequest()
     $.ajax({
         type: "POST",
@@ -13,7 +13,7 @@ export const getWall = (sid, callback) => {
     })
 }
 
-export const getChannel = (sid, nomeCanale, callback) => {
+ const getChannel = (sid, nomeCanale, callback) => {
     $.ajax({
         type: "POST",
         url: 'https://ewserver.di.unimi.it/mobicomp/accordo/' + "getChannel.php",
@@ -28,7 +28,7 @@ export const getChannel = (sid, nomeCanale, callback) => {
     })
 }
 
-export function getProfile(sid, callback) {
+ function getProfile(sid, callback) {
     $.ajax({
         type: "POST",
         url: 'https://ewserver.di.unimi.it/mobicomp/accordo/' + "getProfile.php",
@@ -52,7 +52,7 @@ export function getProfile(sid, callback) {
     })
 }
 
-export function addChannel(sid, nomeCanale) {
+ function addChannel(sid, nomeCanale) {
     $.ajax({
         type: "POST",
         url: 'https://ewserver.di.unimi.it/mobicomp/accordo/' + "addChannel.php",

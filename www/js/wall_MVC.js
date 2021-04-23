@@ -1,13 +1,13 @@
-import {
-  getWall,
-  getChannel,
-  getProfile,
-  addChannel
-} from './comunicationController.js'
+// import {
+//   getWall,
+//   getChannel,
+//   getProfile,
+//   addChannel
+// } from './comunicationController.js'
 
 var sid = "dDYkswaNkBtycWDS"
 
-export class ModelWall {
+ class ModelWall {
   constructor() {
 
     this._channels = []
@@ -67,10 +67,11 @@ export class ModelWall {
 }
 
 
-export class ViewWall {
+ class ViewWall {
   constructor() {
     // The root element
     this.app = this.getElement('#root')
+    console.log("this.app= " + this.app);
 
     // The title of the app
     this.title = this.createElement('h1')
@@ -191,7 +192,7 @@ export class ViewWall {
 
 }
 
-export class ControllerWall {
+ class ControllerWall {
   constructor(model, view) {
     this.model = model
     this.view = view
