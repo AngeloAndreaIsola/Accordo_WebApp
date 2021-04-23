@@ -21,6 +21,8 @@
 // See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
 document.addEventListener('deviceready', onDeviceReady, false);
 
+var sid = "dDYkswaNkBtycWDS"
+
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
@@ -46,6 +48,22 @@ function onDeviceReady() {
 
     //Setta profilo nelle impostazioni
 
+    //Prende e mostra la wall
+    
+    //Chiamata alla wall
+
+    comunicationController.getWall(sid, (response) => {
+        console.log("Call %22getWall%22 succeded");
+        console.log("getWall resposne: " + response);
+
+        //SALVA LISTA CANALI NEL MODEL
+        // app.model.saveChannels(response)
+        // app.view.displayChannels(app.model._channels)
+
+
+
+    });
+
 }
 
 function userImplicitRegistration() {
@@ -57,7 +75,7 @@ function userImplicitRegistration() {
         //Salva sid
         var json = JSON.parse(response);
         var sid = json.sid;
-        userData.saveSid(sid)
+        userData.saveSid(sid)   //TODO: SID NON SI SALVA IN MODO PESISTENTE
 
         //Salva il resto del profilo
         comunicationController.getProfile(userData.sid, (response) => {
