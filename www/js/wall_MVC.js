@@ -7,7 +7,7 @@
 
 var sid = "dDYkswaNkBtycWDS"
 
- class ModelWall {
+class ModelWall {
   constructor() {
 
     this._channels = []
@@ -15,7 +15,7 @@ var sid = "dDYkswaNkBtycWDS"
   }
 
   refreshWall = () => {
-    getWall(sid, (response) => {
+    comunicationController.getWall(sid, (response) => {
       console.log("Call %22getWall%22 succeded");
 
       const app = new ControllerWall(new ModelWall(), new ViewWall())
@@ -53,7 +53,7 @@ var sid = "dDYkswaNkBtycWDS"
       */
     addChannel(sid, todoText, () => {
       console.log("Call %22addChannel%22 succeded");
-      
+
 
       refreshWall()
     })
@@ -63,11 +63,11 @@ var sid = "dDYkswaNkBtycWDS"
   bindOnChannelListChanged(callback) {
     this.onChannelListChanged = callback
   }
-  
+
 }
 
 
- class ViewWall {
+class ViewWall {
   constructor() {
     // The root element
     this.app = this.getElement('#root')
@@ -79,7 +79,7 @@ var sid = "dDYkswaNkBtycWDS"
 
     // The form, with a [type="text"] input, and a submit button
     //this.form = this.createElement('form')
-    this.form= this.getElement('#form')
+    this.form = this.getElement('#form')
 
     //this.input = this.createElement('input')
     //this.input.type = 'text'
@@ -192,7 +192,7 @@ var sid = "dDYkswaNkBtycWDS"
 
 }
 
- class ControllerWall {
+class ControllerWall {
   constructor(model, view) {
     this.model = model
     this.view = view

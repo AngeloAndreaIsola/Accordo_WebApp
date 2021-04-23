@@ -49,21 +49,24 @@ function onDeviceReady() {
     //Setta profilo nelle impostazioni
 
     //Prende e mostra la wall
-    
-    //Chiamata alla wall
 
+
+
+    //Chiamata alla wall
+    const app = new ControllerWall(new ModelWall(), new ViewWall())
     comunicationController.getWall(sid, (response) => {
         console.log("Call %22getWall%22 succeded");
         console.log("getWall resposne: " + response);
 
         //SALVA LISTA CANALI NEL MODEL
-        // app.model.saveChannels(response)
-        // app.view.displayChannels(app.model._channels)
+
+
+        app.model.saveChannels(response)
+        app.view.displayChannels(app.model._channels)
 
 
 
     });
-
 }
 
 function userImplicitRegistration() {
@@ -75,7 +78,7 @@ function userImplicitRegistration() {
         //Salva sid
         var json = JSON.parse(response);
         var sid = json.sid;
-        userData.saveSid(sid)   //TODO: SID NON SI SALVA IN MODO PESISTENTE
+        userData.saveSid(sid) //TODO: SID NON SI SALVA IN MODO PESISTENTE
 
         //Salva il resto del profilo
         comunicationController.getProfile(userData.sid, (response) => {
@@ -92,3 +95,8 @@ function userImplicitRegistration() {
         })
     })
 }
+
+function showscreen(idToShow) {
+    $(".screen").hide()
+    $(idToShow).show()
+  }
