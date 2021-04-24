@@ -43,28 +43,59 @@ function onDeviceReady() {
 
     }
 
-    //inizializza database
-    databaseHandler.createDatabase();
+    //Salva il resto del profilo
+    comunicationController.getProfile(sid, (response) => {
+        console.log("Call %22getProfile%22 succeded");
+        console.log("Saving profile...")
+
+        var json = JSON.parse(response);
+        var uid = json.uid;
+        var name = json.name;
+        var picture = json.picture;
+        var pversion = json.pversion;
+
+        userData.saveUserData(uid, name, picture, pversion)
+    })
 
     //Setta profilo nelle impostazioni
 
-    //Prende e mostra la wall
-
+    //inizializza database
+    databaseHandler.createDatabase();
 
 
     //Chiamata alla wall
     const app = new ControllerWall(new ModelWall(), new ViewWall())
+    const appc = new ControllerChannel(new ModelChannel(), new ViewChannel())
     comunicationController.getWall(sid, (response) => {
         console.log("Call %22getWall%22 succeded");
         console.log("getWall resposne: " + response);
 
-        //SALVA LISTA CANALI NEL MODEL
-
-
+        //Salva canali nel model
         app.model.saveChannels(response)
+
+        //Mostra canali salvati
         app.view.displayChannels(app.model._channels)
 
+        //Al click reindirizza al canale
+        $('.channel_title').click(function (event) {
+            console.log("CLICK DA MAIN");
 
+            if (event.target && event.target.nodeName == "SPAN") {
+
+                const channelName = event.target.parentElement.id
+                console.log(event.target.parentElement.id + " MAIN: was clicked");
+
+                comunicationController.getChannel(sid, channelName, (response) => {
+                    console.log("Call %22getChannel%22 succeded");
+                    console.log(response);
+
+                    appc.model.savePosts(response)
+                    appc.view.displayPosts(appc.model._posts, channelName)
+                })
+
+            }
+
+        })
 
     });
 }
@@ -79,24 +110,10 @@ function userImplicitRegistration() {
         var json = JSON.parse(response);
         var sid = json.sid;
         userData.saveSid(sid) //TODO: SID NON SI SALVA IN MODO PESISTENTE
-
-        //Salva il resto del profilo
-        comunicationController.getProfile(userData.sid, (response) => {
-            console.log("Call %22getProfile%22 succeded");
-            console.log("Saving profile...")
-
-            var json = JSON.parse(response);
-            var uid = json.uid;
-            var name = json.name;
-            var picture = json.picture;
-            var pversion = json.pversion;
-
-            userData.saveUserData(uid, name, picture, pversion)
-        })
     })
 }
 
 function showscreen(idToShow) {
     $(".screen").hide()
     $(idToShow).show()
-  }
+}
