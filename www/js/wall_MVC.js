@@ -39,10 +39,9 @@ class ModelWall {
     comunicationController.getWall(sid, (response) => {
       console.log("Call %22getWall%22 succeded");
 
-
       //SALVA LISTA CANALI NEL MODEL
       this.saveChannels(response)
-      //app.view.displayChannels(app.model._channels)
+
     })
   }
 
@@ -221,7 +220,11 @@ class ControllerWall {
 
   handleClickOnChannel = (channelName) => {
 
-    console.log("Hai cliccato su : " + channelName);
+    console.log("WALL_MVC: Hai cliccato su : " + channelName);
+
+    var appc = new ControllerChannel(new ModelChannel(), new ViewChannel())
+
+    appc.model.getPosts(channelName)
 
     this.view.showscreen("#channelScreen")
 

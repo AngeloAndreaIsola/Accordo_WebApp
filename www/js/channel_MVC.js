@@ -1,10 +1,11 @@
+var sid = "dDYkswaNkBtycWDS"
+
   class ModelChannel {
     constructor() {
 
       this._posts = []
 
     }
-
 
     savePosts = (response) => {
       var json = JSON.parse(response);
@@ -23,8 +24,19 @@
         }
         this._posts.push(post)
       });
+
+      this.onPostListChanged(this._posts)
+
       console.log("All posts save into model");
       console.log(this._posts);
+    }
+
+    getPosts = (channelName) => {
+      comunicationController.getChannel(sid, channelName, (response)=> {
+         console.log("Call %22getChannel%22 succeded");
+
+         this.savePosts(response)
+      })
     }
 
     bindOnPostListChanged(callback) {

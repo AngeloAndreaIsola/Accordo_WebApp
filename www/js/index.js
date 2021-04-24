@@ -63,10 +63,10 @@ function onDeviceReady() {
     databaseHandler.createDatabase();
 
 
-    //Chiamata alla wall
+
     const app = new ControllerWall(new ModelWall(), new ViewWall())
-    const appc = new ControllerChannel(new ModelChannel(), new ViewChannel())
     
+    //Il model fa la chiamata, salva, notifica la view che mostra
     app.model.refreshWallModel()
     
     // comunicationController.getWall(sid, (response) => {   //TODO: delegare chiamata a wallMVC
