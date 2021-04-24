@@ -57,7 +57,7 @@ class ModelWall {
       */
     comunicationController.addChannel(sid, todoText, () => {
       console.log("Call %22addChannel%22 succeded");
-      
+
       this.refreshWallModel()
     })
 
@@ -83,6 +83,12 @@ class ViewWall {
     // The form, with a [type="text"] input, and a submit button
     //this.form = this.createElement('form')
     this.form = this.getElement('#form')
+
+    //The settings button
+    this.settings = this.getElement('#settingsButton')
+
+    //refresh button
+    this.refresh = this.getElement('#refreshButton')
 
     //this.input = this.createElement('input')
     //this.input.type = 'text'
@@ -184,13 +190,35 @@ class ViewWall {
   }
 
   bindAddTodo(handler) {
-    this.form.addEventListener('submit', event => {
+    this.form.addEventListener('Aggiungi', event => {
       event.preventDefault()
 
       if (this._todoText) {
         handler(this._todoText)
         this._resetInput()
       }
+    })
+  }
+
+  bindClickOnSettings(handler) {
+    this.settings.addEventListener('click', event => {
+      event.preventDefault()
+
+      if (event.target && event.target.nodeName == "svg") {
+        handler()
+      }
+
+    })
+  }
+
+  bindClickOnRefresh(handler) {
+    this.refresh.addEventListener('click', event => {
+      event.preventDefault()
+
+      if (event.target && event.target.nodeName == "svg") {
+        handler()
+      }
+
     })
   }
 
@@ -207,8 +235,11 @@ class ControllerWall {
 
 
     this.model.bindOnChannelListChanged(this.onChannelListChanged)
+
     this.view.bindClickOnChannel(this.handleClickOnChannel)
     this.view.bindAddTodo(this.handleAddTodo)
+    this.view.bindClickOnSettings(this.handleClickOnSettings)
+    this.view.bindClickOnRefresh(this.handleCLickOnRefresh)
 
   }
 
@@ -234,5 +265,12 @@ class ControllerWall {
     this.model.addTodo(todoText)
   }
 
+  handleClickOnSettings = () => {
+    this.view.showscreen('#settings')
+  }
+
+  handleCLickOnRefresh = () => {
+    this.model.refreshWallModel()
+  }
 
 }

@@ -62,51 +62,10 @@ function onDeviceReady() {
     //inizializza database
     databaseHandler.createDatabase();
 
-
-
-    const app = new ControllerWall(new ModelWall(), new ViewWall())
-    
     //Il model fa la chiamata, salva, notifica la view che mostra
+    const app = new ControllerWall(new ModelWall(), new ViewWall())
     app.model.refreshWallModel()
     
-    // comunicationController.getWall(sid, (response) => {   //TODO: delegare chiamata a wallMVC
-    //     console.log("Call %22getWall%22 succeded");
-    //     console.log("getWall resposne: " + response);
-
-    //     //Salva canali nel model
-    //     app.model.saveChannels(response)
-
-    //     //Mostra canali salvati
-    //     app.view.displayChannels(app.model._channels)
-
-    //     //Al click va al canale
-    //     $('.channel_title').click(function (event) {
-    //         console.log("CLICK DA MAIN");
-
-    //         if (event.target && event.target.nodeName == "SPAN") {
-
-    //             const channelName = event.target.parentElement.id
-    //             console.log(event.target.parentElement.id + " MAIN: was clicked");
-
-    //             //Chiamate per posts
-    //             comunicationController.getChannel(sid, channelName, (response) => {
-    //                 console.log("Call %22getChannel%22 succeded");
-    //                 console.log(response);
-
-    //                 //Salva posts
-    //                 appc.model.savePosts(response)
-
-    //                 //Mostra posts
-    //                 appc.view.displayPosts(appc.model._posts, channelName)
-    //             })
-
-    //         }
-
-    //     })
-
-    // });
-
-
 }
 
 function userImplicitRegistration() {
