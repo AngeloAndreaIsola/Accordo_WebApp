@@ -82,8 +82,9 @@
         </div>
     </div>
 
-    <script src="cordova.js"></script>
 
+
+    <!-- Div canale -->
     <div id="channelScreen" class="screen">
 
         <div id="topChannel" class="top">
@@ -100,7 +101,6 @@
         <ul id="post-list" class="post-list">
         </ul>
 
-        <!-- Div canale -->
         <div class="bottom">
             <form id="channelForm"><input type="text" placeholder="Aggiungi post" name="post">
                 <!-- <button>Submit</button>-->
@@ -130,10 +130,37 @@
     </div>
 
     <!-- Div impostazioni -->
-    <div id="settingsScreen" class="screen">
-        
+    <div id="settingsScreen" class="container screen">
+
+        <h1>
+
+            <svg id="fromSettingsToWall" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z">
+                </path>
+            </svg>
+
+
+            Impostazioni
+        </h1>
+
+        <div>
+            <img id="settingsImmagineProfilo" alt="10px" class="img-thumbnail">
+            <span id="usernameSettings">Username standard</span>
+        </div>
+
+        <div class="bottom">
+            <button class="btn btn-lg btn-block btn-primary bottoneSettings" id="settingsChangeUsername">Cambia
+                username</button>
+            <button class="btn btn-lg btn-block btn-primary bottoneSettings" id="settingsChangePicture">Cambia immagine
+                profilo</button>
+        </div>
+
+
     </div>
 
+    <script src="cordova.js"></script>
 
     <!-- CDN JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"

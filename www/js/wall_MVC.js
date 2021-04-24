@@ -266,7 +266,7 @@ class ControllerWall {
   }
 
   handleClickOnSettings = () => {
-    this.view.showscreen('#settings')
+    this.view.showscreen('#settingsScreen')
   }
 
   handleCLickOnRefresh = () => {

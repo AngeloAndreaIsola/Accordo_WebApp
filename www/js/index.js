@@ -57,7 +57,17 @@ function onDeviceReady() {
         userData.saveUserData(uid, name, picture, pversion)
     })
 
+
     //Setta profilo nelle impostazioni
+    $("#usernameSettings").text("")
+    $("#usernameSettings").text(userData.name)
+
+    $("#settingsImmagineProfilo").attr("src", "")
+    $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userdata.picture)
+    //$("settingsImmagineProfilo").attr('<img src="data:image/png;base64,' + picture + '">')
+
+    console.log("Settings inizialaized");
+
 
     //inizializza database
     databaseHandler.createDatabase();
@@ -65,7 +75,7 @@ function onDeviceReady() {
     //Il model fa la chiamata, salva, notifica la view che mostra
     const app = new ControllerWall(new ModelWall(), new ViewWall())
     app.model.refreshWallModel()
-    
+
 }
 
 function userImplicitRegistration() {
