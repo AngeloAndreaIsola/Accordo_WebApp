@@ -179,6 +179,10 @@ var sid = "dDYkswaNkBtycWDS"
 
     //handleClickOnCondividiImmgagine
 
+    //hanndleClickOnCondividiPosizione
+
     //handleClickOnImmagine
+
+    //handleClickOnBackToWall
 
   }
