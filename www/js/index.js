@@ -66,38 +66,47 @@ function onDeviceReady() {
     //Chiamata alla wall
     const app = new ControllerWall(new ModelWall(), new ViewWall())
     const appc = new ControllerChannel(new ModelChannel(), new ViewChannel())
-    comunicationController.getWall(sid, (response) => {
-        console.log("Call %22getWall%22 succeded");
-        console.log("getWall resposne: " + response);
+    
+    app.model.refreshWallModel()
+    
+    // comunicationController.getWall(sid, (response) => {   //TODO: delegare chiamata a wallMVC
+    //     console.log("Call %22getWall%22 succeded");
+    //     console.log("getWall resposne: " + response);
 
-        //Salva canali nel model
-        app.model.saveChannels(response)
+    //     //Salva canali nel model
+    //     app.model.saveChannels(response)
 
-        //Mostra canali salvati
-        app.view.displayChannels(app.model._channels)
+    //     //Mostra canali salvati
+    //     app.view.displayChannels(app.model._channels)
 
-        //Al click reindirizza al canale
-        $('.channel_title').click(function (event) {
-            console.log("CLICK DA MAIN");
+    //     //Al click va al canale
+    //     $('.channel_title').click(function (event) {
+    //         console.log("CLICK DA MAIN");
 
-            if (event.target && event.target.nodeName == "SPAN") {
+    //         if (event.target && event.target.nodeName == "SPAN") {
 
-                const channelName = event.target.parentElement.id
-                console.log(event.target.parentElement.id + " MAIN: was clicked");
+    //             const channelName = event.target.parentElement.id
+    //             console.log(event.target.parentElement.id + " MAIN: was clicked");
 
-                comunicationController.getChannel(sid, channelName, (response) => {
-                    console.log("Call %22getChannel%22 succeded");
-                    console.log(response);
+    //             //Chiamate per posts
+    //             comunicationController.getChannel(sid, channelName, (response) => {
+    //                 console.log("Call %22getChannel%22 succeded");
+    //                 console.log(response);
 
-                    appc.model.savePosts(response)
-                    appc.view.displayPosts(appc.model._posts, channelName)
-                })
+    //                 //Salva posts
+    //                 appc.model.savePosts(response)
 
-            }
+    //                 //Mostra posts
+    //                 appc.view.displayPosts(appc.model._posts, channelName)
+    //             })
 
-        })
+    //         }
 
-    });
+    //     })
+
+    // });
+
+
 }
 
 function userImplicitRegistration() {

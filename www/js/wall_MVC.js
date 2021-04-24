@@ -14,31 +14,36 @@ class ModelWall {
 
   }
 
-  refreshWall = () => {
-    comunicationController.getWall(sid, (response) => {
-      console.log("Call %22getWall%22 succeded");
-
-      const app = new ControllerWall(new ModelWall(), new ViewWall())
-      //SALVA LISTA CANALI NEL MODEL
-      app.model.saveChannels(response)
-      app.view.displayChannels(app.model._channels)
-    })
-  }
-
   saveChannels = (response) => {
-    this._channels = []
     var json = JSON.parse(response);
     var channels_list = json.channels;
+    var tempChannelList = []
 
     channels_list.forEach(element => {
       var channel = {
         ctitle: element.ctitle,
         mine: element.mine
       }
-      this._channels.push(channel)
+
+      tempChannelList.push(channel)
+
     });
+    this._channels = tempChannelList
+    this.onChannelListChanged(this._channels)
+
     console.log("All channles save into model");
     console.log(this._channels);
+  }
+
+  refreshWallModel = () => {
+    comunicationController.getWall(sid, (response) => {
+      console.log("Call %22getWall%22 succeded");
+
+
+      //SALVA LISTA CANALI NEL MODEL
+      this.saveChannels(response)
+      //app.view.displayChannels(app.model._channels)
+    })
   }
 
   addTodo(todoText) {
@@ -51,11 +56,10 @@ class ModelWall {
   
       this._channels.push(todo)
       */
-    addChannel(sid, todoText, () => {
+    comunicationController.addChannel(sid, todoText, () => {
       console.log("Call %22addChannel%22 succeded");
-
-
-      refreshWall()
+      
+      this.refreshWallModel()
     })
 
   }
@@ -102,11 +106,36 @@ class ViewWall {
   }
 
   showscreen(idToShow) {
+    console.log("entrato nella showscreen wall mvc");
     $(".screen").hide()
     $(idToShow).show()
   }
 
+  get _todoText() {
+    return this.input.value
+  }
+
+  _resetInput() {
+    this.input.value = ''
+  }
+
+  // Create an element with an optional CSS class
+  createElement(tag, className) {
+    const element = document.createElement(tag)
+    if (className) element.classList.add(className)
+
+    return element
+  }
+
+  // Retrieve an element from the DOM
+  getElement(selector) {
+    const element = document.querySelector(selector)
+
+    return element
+  }
+
   displayChannels(_channels) {
+    console.log("entrato nella diplaychannel della wall mvc");
 
     // Delete all nodes
     while (this.channelList.firstChild) {
@@ -135,29 +164,6 @@ class ViewWall {
     })
 
     this.showscreen('#root')
-  }
-
-  get _todoText() {
-    return this.input.value
-  }
-
-  _resetInput() {
-    this.input.value = ''
-  }
-
-  // Create an element with an optional CSS class
-  createElement(tag, className) {
-    const element = document.createElement(tag)
-    if (className) element.classList.add(className)
-
-    return element
-  }
-
-  // Retrieve an element from the DOM
-  getElement(selector) {
-    const element = document.querySelector(selector)
-
-    return element
   }
 
   bindClickOnChannel(handler) {
@@ -198,7 +204,8 @@ class ControllerWall {
     this.view = view
 
     //Display initial channels
-    this.onChannelListChanged(this.model._channels)
+    //this.onChannelListChanged(this.model._channels)
+
 
     this.model.bindOnChannelListChanged(this.onChannelListChanged)
     this.view.bindClickOnChannel(this.handleClickOnChannel)
@@ -207,6 +214,7 @@ class ControllerWall {
   }
 
   onChannelListChanged = (_channels) => {
+    console.log("Channel list changed");
     this.view.displayChannels(_channels)
   }
 
