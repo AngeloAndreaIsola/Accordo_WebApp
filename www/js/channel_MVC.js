@@ -79,6 +79,8 @@ var sid = "dDYkswaNkBtycWDS"
       //$('#post-list').insertAfter('#topChannel')
 
       this.sharePosition = this.getElement('#mapButton')
+      this.backToWall = this.getElement('#fromChannelToWall')
+      this.shareImage = this.getElement('#imageButton')
 
     }
 
@@ -168,6 +170,28 @@ var sid = "dDYkswaNkBtycWDS"
       })
     }
 
+    bindOnBackToWallClicked (handler) {
+      this.backToWall.addEventListener('click', event => {
+        event.preventDefault()
+  
+        if (event.target && event.target.nodeName == "svg") {
+          handler()
+        }
+  
+      })
+    }
+
+    bindOnShareImageClicked (handler) {
+      this.shareImage.addEventListener('click', event => {
+        event.preventDefault()
+  
+        if (event.target && event.target.nodeName == "svg") {
+          handler()
+        }
+  
+      })
+    }
+
   }
 
   class ControllerChannel {
@@ -181,6 +205,8 @@ var sid = "dDYkswaNkBtycWDS"
       this.model.bindOnPostListChanged(this.onPostListChanged)
       
       this.view.bindOnSharePositionClicked(this.sharePositionClicked)
+      this.view.bindOnShareImageClicked(this.shareImageClicked)
+      this.view.bindOnBackToWallClicked(this.backToWallClicked)
 
     }
 
@@ -193,7 +219,14 @@ var sid = "dDYkswaNkBtycWDS"
       showscreen('#mapScreen')
     }
 
-    //handleClickOnPosizioneCondivisa
+    shareImageClicked = () =>{
+      console.log("Clicked on share image! That's to handle");
+    }
+
+    backToWallClicked = () =>{
+      console.log("Clicked on back to wall");
+      showscreen('#root')
+    }
 
     //handleClickOnCreaPost
 
