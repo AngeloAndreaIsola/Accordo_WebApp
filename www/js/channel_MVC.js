@@ -189,7 +189,7 @@ var sid = "dDYkswaNkBtycWDS"
     }
 
     sharePositionClicked = () =>{
-      showscreen('#map')
+      showscreen('#mapScreen')
     }
 
     //handleClickOnPosizioneCondivisa
