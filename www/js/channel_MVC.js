@@ -78,6 +78,8 @@ var sid = "dDYkswaNkBtycWDS"
       //this.postList.insertAfter('#topChannel')
       //$('#post-list').insertAfter('#topChannel')
 
+      this.sharePosition = this.getElement('#mapButton')
+
     }
 
     showscreen(idToShow) {
@@ -155,6 +157,17 @@ var sid = "dDYkswaNkBtycWDS"
       return element
     }
 
+    bindOnSharePositionClicked (handler){
+      this.sharePosition.addEventListener('click', event => {
+        event.preventDefault()
+  
+        if (event.target && event.target.nodeName == "svg") {
+          handler()
+        }
+  
+      })
+    }
+
   }
 
   class ControllerChannel {
@@ -166,11 +179,17 @@ var sid = "dDYkswaNkBtycWDS"
       this.onPostListChanged(this.model._posts)
 
       this.model.bindOnPostListChanged(this.onPostListChanged)
+      
+      this.view.bindOnSharePositionClicked(this.sharePositionClicked)
 
     }
 
     onPostListChanged = (_posts) => {
       this.view.displayPosts(_posts)
+    }
+
+    sharePositionClicked = () =>{
+      showscreen('#map')
     }
 
     //handleClickOnPosizioneCondivisa
