@@ -71,6 +71,38 @@ var comunicationController = {
                 console.log(error.responseText);
             }
         })
+    },
+
+    getPostImage: function(sid, pid, callback) {
+        var http = new XMLHttpRequest()
+        $.ajax({
+            type: "POST",
+            url: 'https://ewserver.di.unimi.it/mobicomp/accordo/' + "getPostImage.php",
+            data: JSON.stringify({
+                "sid": sid,
+                "pid": pid
+            }),
+            success: callback,
+            error: function (error) {
+                console.log(error.responseText);
+            }
+        })
+    },
+
+    getUserPicture: function(sid, uid, callback) {
+        var http = new XMLHttpRequest()
+        $.ajax({
+            type: "POST",
+            url: 'https://ewserver.di.unimi.it/mobicomp/accordo/' + "getUserPicture.php",
+            data: JSON.stringify({
+                "sid": sid,
+                "uid": uid
+            }),
+            success: callback,
+            error: function (error) {
+                console.log(error.responseText);
+            }
+        })
     }
 
 }
