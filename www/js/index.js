@@ -65,8 +65,6 @@ function onDeviceReady() {
         
     })
 
-    navigator.geolocation.getCurrentPosition(mapHandler.onSuccess, mapHandler.onError)
-
     //inizializza database
     databaseHandler.createDatabase();
 
