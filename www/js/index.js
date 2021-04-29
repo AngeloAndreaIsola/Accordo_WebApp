@@ -50,24 +50,20 @@ function onDeviceReady() {
 
         var json = JSON.parse(response);
         var uid = json.uid;
-        var name = json.name;
+        var username = json.name;
         var picture = json.picture;
         var pversion = json.pversion;
 
-        userData.saveUserData(uid, name, picture, pversion)
+
+        userData.saveUserData(uid, username, picture, pversion)
+
+        //Setta profilo nelle impostazioni
+        $("#settingsImmagineProfilo").attr("src", "")
+        $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
+        $("#usernameSettings").text(userData.username)
+        console.log("Settings inizialaized");
+        
     })
-
-
-    //Setta profilo nelle impostazioni
-    $("#usernameSettings").text("")
-    $("#usernameSettings").text(userData.name)
-
-    $("#settingsImmagineProfilo").attr("src", "")
-    $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
-    //$("settingsImmagineProfilo").attr('<img src="data:image/png;base64,' + picture + '">')
-
-    console.log("Settings inizialaized");
-
 
     //inizializza database
     databaseHandler.createDatabase();

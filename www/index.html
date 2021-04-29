@@ -31,13 +31,17 @@
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
     <meta http-equiv="Content-Security-Policy"
-        content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
+        content="img-src 'self' data:; default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
     <!-- <meta name="color-scheme" content="light dark"> -->
 
     <!-- Importazione CSS Bootstrap -->
+    <!-- <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
     <link rel="stylesheet" href="css/index.css">
 
     <title>Hello World</title>
@@ -130,23 +134,23 @@
     </div>
 
     <!-- Div impostazioni -->
-    <div id="settingsScreen" class="container screen">
+    <div id="settingsScreen" class="screen">
 
-        <h1>
+        <header class="d-block d-lg-flex justify-content-lg-start allign-items-lg-center">
 
             <svg id="fromSettingsToWall" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                class="bi bi-arrow-left-circle d-inline" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
                     d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z">
                 </path>
             </svg>
 
 
-            Impostazioni
-        </h1>
+            <h1 class="d-inline">Impostazioni</h1>
+        </header>
 
-        <div>
-            <img id="settingsImmagineProfilo" alt="10px" class="img-thumbnail">
+        <div class="center">
+            <img id="settingsImmagineProfilo" alt="10px" class="img-thumbnail" style="height: 300; width: 300;">
             <span id="usernameSettings">Username standard</span>
         </div>
 

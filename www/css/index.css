@@ -19,15 +19,32 @@ html {
   position: sticky;
   top: 0;
   background-color: white;
-  padding: auto;
+  vertical-align: middle;
+
 }
 
+.center{
+  position: absolute;
+  width: 300px;
+  height: 400px;
+  z-index: 15;
+  top: 34%;
+  left: 50%;
+  margin: -100px 0 0 -150px;
+  border: red;
+}
+
+
 .bottom{
-  position: -webkit-sticky;
+  /*position: -webkit-sticky; */
+  display: inline-block;
   position: fixed;
   bottom: 5px;
   background-color: white;
-  margin: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding: 5%;
 }
 
 #root {
