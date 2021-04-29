@@ -189,6 +189,7 @@ var sid = "dDYkswaNkBtycWDS"
     }
 
     sharePositionClicked = () =>{
+      navigator.geolocation.getCurrentPosition(mapHandler.onSuccess, mapHandler.onError)
       showscreen('#mapScreen')
     }
 
