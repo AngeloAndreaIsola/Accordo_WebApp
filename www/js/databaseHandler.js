@@ -1,5 +1,6 @@
 var databaseHandler = {
   db: null,
+
   createDatabase: function () {
     console.log("Creating database...");
     this.db = window.openDatabase(
@@ -48,8 +49,78 @@ var databaseHandler = {
       }
     );
 
+  },
+
+  getProfile: function (uid) {
+    this.db.transaction(function (transaction) {
+      transaction.executeSql('SELECT * FROM Profile_img WHERE uid=?', [uid], function (tx, results) {
+        return results;
+      }, null);
+    });
+  },
+
+  getPostImage: function (pid) {
+    this.db.transaction(function (transaction) {
+      transaction.executeSql('SELECT * FROM Post WHERE pid=?', [pid], function (tx, results) {
+        return results;
+      }, null);
+    });
+  }, 
+
+  savePostImage: function(response) {
+    //console.log("DB: savePost response: " + response);
+    var json = JSON.parse(response);
+    pid = json.pid
+    content = json.content
+
+    this.db.transaction(function (transaction) {
+      transaction.executeSql('INSERT INTO Post_img (pid, post_image_content) VALUES (?, ?)', [pid, content], function (tx, results) {
+        console.log("DB: Post " + pid + " content inserted");
+      }, 
+      function(error){
+        console.log("DB: ERROR! while inserting post " + pid + " error: " + error);
+      });
+    });
+  },
+
+  saveProfileImage: function(response) {
+    //console.log("DB: saveProfileImage response: " + response);
+    var json = JSON.parse(response);
+    uid = json.uid
+    picture = json.picture
+    pversion = json.pversion
+
+    this.db.transaction(function (transaction) {
+      transaction.executeSql('INSERT INTO Profile_img (uid, profile_image_content, pversion) VALUES (?, ?, ?)', [uid, picture, pversion], function (tx, results) {
+        console.log("DB: Post " + uid + " content inserted");
+      }, 
+      function(error){
+        console.log("DB: ERROR! while inserting profile image " + uid + " error: " + error.message);
+      });
+    });
   }
+
 }
+
+/*
+    @Query("SELECT image_content FROM content_images WHERE image_pid=:pid")
+    String getContentImage(int pid);
+
+    @Query("SELECT version FROM profile_images WHERE profile_uid=:uid")
+    int getProfileVersion(int uid);
+
+    @Query("SELECT `Profile Image` FROM profile_images WHERE profile_uid=:uid")
+    String getProfileContent(int uid);
+
+    @Update
+    void updatePosts(Post... posts);
+
+    @Insert (onConflict = OnConflictStrategy.REPLACE)
+    void addContentImage(PostContentImage postContentImage);
+
+    @Insert (onConflict = OnConflictStrategy.REPLACE)
+    void addPostProfileImage(PostProfileImage profileImage);
+*/
 
 // myDB = window.sqlitePlugin.openDatabase({
 //   name: 'my.db',
