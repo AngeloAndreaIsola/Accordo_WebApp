@@ -61,9 +61,9 @@ class ModelChannel {
         comunicationController.getPostImage(sid, pid, (response) => {
           var json = JSON.parse(response);
           var content = json.content;
-  
+
           databaseHandler.savePostImage(response)
-  
+
           return content
         })
       }
@@ -191,7 +191,15 @@ class ViewChannel {
       } else if (post.type == 'l') {
         const posButton = this.createElement('button', "posizioneCondivisa")
         posButton.textContent = "Posizione condivisa"
+        posButton.id = post.pid
         spanContennt.append(posButton)
+
+        // Bind del bottone creato dinamicamente
+        $(posButton).on("click", function () {
+          //$(this).parent().remove();
+          console.log("Clicked on ShowSharedPosition");
+        });
+
       } else if (post.type == 'i') {
         const postImage = this.createElement('img', "PostImage")
         postImage.src = "data:image/png;base64," + post.postImage
