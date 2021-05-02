@@ -41,4 +41,19 @@ var mapHandler = {
         alert('code: ' + error.code + '\n' +
             'message: ' + error.message + '\n');
     },
+
+    sharedPosition: function (lon, lat) {
+        //Crea mappa centrata su pos
+        var map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: 'mapbox://styles/mapbox/streets-v11', // style URL
+            center: [lon, lat], // starting position [lng, lat]
+            zoom: 5 // starting zoom
+        });
+
+        // Create a default Marker and add it to the map.
+        var marker1 = new mapboxgl.Marker()
+            .setLngLat([lon, lat])
+            .addTo(map);
+    }
 }

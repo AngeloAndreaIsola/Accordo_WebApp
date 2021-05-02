@@ -198,6 +198,8 @@ class ViewChannel {
         $(posButton).on("click", function () {
           //$(this).parent().remove();
           console.log("Clicked on ShowSharedPosition");
+          mapHandler.sharedPosition(post.lon, post.lat)
+          showscreen('#mapScreen')
         });
 
       } else if (post.type == 'i') {
