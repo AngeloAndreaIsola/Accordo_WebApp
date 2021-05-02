@@ -223,3 +223,39 @@ function addPost(sid, nomeCanale, type, content, lat, lon) {
                 }
             })
         }
+
+        ----------------------------
+
+
+        if (results != null && results.rows != null) {
+
+          for (var k = 0; k < results.rows.length; k++) {
+
+            var row = results.rows.item(k);
+
+            //newJson += '{ "Field0":"' + row.uid + '", "Field1":"' + row.profile_image_content + '", "Field2":"' + row.Field2 + '", "Field3":"' + row.Field3 + '", "Field4":"' + row.Field4 + '", "Field5":"' + row.Field5 + '"},'
+
+            toReturn = JSON.stringify({
+              "uid": row.uid,
+              "pversion": row.pversion,
+              "profile_image_content" : row.profile_image_content
+            })
+
+            console.log("JSON: " + toReturn);
+          }
+        }
+
+        return toReturn;
+
+
+
+        --------------------------------------
+
+
+                console.log("DB: getpostimage result: " + results);
+
+        results.forEach(result => {
+          console.log("GETPOSTIMAGERESULT" + result.post_image_content);
+        });
+
+        return results

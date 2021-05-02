@@ -158,6 +158,17 @@
             <span id="usernameSettings">Username standard</span>
         </div>
 
+        <!-- Simple pop-up dialog box containing a form -->
+        <dialog id="favDialog">
+            <form method="dialog">
+                <input id="inputEL" type="Inserisci nuvo usernamer">
+                <menu>
+                    <button value="cancel">Annulla</button>
+                    <button id="confirmBtn" value="default">Conferma</button>
+                </menu>
+            </form>
+        </dialog>
+
         <div class="bottom">
             <button class="btn btn-lg btn-block btn-primary bottoneSettings" id="settingsChangeUsername">Cambia
                 username</button>
@@ -201,6 +212,7 @@
     <script src="js/comunicationController.js" charset="utf-8"></script>
     <script src="js/map.js"></script>
     <script src="js/channel_MVC.js"></script>
+    <script src="js/settings.js"></script>
     <script src="js/wall_MVC.js"></script>
 
     <script src="js/index.js"></script>

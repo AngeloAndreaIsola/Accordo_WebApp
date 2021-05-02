@@ -61,6 +61,10 @@ function onDeviceReady() {
         $("#settingsImmagineProfilo").attr("src", "")
         $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
         $("#usernameSettings").text(userData.username)
+
+        //Collega gli eventi
+        settingsBindEvents()
+
         console.log("Settings inizialaized");
         
     })

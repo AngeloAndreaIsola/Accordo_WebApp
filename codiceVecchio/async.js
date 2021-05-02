@@ -2,7 +2,7 @@ const base_url = "https://ewserver.di.unimi.it/mobicomp/accordo/"
 
 var sid = "dDYkswaNkBtycWDS"
 var firstUse = true
-var myDB
+var this.db
 
 window.onload = function () {
 

@@ -51,23 +51,51 @@ var databaseHandler = {
 
   },
 
-  getProfile: function (uid) {
+  getProfile: function (uid, callback) {
     this.db.transaction(function (transaction) {
       transaction.executeSql('SELECT * FROM Profile_img WHERE uid=?', [uid], function (tx, results) {
-        return results;
+
+        if (results != null && results.rows != null) {
+
+          for (var k = 0; k < results.rows.length; k++) {
+
+            var row = results.rows.item(k);
+
+            //newJson += '{ "Field0":"' + row.uid + '", "Field1":"' + row.profile_image_content + '", "Field2":"' + row.Field2 + '", "Field3":"' + row.Field3 + '", "Field4":"' + row.Field4 + '", "Field5":"' + row.Field5 + '"},'
+
+            profileJSON = JSON.stringify({
+              "uid": row.uid,
+              "pversion": row.pversion,
+              "picture" : row.profile_image_content
+            })
+
+            console.log("ProfileJSON: " + profileJSON);
+          }
+        }
+
+        callback(profileJSON);
       }, null);
     });
+
+
   },
 
-  getPostImage: function (pid) {
+  getPostImage: function (pid, callback) {
     this.db.transaction(function (transaction) {
-      transaction.executeSql('SELECT * FROM Post WHERE pid=?', [pid], function (tx, results) {
-        return results;
+      transaction.executeSql('SELECT post_image_content FROM Post WHERE pid=?', [pid], function (tx, results) {
+        console.log("DB: getpostimage result: " + results);
+
+        results.forEach(result => {
+          console.log("GETPOSTIMAGERESULT" + result.post_image_content);
+        });
+
+        callback(results);
       }, null);
     });
-  }, 
 
-  savePostImage: function(response) {
+  },
+
+  savePostImage: function (response) {
     //console.log("DB: savePost response: " + response);
     var json = JSON.parse(response);
     pid = json.pid
@@ -75,15 +103,16 @@ var databaseHandler = {
 
     this.db.transaction(function (transaction) {
       transaction.executeSql('INSERT INTO Post_img (pid, post_image_content) VALUES (?, ?)', [pid, content], function (tx, results) {
-        console.log("DB: Post " + pid + " content inserted");
-      }, 
-      function(error){
-        console.log("DB: ERROR! while inserting post " + pid + " error: " + error);
-      });
+          console.log("DB: Post " + pid + " content inserted");
+        },
+        function (error) {
+          console.log("DB: ERROR! while inserting post " + pid + " error: " + error);
+        });
     });
   },
 
-  saveProfileImage: function(response) {
+  saveProfileImage: function (response) {
+
     //console.log("DB: saveProfileImage response: " + response);
     var json = JSON.parse(response);
     uid = json.uid
@@ -92,12 +121,20 @@ var databaseHandler = {
 
     this.db.transaction(function (transaction) {
       transaction.executeSql('INSERT INTO Profile_img (uid, profile_image_content, pversion) VALUES (?, ?, ?)', [uid, picture, pversion], function (tx, results) {
-        console.log("DB: Post " + uid + " content inserted");
-      }, 
-      function(error){
-        console.log("DB: ERROR! while inserting profile image " + uid + " error: " + error.message);
-      });
+          console.log("DB: Post " + uid + " content inserted");
+        },
+        function (error) {
+          console.log("DB: ERROR! while inserting profile image " + uid + " error: " + error.message);
+        });
     });
+  },
+
+  callbackGetProfile: function (response){
+    return response
+  },
+  
+  callbackGetPostImage:  function(response){
+    return response
   }
 
 }

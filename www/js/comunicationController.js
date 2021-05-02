@@ -103,6 +103,37 @@ var comunicationController = {
                 console.log(error.responseText);
             }
         })
-    }
+    },
 
+    setUsername: function(sid, username, callback) {
+        var http = new XMLHttpRequest()
+        $.ajax({
+            type: "POST",
+            url: 'https://ewserver.di.unimi.it/mobicomp/accordo/' + "setProfile.php",
+            data: JSON.stringify({
+                "sid": sid,
+                "name": username
+            }),
+            success: callback,
+            error: function (error) {
+                console.log(error.responseText);
+            }
+        })
+    },
+
+    setPicture: function(sid, picture, callback){
+        var http = new XMLHttpRequest()
+        $.ajax({
+            type: "POST",
+            url: 'https://ewserver.di.unimi.it/mobicomp/accordo/' + "setProfile.php",
+            data: JSON.stringify({
+                "sid": sid,
+                "picture": picture
+            }),
+            success: callback,
+            error: function (error) {
+                console.log(error.responseText);
+            }
+        })
+    }
 }

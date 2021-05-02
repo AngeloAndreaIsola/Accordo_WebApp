@@ -24,17 +24,9 @@ class ModelChannel {
 
         profileImage: this.getProfileImage(sid, element.uid, element),
 
-        postImage: function (){
-          if (element.type == 'i') {
-            this.postImage = this.getPostImage(sid, element.pid)
-          }
-        }
       }
 
       //this.profileImage = this.getProfileImage(sid, element.uid, element)
-
-      console.log("profileImage: " + this.profileImage);
-      console.log("postimage: " + this.postImage);
 
       this._posts.push(post)
     });
@@ -54,44 +46,52 @@ class ModelChannel {
   }
 
   getPostImage = (sid, pid) => {
-    var postImageDB = databaseHandler.getPostImage(pid)
-    console.log("postImageDB: " + postImageDB);
-    if (postImageDB != null) {
-      //load from db
+    var postImageDB
+    databaseHandler.getPostImage(pid, (response) => {
+      console.log("††: " + response);
+      postImageDB = JSON.parse(response);
 
-      console.log("Post " + pid + " content loaded from database");
-      return postImageDB.content
-    } else {
-      comunicationController.getPostImage(sid, pid, (response) => {
-        var json = JSON.parse(response);
-        var content = json.content;
+      console.log("postImageDB: " + postImageDB);
+      if (postImageDB != null) {
+        //load from db
+        console.log("Post " + pid + " content loaded from database");
 
-        databaseHandler.savePostImage(response)
-
-        return content
-      })
-    }
+        return postImageDB.content
+      } else {
+        comunicationController.getPostImage(sid, pid, (response) => {
+          var json = JSON.parse(response);
+          var content = json.content;
+  
+          databaseHandler.savePostImage(response)
+  
+          return content
+        })
+      }
+    })
   }
 
   getProfileImage = (sid, uid, post) => {
-    var profileDB = databaseHandler.getProfile(uid)
-    console.log("postImageDB: " + profileDB);
+    var profileDB
+    databaseHandler.getProfile(uid, (response) => {
+      profileDB = JSON.parse(response);
 
-    // if ( profileDB.pversion >= post.pversion){
-    if (profileDB != null) {
-      console.log("Profile of " + post.name + " loaded from database");
+      // if ( profileDB.pversion >= post.pversion){
+      if (profileDB != null && profileDB.pversion >= post.pversion) {
+        console.log("Profile of " + post.name + " loaded from database");
 
-      return profileDB.content
-    } else {
-      comunicationController.getUserPicture(sid, uid, (response) => {
-        var json = JSON.parse(response);
-        var content = json.content;
+        return profileDB.picture
+      } else {
+        comunicationController.getUserPicture(sid, uid, (response) => {
+          var json = JSON.parse(response);
+          var picture = json.picture;
 
-        databaseHandler.saveProfileImage(response)
+          databaseHandler.saveProfileImage(response)
 
-        return content
-      })
-    }
+          return picture
+        })
+      }
+    })
+
   }
 
   bindOnPostListChanged(callback) {
@@ -178,6 +178,7 @@ class ViewChannel {
       const profileImage = this.createElement('img', 'ProfileImage')
       if (post.pversion == 0) {
         //Show default picture
+        profileImage.src = "./img/default-user-image.png"
       } else {
         profileImage.src = "data:image/png;base64," + post.profileImage
       }
