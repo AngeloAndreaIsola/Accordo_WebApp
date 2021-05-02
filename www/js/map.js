@@ -4,6 +4,9 @@
 mapboxgl.accessToken =
     'pk.eyJ1IjoiYW5nZWxvYW5kcmVhaXNvbGEiLCJhIjoiY2tqeXBzY2N5MDAwYTJucXF2Y2Y5M2ZucSJ9.nki_4-IoUMr8JzmaHAdF6Q';
 
+backToChannel = this.getElement('#fromMapToChannel')
+sharePosition = this.getElement('#sharePosition')
+
 var mapHandler = {
     // onSuccess Callback
     // This method accepts a Position object, which contains the
@@ -18,6 +21,8 @@ var mapHandler = {
         //     'Heading: ' + position.coords.heading + '\n' +
         //     'Speed: ' + position.coords.speed + '\n' +
         //     'Timestamp: ' + position.timestamp + '\n');
+
+        bindEvents()
 
         console.log('Latitude: ' + position.coords.latitude + '\n' + 'Longitude: ' + position.coords.longitude + '\n');
 
@@ -43,6 +48,9 @@ var mapHandler = {
     },
 
     sharedPosition: function (lon, lat) {
+
+        bindEvents()
+
         //Crea mappa centrata su pos
         var map = new mapboxgl.Map({
             container: 'map', // container ID
@@ -55,5 +63,40 @@ var mapHandler = {
         var marker1 = new mapboxgl.Marker()
             .setLngLat([lon, lat])
             .addTo(map);
-    }
+    },
+
+}
+
+function bindEvents() {
+    bindBackToChannelClicked()
+    bindSharePosition()
+}
+
+function bindBackToChannelClicked() {
+    backToChannel.addEventListener('click', event => {
+        event.preventDefault()
+
+        if (event.target && event.target.nodeName == "svg") {
+            showscreen('#channelScreen')
+        }
+
+    })
+}
+
+function bindSharePosition() {
+    sharePosition.addEventListener('click', event => {
+        event.preventDefault()
+
+        //invia posizione
+
+        showscreen('#channelScreen')
+
+    })
+}
+
+// Retrieve an element from the DOM
+function getElement(selector) {
+    const element = document.querySelector(selector)
+
+    return element
 }
