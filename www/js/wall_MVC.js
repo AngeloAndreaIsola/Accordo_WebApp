@@ -55,11 +55,17 @@ class ModelWall {
   
       this._channels.push(todo)
       */
-    comunicationController.addChannel(sid, todoText, () => {
-      console.log("Call %22addChannel%22 succeded");
+     console.log("TodoText: " + todoText + " Length: " + todoText.length);
+    if (todoText.length < 20) {
+      comunicationController.addChannel(sid, todoText, () => {
+        console.log("Adding channel: " + todoText);
+        console.log("Call %22addChannel%22 succeded");
 
-      this.refreshWallModel()
-    })
+        this.refreshWallModel()
+      })
+    } else {
+      console.log("Error: channel name can't be => 20");
+    }
 
   }
 
@@ -94,6 +100,7 @@ class ViewWall {
     //this.input.type = 'text'
     //this.input.placeholder = 'Add todo'
     //this.input.name = 'todo'
+    this.input = this.getElement('#inputChannel')
 
     //this.submitButton = this.createElement('button')
     //this.submitButton.textContent = 'Submit'
@@ -190,7 +197,9 @@ class ViewWall {
   }
 
   bindAddTodo(handler) {
-    this.form.addEventListener('Aggiungi', event => {
+    this.form.addEventListener('click', event => {
+      console.log("Clicked on add channel");
+
       event.preventDefault()
 
       if (this._todoText) {

@@ -66,28 +66,28 @@ function bindonChangeUsernameClicked() {
         //outputBox.value = favDialog.returnValue + " button clicked - " + (new Date()).toString();
         console.log("ReturnVAlue: " + favDialog.returnValue);
 
-        comunicationController.setUsername(sid, favDialog.returnValue, () => {
-            comunicationController.getProfile(sid, (response) => {
-                console.log("Call %22getProfile%22 succeded");
-                console.log("Saving NEW profile...")
+            comunicationController.setUsername(sid, favDialog.returnValue, () => {
+                comunicationController.getProfile(sid, (response) => {
+                    console.log("Call %22getProfile%22 succeded");
+                    console.log("Saving NEW profile...")
 
-                var json = JSON.parse(response);
-                var uid = json.uid;
-                var username = json.name;
-                var picture = json.picture;
-                var pversion = json.pversion;
+                    var json = JSON.parse(response);
+                    var uid = json.uid;
+                    var username = json.name;
+                    var picture = json.picture;
+                    var pversion = json.pversion;
 
 
-                userData.saveUserData(uid, username, picture, pversion)
+                    userData.saveUserData(uid, username, picture, pversion)
 
-                //Setta profilo nelle impostazioni
-                $("#settingsImmagineProfilo").attr("src", "")
-                $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
-                $("#usernameSettings").text(userData.username)
+                    //Setta profilo nelle impostazioni
+                    $("#settingsImmagineProfilo").attr("src", "")
+                    $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
+                    $("#usernameSettings").text(userData.username)
 
-                console.log("Settings updated");
+                    console.log("Settings updated");
+                })
             })
-        })
     });
 }
 
