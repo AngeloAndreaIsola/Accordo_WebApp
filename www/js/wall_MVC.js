@@ -242,7 +242,7 @@ class ControllerWall {
     //Display initial channels
     //this.onChannelListChanged(this.model._channels)
 
-
+  
     this.model.bindOnChannelListChanged(this.onChannelListChanged)
 
     this.view.bindClickOnChannel(this.handleClickOnChannel)

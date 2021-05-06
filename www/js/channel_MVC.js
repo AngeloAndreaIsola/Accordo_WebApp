@@ -22,12 +22,18 @@ class ModelChannel {
         lat: element.lat,
         lon: element.lon,
 
-        profileImage: this.getProfileImage(sid, element.uid, element),
+        // profileImage: this.getProfileImage(sid, element.uid, element, (response) => {
+        //   element.profileImage = response
+        //   console.log("Callback getProfileImage");
+        //   console.log("element.profile: " + element.profileImage);
+        // }),
 
+        profileImageBis: this.getProfileBIS(sid, element.uid, element)
       }
 
       //this.profileImage = this.getProfileImage(sid, element.uid, element)
 
+      console.log("porfileImage: " + post.profileImageBis);
       this._posts.push(post)
     });
 
@@ -35,12 +41,14 @@ class ModelChannel {
 
     console.log("All posts save into model");
     console.log(this._posts);
+
   }
 
   getPosts = (channelName) => {
     comunicationController.getChannel(sid, channelName, (response) => {
       console.log("Call %22getChannel%22 succeded");
 
+      //salva nome canale
       this.savePosts(response)
     })
   }
@@ -70,7 +78,13 @@ class ModelChannel {
     })
   }
 
-  getProfileImage = (sid, uid, post) => {
+  getProfileBIS =  (sid, uid, post) => {
+    const dbResult = databaseHandler.getProfile(uid).then(post.profileImage = "ciaoooo")
+    console.log("DBResult: " + dbResult);
+    return dbResult
+  }
+
+  getProfileImage = (sid, uid, post, callback) => {
     var profileDB
     databaseHandler.getProfile(uid, (response) => {
       profileDB = JSON.parse(response);
@@ -79,7 +93,9 @@ class ModelChannel {
       if (profileDB != null && profileDB.pversion >= post.pversion) {
         console.log("Profile of " + post.name + " loaded from database");
 
-        return profileDB.picture
+        //return profileDB.picture
+        callback(profileDB.picture)
+        
       } else {
         comunicationController.getUserPicture(sid, uid, (response) => {
           var json = JSON.parse(response);
@@ -87,7 +103,8 @@ class ModelChannel {
 
           databaseHandler.saveProfileImage(response)
 
-          return picture
+          //return picture
+          callback(picture)
         })
       }
     })

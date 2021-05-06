@@ -52,30 +52,46 @@ var databaseHandler = {
   },
 
   getProfile: function (uid, callback) {
+
+    return promise = new Promise((resolve, reject) => {
+
     this.db.transaction(function (transaction) {
       transaction.executeSql('SELECT * FROM Profile_img WHERE uid=?', [uid], function (tx, results) {
 
-        if (results != null && results.rows != null) {
 
-          for (var k = 0; k < results.rows.length; k++) {
 
-            var row = results.rows.item(k);
+          if (results != null && results.rows != null) {
 
-            //newJson += '{ "Field0":"' + row.uid + '", "Field1":"' + row.profile_image_content + '", "Field2":"' + row.Field2 + '", "Field3":"' + row.Field3 + '", "Field4":"' + row.Field4 + '", "Field5":"' + row.Field5 + '"},'
+            for (var k = 0; k < results.rows.length; k++) {
 
-            profileJSON = JSON.stringify({
-              "uid": row.uid,
-              "pversion": row.pversion,
-              "picture" : row.profile_image_content
-            })
+              var row = results.rows.item(k);
 
-            console.log("ProfileJSON: " + profileJSON);
+              //newJson += '{ "Field0":"' + row.uid + '", "Field1":"' + row.profile_image_content + '", "Field2":"' + row.Field2 + '", "Field3":"' + row.Field3 + '", "Field4":"' + row.Field4 + '", "Field5":"' + row.Field5 + '"},'
+
+              profileJSON = JSON.stringify({
+                "uid": row.uid,
+                "pversion": row.pversion,
+                "picture": row.profile_image_content
+              })
+
+              console.log("ProfileJSON: " + profileJSON);
+
+              resolve(profileJSON)
+            }
           }
-        }
 
-        callback(profileJSON);
+
+       
+
+        //callback(profileJSON);
+        // return new Promise((resolve, reject) => {
+        //   resolve(profileJSON)
+        // })
       }, null);
     });
+
+
+  })
 
 
   },
@@ -129,11 +145,11 @@ var databaseHandler = {
     });
   },
 
-  callbackGetProfile: function (response){
+  callbackGetProfile: function (response) {
     return response
   },
-  
-  callbackGetPostImage:  function(response){
+
+  callbackGetPostImage: function (response) {
     return response
   }
 
