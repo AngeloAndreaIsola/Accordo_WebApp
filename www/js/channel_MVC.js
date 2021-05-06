@@ -11,7 +11,7 @@ class ModelChannel {
     var json = JSON.parse(response);
     var post_list = json.posts;
 
-    post_list.forEach(element => {
+      for(let element of post_list){ //post_list.forEach(element => {             let element =0; element<= post_list.length; element++
       var post = {
         uid: element.uid,
         name: element.name,
@@ -28,20 +28,21 @@ class ModelChannel {
         //   console.log("element.profile: " + element.profileImage);
         // }),
 
-        profileImageBis: this.getProfileBIS(sid, element.uid, element)
+        profileImageBis: await this.getProfileBIS(sid, element.uid, element)
       }
 
       //this.profileImage = this.getProfileImage(sid, element.uid, element)
 
+      //await Promise.all(post.profileImageBis)
+
       console.log("porfileImage: " + post.profileImageBis);
       this._posts.push(post)
-    });
+    }//);
 
+    this.onPostListChanged(this._posts)
 
     console.log("All posts save into model");
     console.log(this._posts);
-
-    this.onPostListChanged(this._posts)
 
   }
 
@@ -79,8 +80,9 @@ class ModelChannel {
     })
   }
 
-  getProfileBIS =  (sid, uid, post) => {
-    const dbResult =  databaseHandler.getProfile(uid).then(result => {
+  getProfileBIS = async (sid, uid, post) => {
+    console.log("GetProfileBis");
+    const dbResult = await databaseHandler.getProfile(uid).then(result => {
       
       var json = JSON.parse(result)
       console.log("JSON: " + json.picture)
@@ -207,7 +209,7 @@ class ViewChannel {
         //Show default picture
         profileImage.src = "./img/default-user-image.png"
       } else {
-        profileImage.src = "data:image/png;base64," + post.profileImage
+        profileImage.src = "data:image/png;base64," + post.profileImageBis
       }
 
 
