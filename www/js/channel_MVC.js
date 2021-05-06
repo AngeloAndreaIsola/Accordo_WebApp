@@ -7,7 +7,7 @@ class ModelChannel {
 
   }
 
-  savePosts = (response) => {
+  savePosts = async (response) => {
     var json = JSON.parse(response);
     var post_list = json.posts;
 
@@ -37,10 +37,11 @@ class ModelChannel {
       this._posts.push(post)
     });
 
-    this.onPostListChanged(this._posts)
 
     console.log("All posts save into model");
     console.log(this._posts);
+
+    this.onPostListChanged(this._posts)
 
   }
 
@@ -79,10 +80,18 @@ class ModelChannel {
   }
 
   getProfileBIS =  (sid, uid, post) => {
-    const dbResult = databaseHandler.getProfile(uid).then(post.profileImage = "ciaoooo")
-    console.log("DBResult: " + dbResult);
+    const dbResult =  databaseHandler.getProfile(uid).then(result => {
+      
+      var json = JSON.parse(result)
+      console.log("JSON: " + json.picture)
+      return json.picture
+      
+    })
+    console.log("DBResult recived: " + dbResult);
     return dbResult
   }
+
+
 
   getProfileImage = (sid, uid, post, callback) => {
     var profileDB
@@ -95,7 +104,7 @@ class ModelChannel {
 
         //return profileDB.picture
         callback(profileDB.picture)
-        
+
       } else {
         comunicationController.getUserPicture(sid, uid, (response) => {
           var json = JSON.parse(response);
@@ -162,6 +171,7 @@ class ViewChannel {
   }
 
   displayPosts(_posts, channelName) {
+    console.log("Displaying posts!");
 
     // The root element
     this.app = this.getElement('#channelScreen')
