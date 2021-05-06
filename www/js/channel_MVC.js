@@ -11,7 +11,7 @@ class ModelChannel {
     var json = JSON.parse(response);
     var post_list = json.posts;
 
-      for(let element of post_list){ //post_list.forEach(element => {             let element =0; element<= post_list.length; element++
+    for (let element of post_list) {
       var post = {
         uid: element.uid,
         name: element.name,
@@ -22,12 +22,6 @@ class ModelChannel {
         lat: element.lat,
         lon: element.lon,
 
-        // profileImage: this.getProfileImage(sid, element.uid, element, (response) => {
-        //   element.profileImage = response
-        //   console.log("Callback getProfileImage");
-        //   console.log("element.profile: " + element.profileImage);
-        // }),
-
         profileImageBis: await this.getProfileBIS(sid, element.uid, element)
       }
 
@@ -37,7 +31,7 @@ class ModelChannel {
 
       console.log("porfileImage: " + post.profileImageBis);
       this._posts.push(post)
-    }//);
+    } //);
 
     this.onPostListChanged(this._posts)
 
@@ -83,14 +77,27 @@ class ModelChannel {
   getProfileBIS = async (sid, uid, post) => {
     console.log("GetProfileBis");
     const dbResult = await databaseHandler.getProfile(uid).then(result => {
-      
+
       var json = JSON.parse(result)
-      console.log("JSON: " + json.picture)
-      return json.picture
-      
+      console.log("JSON in db: " + json.picture)
+      //return json.picture
+      return json
+
     })
     console.log("DBResult recived: " + dbResult);
-    return dbResult
+    if (dbResult.pversion >= post.pversion){
+      return dbResult.picture
+    }else{
+      comunicationController.getUserPicture(sid, uid, (response) => {
+        var json = JSON.parse(response);
+        var picture = json.picture;
+
+        databaseHandler.saveProfileImage(response)
+
+        //return picture
+        return(picture)
+      })
+    }
   }
 
 
