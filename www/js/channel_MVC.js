@@ -29,7 +29,7 @@ class ModelChannel {
 
       //await Promise.all(post.profileImageBis)
 
-      console.log("porfileImage: " + post.profileImageBis);
+      //console.log("porfileImage: " + post.profileImageBis);
       this._posts.push(post)
     } //);
 
@@ -74,33 +74,46 @@ class ModelChannel {
     })
   }
 
-  getProfileBIS = async (sid, uid, post) => {
+  getProfileBIS = async (sid, uid, post) => { // se aspetta qua non fa vedre i canali dove c'è una immagine profilo, prova a cambiare aggiungetdo try e cart e reject di db
     console.log("GetProfileBis");
-    const dbResult = await databaseHandler.getProfile(uid).then(result => {
 
-      var json = JSON.parse(result)
-      console.log("JSON in db: " + json.picture)
-      //return json.picture
-      return json
+    try {
+      const dbResult = await databaseHandler.getProfile(uid).then(result => {
 
-    })
-    console.log("DBResult recived: " + dbResult);
-    if (dbResult.pversion >= post.pversion){
-      return dbResult.picture
-    }else{
-      comunicationController.getUserPicture(sid, uid, (response) => {
-        var json = JSON.parse(response);
-        var picture = json.picture;
+        var json = JSON.parse(result)
+        //console.log("JSON in db: " + json.picture)
+        //return json.picture
+        return json
 
-        databaseHandler.saveProfileImage(response)
-
-        //return picture
-        return(picture)
       })
+
+      if (dbResult != undefined){
+        console.log("DBResult recived: ");
+      }else{
+        console.Error("DBResult undefined: " + dbResult);
+      }
+
+      if (dbResult.pversion >= post.pversion) {
+        return dbResult.picture
+      }
+    } catch (error) {
+      console.log("DBResult not recived, calling API");
+      var pic = await this.getProfileFromAPI(sid, uid)
+      return pic
     }
   }
 
+  getProfileFromAPI = async (sid, uid) => {
+    comunicationController.getUserPicture(sid, uid, (response) => {
+      var json = JSON.parse(response);
+      var picture = json.picture;
 
+      databaseHandler.saveProfileImage(response)
+
+      //return picture
+      return (picture)
+    })
+  }
 
   getProfileImage = (sid, uid, post, callback) => {
     var profileDB
@@ -240,7 +253,7 @@ class ViewChannel {
 
       } else if (post.type == 'i') {
         const postImage = this.createElement('img', "PostImage")
-        postImage.src = "data:image/png;base64," + post.postImage
+        postImage.src = "./img/default-user-image.png" //"data:image/png;base64," + post.postImage
         spanContennt.append(postImage)
       }
 

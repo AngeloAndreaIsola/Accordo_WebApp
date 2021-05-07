@@ -54,44 +54,64 @@ var databaseHandler = {
   getProfile: function (uid, callback) {
 
     return promise = new Promise((resolve, reject) => {
+      this.db.transaction(function (transaction) {
 
-    this.db.transaction(function (transaction) {
-      transaction.executeSql('SELECT * FROM Profile_img WHERE uid=?', [uid], function (tx, results) {
+        transaction.executeSql('SELECT * FROM Profile_img WHERE EXISTS(SELECT 1 FROM Profile_img WHERE uid=?)', [uid], function (tx, results) {
 
+          console.log("DB: Checking if uid "+uid+ " exists in db...");
 
+          for (var k = 0; k < results.rows.length; k++) {
 
-          if (results != null && results.rows != null) {
-
-            for (var k = 0; k < results.rows.length; k++) {
-
-              var row = results.rows.item(k);
-
-              //newJson += '{ "Field0":"' + row.uid + '", "Field1":"' + row.profile_image_content + '", "Field2":"' + row.Field2 + '", "Field3":"' + row.Field3 + '", "Field4":"' + row.Field4 + '", "Field5":"' + row.Field5 + '"},'
-
-              profileJSON = JSON.stringify({
-                "uid": row.uid,
-                "pversion": row.pversion,
-                "picture": row.profile_image_content
-              })
-
-              console.log("ProfileJSON: " + profileJSON);
-
-              resolve(profileJSON)
-            }
+            var row = results.rows.item(k);
           }
 
+          console.log(row);
+          if (row == undefined) {
+            console.log("DB: Rejeting");
+            reject()
+          } else {
 
-       
+            transaction.executeSql('SELECT * FROM Profile_img WHERE uid=?', [uid], function (tx, results) { //
 
-        //callback(profileJSON);
-        // return new Promise((resolve, reject) => {
-        //   resolve(profileJSON)
-        // })
-      }, null);
-    });
+              console.log("DB: Retriving profile");
+    
+              if (results != null && results.rows != null) {
+    
+                for (var k = 0; k < results.rows.length; k++) {
+    
+                  var row = results.rows.item(k);
+    
+                  //newJson += '{ "Field0":"' + row.uid + '", "Field1":"' + row.profile_image_content + '", "Field2":"' + row.Field2 + '", "Field3":"' + row.Field3 + '", "Field4":"' + row.Field4 + '", "Field5":"' + row.Field5 + '"},'
+    
+                  profileJSON = JSON.stringify({
+                    "uid": row.uid,
+                    "pversion": row.pversion,
+                    "picture": row.profile_image_content
+                  })
+    
+                  //console.log("DB: ProfileJSON " + profileJSON);
+                  if (profileJSON == undefined) {
+                    console.error("DB: error while fetching profile picture, results: " + results + ", results.rows: " + results.rows);
+                    reject()
+                  } else {
+                    resolve(profileJSON)
+                  }
+                }
+              } 
+        
+              //callback(profileJSON);
+              // return new Promise((resolve, reject) => {
+              //   resolve(profileJSON)
+              // })
+            }, function (tx, error) {
+              console.error("DB: Error while retrieving profile picture: " + error.message);
+            });
 
+          }
 
-  })
+        })
+      });
+    })
 
 
   },
