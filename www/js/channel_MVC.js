@@ -90,9 +90,9 @@ class ModelChannel {
 
       })
 
-      if (dbResult != undefined){
+      if (dbResult != undefined) {
         console.log("DBResult recived");
-      }else{
+      } else {
         console.Error("DBResult undefined: " + dbResult);
       }
 
@@ -101,7 +101,7 @@ class ModelChannel {
       }
     } catch (error) {
       console.log("DBResult not recived, calling API");
-      var pic =  this.getProfileFromAPI(sid, uid)
+      var pic = this.getProfileFromAPI(sid, uid)
       return pic
     }
   }
@@ -148,17 +148,17 @@ class ModelChannel {
 
   }
 
-  addPostText (textContent){
+  addPostText(textContent) {
     console.log("PostText content: " + textContent);
-    if (textContent.length < 100){
+    if (textContent.length < 100) {
       console.log("Sending text post");
-      comunicationController.addPostText(sid, this._channelName, textContent, ()=>{
+      comunicationController.addPostText(sid, this._channelName, textContent, () => {
         this.getPosts(this._channelName)
       })
-    }else{
+    } else {
       console.log("Error: post text content can't be longer than 100 charaters");
     }
-  } 
+  }
 
   bindOnPostListChanged(callback) {
     this.onPostListChanged = callback
@@ -275,6 +275,7 @@ class ViewChannel {
       } else if (post.type == 'i') {
         const postImage = this.createElement('img', "PostImage")
         postImage.src = "./img/default-user-image.png" //"data:image/png;base64," + post.postImage
+
         spanContennt.append(postImage)
       }
 
@@ -286,7 +287,7 @@ class ViewChannel {
     })
   }
 
-  get _postText(){
+  get _postText() {
     return this.postInput.value
   }
 
@@ -342,7 +343,7 @@ class ViewChannel {
     })
   }
 
-  bindAddPostText(handler){
+  bindAddPostText(handler) {
     this.form.addEventListener('click', event => {
       console.log("Clicked on add post text");
 
@@ -350,11 +351,23 @@ class ViewChannel {
 
       console.log("this._postText: " + this._postText);
 
-      if(this._postText){
+      if (this._postText) {
         handler(this._postText)
         this._resetInput
       }
     })
+  }
+
+  bindOnImageClicked(handler) {
+    getElement('#post-list').addEventListener("click", function(e) {
+      // e.target is the clicked element!
+      // If it was a list item
+      if(e.target && e.target.className == "PostImage") {
+        // List item found!  Output the ID!
+        console.log("Post image clicked");
+        handler()
+      }
+    });
   }
 
 }
@@ -373,6 +386,7 @@ class ControllerChannel {
     this.view.bindOnShareImageClicked(this.shareImageClicked)
     this.view.bindOnBackToWallClicked(this.backToWallClicked)
     this.view.bindAddPostText(this.handleAddPostText)
+    this.view.bindOnImageClicked(this.handleClickOnImmagine)
 
   }
 
@@ -394,7 +408,7 @@ class ControllerChannel {
     showscreen('#root')
   }
 
-  handleAddPostText = (text)=>{
+  handleAddPostText = (text) => {
     this.model.addPostText(text)
   }
 
@@ -404,7 +418,9 @@ class ControllerChannel {
 
   //hanndleClickOnCondividiPosizione
 
-  //handleClickOnImmagine
+  handleClickOnImmagine = () => {
+    showscreen('#imageScreen')
+  }
 
   //handleClickOnBackToWall
 
