@@ -10,7 +10,10 @@ outputBox = this.getElement('#output');
 inputEL = this.getElement('#inputEL');
 confirmBtn = this.getElement('#confirmBtn')
 
+cancelBtn = this.getElement('#cancelBtn')
+
 var sid = "dDYkswaNkBtycWDS"
+var name = ""
 //   }
 
 function settingsBindEvents() {
@@ -59,6 +62,7 @@ function bindonChangeUsernameClicked() {
     // "Favorite animal" input sets the value of the submit button
     inputEL.addEventListener('change', function onSelect(e) {
         confirmBtn.value = inputEL.value;
+        cancelBtn.value = this.name
     });
 
     // "Confirm" button of form triggers "close" on dialog because of [method="dialog"]
@@ -84,6 +88,7 @@ function bindonChangeUsernameClicked() {
                     $("#settingsImmagineProfilo").attr("src", "")
                     $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
                     $("#usernameSettings").text(userData.username)
+                    this.name = userData.username
 
                     console.log("Settings updated");
                 })
