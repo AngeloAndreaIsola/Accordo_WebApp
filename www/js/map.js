@@ -5,8 +5,10 @@ mapboxgl.accessToken =
     'pk.eyJ1IjoiYW5nZWxvYW5kcmVhaXNvbGEiLCJhIjoiY2tqeXBzY2N5MDAwYTJucXF2Y2Y5M2ZucSJ9.nki_4-IoUMr8JzmaHAdF6Q';
 
 backToChannel = this.getElement('#fromMapToChannel')
-sharePosition = this.getElement('#sharePosition')
+sharePositionBtn = this.getElement('#sharePosition')
 
+var channelName
+var lat, lon
 var mapHandler = {
     // onSuccess Callback
     // This method accepts a Position object, which contains the
@@ -25,6 +27,9 @@ var mapHandler = {
         bindEvents()
 
         console.log('Latitude: ' + position.coords.latitude + '\n' + 'Longitude: ' + position.coords.longitude + '\n');
+
+        lat = position.coords.latitude 
+        lon = position.coords.longitude
 
         //Crea mappa centrata su pos
         var map = new mapboxgl.Map({
@@ -49,6 +54,9 @@ var mapHandler = {
 
     sharedPosition: function (lon, lat) {
 
+        //Nascondi bottone invia
+        sharePositionBtn.style.display = "none"
+
         bindEvents()
 
         //Crea mappa centrata su pos
@@ -65,6 +73,11 @@ var mapHandler = {
             .addTo(map);
     },
 
+    sharePosition: function() {
+        channelName = getElement('#titoloCanale').textContent
+        navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError)
+        console.log("ChannelName: " + channelName);
+    }
 }
 
 function bindEvents() {
@@ -76,7 +89,9 @@ function bindBackToChannelClicked() {
     backToChannel.addEventListener('click', event => {
         event.preventDefault()
 
+        console.log("Target: " + event.target);
         if (event.target && event.target.nodeName == "svg") {
+            console.log("Back to channel from map");
             showscreen('#channelScreen')
         }
 
@@ -87,7 +102,12 @@ function bindSharePosition() {
     sharePosition.addEventListener('click', event => {
         event.preventDefault()
 
+        console.log("Sid: " + sid + "ChannelName: " + channelName + "lat: " + lat + "lon: " + lon);
+
         //invia posizione
+        comunicationController.addPostPosition(sid, channelName, lat, lon, ()=>{
+            console.log("Call %22send position post succeded");
+        })
 
         showscreen('#channelScreen')
 

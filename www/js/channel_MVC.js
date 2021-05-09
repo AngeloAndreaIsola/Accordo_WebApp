@@ -395,7 +395,8 @@ class ControllerChannel {
   }
 
   sharePositionClicked = () => {
-    navigator.geolocation.getCurrentPosition(mapHandler.onSuccess, mapHandler.onError)
+    //navigator.geolocation.getCurrentPosition(mapHandler.onSuccess, mapHandler.onError)
+    mapHandler.sharePosition()
     showscreen('#mapScreen')
   }
 
