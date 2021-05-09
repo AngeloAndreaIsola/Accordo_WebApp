@@ -4,10 +4,13 @@ class ModelChannel {
   constructor() {
 
     this._posts = []
+    this._channelName = ''
 
   }
 
-  savePosts = async (response) => {
+  savePosts = async (response, channelName) => {
+    this._channelName = channelName
+
     var json = JSON.parse(response);
     var post_list = json.posts;
 
@@ -33,7 +36,7 @@ class ModelChannel {
       this._posts.push(post)
     } //);
 
-    this.onPostListChanged(this._posts)
+    this.onPostListChanged(this._posts, this._channelName)
 
     console.log("All posts save into model");
     console.log(this._posts);
@@ -45,7 +48,7 @@ class ModelChannel {
       console.log("Call %22getChannel%22 succeded");
 
       //salva nome canale
-      this.savePosts(response)
+      this.savePosts(response, channelName)
     })
   }
 
@@ -88,7 +91,7 @@ class ModelChannel {
       })
 
       if (dbResult != undefined){
-        console.log("DBResult recived: ");
+        console.log("DBResult recived");
       }else{
         console.Error("DBResult undefined: " + dbResult);
       }
@@ -98,20 +101,23 @@ class ModelChannel {
       }
     } catch (error) {
       console.log("DBResult not recived, calling API");
-      var pic = await this.getProfileFromAPI(sid, uid)
+      var pic =  this.getProfileFromAPI(sid, uid)
       return pic
     }
   }
 
-  getProfileFromAPI = async (sid, uid) => {
+  getProfileFromAPI = (sid, uid) => {
+    console.log("Calling API to get profile...");
     comunicationController.getUserPicture(sid, uid, (response) => {
+      console.log("Call %22getProfile%22 succeded");
       var json = JSON.parse(response);
       var picture = json.picture;
 
+      console.log("Saving profile in DB");
       databaseHandler.saveProfileImage(response)
 
       //return picture
-      return (picture)
+      return picture
     })
   }
 
@@ -142,6 +148,18 @@ class ModelChannel {
 
   }
 
+  addPostText (textContent){
+    console.log("PostText content: " + textContent);
+    if (textContent.length < 100){
+      console.log("Sending text post");
+      comunicationController.addPostText(sid, this._channelName, textContent, ()=>{
+        this.getPosts(this._channelName)
+      })
+    }else{
+      console.log("Error: post text content can't be longer than 100 charaters");
+    }
+  } 
+
   bindOnPostListChanged(callback) {
     this.onPostListChanged = callback
   }
@@ -159,7 +177,7 @@ class ViewChannel {
 
     // The form, with a [type="text"] input, and a submit button
     //this.form = this.createElement('form')
-    this.form = this.getElement('#channelForm')
+    this.form = this.getElement('#postForm')
 
     //this.input = this.createElement('input')
     //this.input.type = 'text'
@@ -184,6 +202,9 @@ class ViewChannel {
     this.sharePosition = this.getElement('#mapButton')
     this.backToWall = this.getElement('#fromChannelToWall')
     this.shareImage = this.getElement('#imageButton')
+
+    this.postInput = this.getElement('#postInput')
+    this.sendPost = this.getElement('#sendPost')
 
   }
 
@@ -265,8 +286,12 @@ class ViewChannel {
     })
   }
 
+  get _postText(){
+    return this.postInput.value
+  }
+
   _resetInput() {
-    this.input.value = ''
+    this.postInput.value = ''
   }
 
   // Create an element with an optional CSS class
@@ -317,6 +342,21 @@ class ViewChannel {
     })
   }
 
+  bindAddPostText(handler){
+    this.form.addEventListener('click', event => {
+      console.log("Clicked on add post text");
+
+      event.preventDefault()
+
+      console.log("this._postText: " + this._postText);
+
+      if(this._postText){
+        handler(this._postText)
+        this._resetInput
+      }
+    })
+  }
+
 }
 
 class ControllerChannel {
@@ -332,11 +372,12 @@ class ControllerChannel {
     this.view.bindOnSharePositionClicked(this.sharePositionClicked)
     this.view.bindOnShareImageClicked(this.shareImageClicked)
     this.view.bindOnBackToWallClicked(this.backToWallClicked)
+    this.view.bindAddPostText(this.handleAddPostText)
 
   }
 
-  onPostListChanged = (_posts) => {
-    this.view.displayPosts(_posts)
+  onPostListChanged = (_posts, channelName) => {
+    this.view.displayPosts(_posts, channelName)
   }
 
   sharePositionClicked = () => {
@@ -351,6 +392,10 @@ class ControllerChannel {
   backToWallClicked = () => {
     console.log("Clicked on back to wall");
     showscreen('#root')
+  }
+
+  handleAddPostText = (text)=>{
+    this.model.addPostText(text)
   }
 
   //handleClickOnCreaPost
