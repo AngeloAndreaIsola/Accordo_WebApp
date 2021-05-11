@@ -402,6 +402,7 @@ class ControllerChannel {
 
   shareImageClicked = () => {
     console.log("Clicked on share image! That's to handle");
+    openFilePickerChannel( this.model)
   }
 
   backToWallClicked = () => {
@@ -425,4 +426,65 @@ class ControllerChannel {
 
   //handleClickOnBackToWall
 
+}
+
+function openFilePickerChannel(model) {  //selection,
+
+  var srcType = Camera.PictureSourceType.SAVEDPHOTOALBUM;
+  var options = setOptions(srcType);
+  var func = createNewFileEntry;
+
+  navigator.camera.getPicture(function cameraSuccess(imageUri) {
+
+      // Do something
+      console.log("Getting image from gallery from channel");
+      console.log("Image URI: " + imageUri);
+      
+      sendPostImage(imageUri, model._channelName, model)
+
+  }, function cameraError(error) {
+      console.debug("Unable to obtain picture: " + error, "app");
+
+  }, options);
+}
+
+function setOptions(srcType) {
+  var options = {
+      // Some common settings are 20, 50, and 100
+      quality: 50,
+      destinationType: Camera.DestinationType.DATA_URL,
+      // In this app, dynamically set the picture source, Camera or photo gallery
+      sourceType: srcType,
+      encodingType: Camera.EncodingType.JPEG,
+      mediaType: Camera.MediaType.PICTURE,
+      allowEdit: true,
+      correctOrientation: true
+  }
+  return options;
+}
+
+function createNewFileEntry(imgUri) {
+  window.resolveLocalFileSystemURL(cordova.file.cacheDirectory, function success(dirEntry) {
+
+      // JPEG file
+      dirEntry.getFile("tempFile.jpeg", { create: true, exclusive: false }, function (fileEntry) {
+
+          // Do something with it, like write to it, upload it, etc.
+          // writeFile(fileEntry, imgUri);
+          console.log("got file: " + fileEntry.fullPath);
+          // displayFileData(fileEntry.fullPath, "File copied to");
+
+      }, onErrorCreateFile);
+
+  }, onErrorResolveUrl);
+}
+
+function sendPostImage(stringImage, channelName, model) {
+  //TODO: mettere condizioni di dimensione e formato qui
+  comunicationController.addPostImage(sid, channelName, stringImage, (response)=>{
+
+    console.log("Call %22addPostImage%22 succeded");
+
+    model.getPosts(channelName)
+  })
 }
