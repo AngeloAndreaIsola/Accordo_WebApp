@@ -41,7 +41,9 @@ function bindOnChangePictureClicked() {
     changePicture.addEventListener('click', event => {
         event.preventDefault()
 
-        console.log("changepicture")
+        console.log("Click on change picture")
+
+        openFilePicker()
 
     })
 }
@@ -121,3 +123,82 @@ function showscreen(idToShow) {
     $(idToShow).show()
 }
 //}
+
+function openFilePicker(selection) {
+
+    var srcType = Camera.PictureSourceType.SAVEDPHOTOALBUM;
+    var options = setOptions(srcType);
+    var func = createNewFileEntry;
+
+    navigator.camera.getPicture(function cameraSuccess(imageUri) {
+
+        // Do something
+        console.log("Getting image from gallery");
+        console.log("Image URI: " + imageUri);
+        changeProfileImage(imageUri)
+
+    }, function cameraError(error) {
+        console.debug("Unable to obtain picture: " + error, "app");
+
+    }, options);
+}
+
+function setOptions(srcType) {
+    var options = {
+        // Some common settings are 20, 50, and 100
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL,
+        // In this app, dynamically set the picture source, Camera or photo gallery
+        sourceType: srcType,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: true,
+        correctOrientation: true
+    }
+    return options;
+}
+
+function createNewFileEntry(imgUri) {
+    window.resolveLocalFileSystemURL(cordova.file.cacheDirectory, function success(dirEntry) {
+
+        // JPEG file
+        dirEntry.getFile("tempFile.jpeg", { create: true, exclusive: false }, function (fileEntry) {
+
+            // Do something with it, like write to it, upload it, etc.
+            // writeFile(fileEntry, imgUri);
+            console.log("got file: " + fileEntry.fullPath);
+            // displayFileData(fileEntry.fullPath, "File copied to");
+
+        }, onErrorCreateFile);
+
+    }, onErrorResolveUrl);
+}
+
+function changeProfileImage(stringImage) {
+    //TODO: mettere condizioni di dimensione e formato qui
+    comunicationController.setPicture(sid, stringImage, ()=>{
+
+        console.log("Call %22setPicture%22 succeded");
+
+        comunicationController.getProfile(sid, (response) => {
+            console.log("Saving NEW profile...")
+
+            var json = JSON.parse(response);
+            var uid = json.uid;
+            var username = json.name;
+            var picture = json.picture;
+            var pversion = json.pversion;
+
+
+            userData.saveUserData(uid, username, picture, pversion)
+
+            //Setta profilo nelle impostazioni
+            $("#settingsImmagineProfilo").attr("src", "")
+            $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
+            $("#usernameSettings").text(userData.username)
+            this.name = userData.username
+
+            console.log("Settings updated");
+        })
+    })
+}
