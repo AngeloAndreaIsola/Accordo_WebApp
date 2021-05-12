@@ -96,28 +96,34 @@ class ModelChannel {
         console.Error("DBResult undefined: " + dbResult);
       }
 
+      console.log("pversion: " + post.pversion + " db pversion: " + dbResult.pversion);
       if (dbResult.pversion >= post.pversion) {
         return dbResult.picture
+      }else{
+        throw 'pversion saved is outdated'
       }
     } catch (error) {
+      console.log("ERROR: " + error);
       console.log("DBResult not recived, calling API");
-      var pic = this.getProfileFromAPI(sid, uid)
+      var pic = await this.getProfileFromAPI(sid, uid)
       return pic
     }
   }
 
   getProfileFromAPI = (sid, uid) => {
-    console.log("Calling API to get profile...");
-    comunicationController.getUserPicture(sid, uid, (response) => {
-      console.log("Call %22getProfile%22 succeded");
-      var json = JSON.parse(response);
-      var picture = json.picture;
-
-      console.log("Saving profile in DB");
-      databaseHandler.saveProfileImage(response)
-
-      //return picture
-      return picture
+    return promise = new Promise((resolve, reject) => {
+      console.log("Calling API to get profile...");
+      comunicationController.getUserPicture(sid, uid, (response) => {
+        console.log("Call %22getProfile%22 succeded");
+        var json = JSON.parse(response);
+        var picture = json.picture;
+  
+        console.log("Saving profile in DB");
+        databaseHandler.saveProfileImage(response)
+  
+        //return picture
+        resolve(picture)
+      })
     })
   }
 

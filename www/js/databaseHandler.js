@@ -73,7 +73,7 @@ var databaseHandler = {
 
             transaction.executeSql('SELECT * FROM Profile_img WHERE uid=?', [uid], function (tx, results) { //
 
-              console.log("DB: Retriving profile");
+              console.log("DB: Retriving profile of: " + uid);
     
               if (results != null && results.rows != null) {
     
@@ -94,6 +94,7 @@ var databaseHandler = {
                     console.error("DB: error while fetching profile picture, results: " + results + ", results.rows: " + results.rows);
                     reject()
                   } else {
+                    console.log("DB: resolving for: " + profileJSON);
                     resolve(profileJSON)
                   }
                 }
