@@ -365,7 +365,11 @@ class ViewChannel {
       if(e.target && e.target.className == "PostImage") {
         // List item found!  Output the ID!
         console.log("Post image clicked");
-        handler()
+
+        //Prendo il contenuto del post immagine
+        var imageContent = e.target.getAttribute('src')
+
+        handler(imageContent)
       }
     });
   }
@@ -420,7 +424,10 @@ class ControllerChannel {
 
   //hanndleClickOnCondividiPosizione
 
-  handleClickOnImmagine = () => {
+  handleClickOnImmagine = (imageContent) => {
+    var bigImage = getElement('#bigImage')
+    bigImage.src=imageContent
+
     showscreen('#imageScreen')
   }
 
