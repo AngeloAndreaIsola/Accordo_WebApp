@@ -25,7 +25,13 @@ class ModelChannel {
         lat: element.lat,
         lon: element.lon,
 
-        profileImageBis: await this.getProfileBIS(sid, element.uid, element)
+        profileImageBis: await this.getProfileBIS(sid, element.uid, element),
+
+        postImage: null
+      }
+
+      if (post.type == 'i'){
+        post.postImage = await this.getPostImageBIS(sid, element.pid, element)
       }
 
       //this.profileImage = this.getProfileImage(sid, element.uid, element)
@@ -77,6 +83,53 @@ class ModelChannel {
     })
   }
 
+  getPostImageBIS = async (sid, pid, post) => {
+    console.log("GetPostImageBIS");
+    try {
+      const dbResult = await databaseHandler.getPostImage(pid).then(result => {
+
+        var json = JSON.parse(result)
+        //console.log("JSON in db: " + json.picture)
+        //return json.picture
+        return json
+
+      })
+
+      if (dbResult != undefined) {
+        console.log("POST DBResult recived");
+        console.log("POST DBResult: " + dbResult);
+      } else {
+        console.Error("POST DBResult undefined: " + dbResult);
+      }
+
+
+      return dbResult.content
+
+    } catch (error) {
+      console.log("ERROR: " + error);
+      console.log("POST DBResult not recived, calling API");
+      var pic = await this.getPostImageFromAPI(sid, pid)
+      return pic
+    }
+  }
+
+  getPostImageFromAPI = (sid, pid) =>{
+    return promise = new Promise((resolve, reject) => {
+      console.log("Calling API to get profile...");
+      comunicationController.getPostImage(sid, pid, (response) => {
+        console.log("Call %getPostImage%22 succeded");
+        var json = JSON.parse(response);
+        var content = json.content;
+
+        console.log("Saving post image in DB");
+        databaseHandler.savePostImage(response)
+
+        //return picture
+        resolve(content)
+      })
+    })
+  }
+
   getProfileBIS = async (sid, uid, post) => { // se aspetta qua non fa vedre i canali dove c'è una immagine profilo, prova a cambiare aggiungetdo try e cart e reject di db
     console.log("GetProfileBis");
 
@@ -91,20 +144,20 @@ class ModelChannel {
       })
 
       if (dbResult != undefined) {
-        console.log("DBResult recived");
+        console.log("PROFILE DBResult recived");
       } else {
-        console.Error("DBResult undefined: " + dbResult);
+        console.Error("PROFILE DBResult undefined: " + dbResult);
       }
 
       console.log("pversion: " + post.pversion + " db pversion: " + dbResult.pversion);
       if (dbResult.pversion >= post.pversion) {
         return dbResult.picture
-      }else{
+      } else {
         throw 'pversion saved is outdated'
       }
     } catch (error) {
-      console.log("ERROR: " + error);
-      console.log("DBResult not recived, calling API");
+      console.log("PROFILE ERROR: " + error);
+      console.log("PROFILE DBResult not recived, calling API");
       var pic = await this.getProfileFromAPI(sid, uid)
       return pic
     }
@@ -117,10 +170,10 @@ class ModelChannel {
         console.log("Call %22getProfile%22 succeded");
         var json = JSON.parse(response);
         var picture = json.picture;
-  
+
         console.log("Saving profile in DB");
         databaseHandler.saveProfileImage(response)
-  
+
         //return picture
         resolve(picture)
       })
@@ -280,7 +333,7 @@ class ViewChannel {
 
       } else if (post.type == 'i') {
         const postImage = this.createElement('img', "PostImage")
-        postImage.src = "./img/default-user-image.png" //"data:image/png;base64," + post.postImage
+        postImage.src = "data:image/png;base64," + post.postImage  //"./img/default-user-image.png"
 
         spanContennt.append(postImage)
       }
@@ -365,10 +418,10 @@ class ViewChannel {
   }
 
   bindOnImageClicked(handler) {
-    getElement('#post-list').addEventListener("click", function(e) {
+    getElement('#post-list').addEventListener("click", function (e) {
       // e.target is the clicked element!
       // If it was a list item
-      if(e.target && e.target.className == "PostImage") {
+      if (e.target && e.target.className == "PostImage") {
         // List item found!  Output the ID!
         console.log("Post image clicked");
 
@@ -412,7 +465,7 @@ class ControllerChannel {
 
   shareImageClicked = () => {
     console.log("Clicked on share image! That's to handle");
-    openFilePickerChannel( this.model)
+    openFilePickerChannel(this.model)
   }
 
   backToWallClicked = () => {
@@ -432,7 +485,7 @@ class ControllerChannel {
 
   handleClickOnImmagine = (imageContent) => {
     var bigImage = getElement('#bigImage')
-    bigImage.src=imageContent
+    bigImage.src = imageContent
 
     showscreen('#imageScreen')
   }
@@ -441,7 +494,7 @@ class ControllerChannel {
 
 }
 
-function openFilePickerChannel(model) {  //selection,
+function openFilePickerChannel(model) { //selection,
 
   var srcType = Camera.PictureSourceType.SAVEDPHOTOALBUM;
   var options = setOptions(srcType);
@@ -449,29 +502,29 @@ function openFilePickerChannel(model) {  //selection,
 
   navigator.camera.getPicture(function cameraSuccess(imageUri) {
 
-      // Do something
-      console.log("Getting image from gallery from channel");
-      console.log("Image URI: " + imageUri);
-      
-      sendPostImage(imageUri, model._channelName, model)
+    // Do something
+    console.log("Getting image from gallery from channel");
+    console.log("Image URI: " + imageUri);
+
+    sendPostImage(imageUri, model._channelName, model)
 
   }, function cameraError(error) {
-      console.debug("Unable to obtain picture: " + error, "app");
+    console.debug("Unable to obtain picture: " + error, "app");
 
   }, options);
 }
 
 function setOptions(srcType) {
   var options = {
-      // Some common settings are 20, 50, and 100
-      quality: 50,
-      destinationType: Camera.DestinationType.DATA_URL,
-      // In this app, dynamically set the picture source, Camera or photo gallery
-      sourceType: srcType,
-      encodingType: Camera.EncodingType.JPEG,
-      mediaType: Camera.MediaType.PICTURE,
-      allowEdit: true,
-      correctOrientation: true
+    // Some common settings are 20, 50, and 100
+    quality: 50,
+    destinationType: Camera.DestinationType.DATA_URL,
+    // In this app, dynamically set the picture source, Camera or photo gallery
+    sourceType: srcType,
+    encodingType: Camera.EncodingType.JPEG,
+    mediaType: Camera.MediaType.PICTURE,
+    allowEdit: true,
+    correctOrientation: true
   }
   return options;
 }
@@ -479,22 +532,25 @@ function setOptions(srcType) {
 function createNewFileEntry(imgUri) {
   window.resolveLocalFileSystemURL(cordova.file.cacheDirectory, function success(dirEntry) {
 
-      // JPEG file
-      dirEntry.getFile("tempFile.jpeg", { create: true, exclusive: false }, function (fileEntry) {
+    // JPEG file
+    dirEntry.getFile("tempFile.jpeg", {
+      create: true,
+      exclusive: false
+    }, function (fileEntry) {
 
-          // Do something with it, like write to it, upload it, etc.
-          // writeFile(fileEntry, imgUri);
-          console.log("got file: " + fileEntry.fullPath);
-          // displayFileData(fileEntry.fullPath, "File copied to");
+      // Do something with it, like write to it, upload it, etc.
+      // writeFile(fileEntry, imgUri);
+      console.log("got file: " + fileEntry.fullPath);
+      // displayFileData(fileEntry.fullPath, "File copied to");
 
-      }, onErrorCreateFile);
+    }, onErrorCreateFile);
 
   }, onErrorResolveUrl);
 }
 
 function sendPostImage(stringImage, channelName, model) {
   //TODO: mettere condizioni di dimensione e formato qui
-  comunicationController.addPostImage(sid, channelName, stringImage, (response)=>{
+  comunicationController.addPostImage(sid, channelName, stringImage, (response) => {
 
     console.log("Call %22addPostImage%22 succeded");
 
