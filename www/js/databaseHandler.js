@@ -156,12 +156,12 @@ var databaseHandler = {
                     "content": row.post_image_content
                   })
 
-                  console.log("DB: contentJSON " + contentJSON);
+                  //console.log("DB: contentJSON " + contentJSON);
                   if (contentJSON == undefined) {
                     console.error("DB: error while fetching post picture, results: " + results + ", results.rows: " + results.rows);
                     reject()
                   } else {
-                    console.log("DB: resolving for: " + contentJSON);
+                    //console.log("DB: resolving for: " + contentJSON);
                     resolve(contentJSON)
                   }
                 }

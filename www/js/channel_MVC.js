@@ -332,6 +332,11 @@ class ViewChannel {
           showscreen('#mapScreen')
         });
 
+        //Controlla che la pos sia valida
+        if (!(post.lon >= -90 && post.lon <= 90 && post.lat >= -180 && post.lat <= 180)){
+          $(posButton).disabled = true
+        }
+
       } else if (post.type == 'i') {
         const postImage = this.createElement('img', "PostImage")
 
