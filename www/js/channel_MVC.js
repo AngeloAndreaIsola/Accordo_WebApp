@@ -499,6 +499,11 @@ class ControllerChannel {
     var bigImage = getElement('#bigImage')
     bigImage.src = imageContent
 
+   var back = getElement('#fromImageToChannel')
+    back.addEventListener('click', event =>{
+      showscreen('#channelScreen')
+    })
+
     showscreen('#imageScreen')
   }
 
