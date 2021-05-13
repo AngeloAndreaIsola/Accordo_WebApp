@@ -324,17 +324,18 @@ class ViewChannel {
         posButton.id = post.pid
         spanContennt.append(posButton)
 
-        // Bind del bottone creato dinamicamente
-        $(posButton).on("click", function () {
-          //$(this).parent().remove();
-          console.log("Clicked on ShowSharedPosition");
-          mapHandler.sharedPosition(post.lon, post.lat)
-          showscreen('#mapScreen')
-        });
-
         //Controlla che la pos sia valida
-        if (!(post.lon >= -90 && post.lon <= 90 && post.lat >= -180 && post.lat <= 180)){
+        if (!(post.lon >= -90 && post.lon <= 90 && post.lat >= -180 && post.lat <= 180)) {
+          
           $(posButton).disabled = true
+        } else {
+          // Bind del bottone creato dinamicamente
+          $(posButton).on("click", function () {
+            //$(this).parent().remove();
+            console.log("Clicked on ShowSharedPosition");
+            mapHandler.sharedPosition(post.lon, post.lat)
+            showscreen('#mapScreen')
+          });
         }
 
       } else if (post.type == 'i') {
