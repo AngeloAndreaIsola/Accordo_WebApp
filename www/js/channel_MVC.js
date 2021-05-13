@@ -64,6 +64,8 @@ class ModelChannel {
         //load from db
         console.log("Post " + pid + " content loaded from database");
 
+
+        console.log("PostImage content: " + postImageDB.content);
         return postImageDB.content
       } else {
         comunicationController.getPostImage(sid, pid, (response) => {
@@ -72,6 +74,7 @@ class ModelChannel {
 
           databaseHandler.savePostImage(response)
 
+          console.log("PostImage content: " + content);
           return content
         })
       }
@@ -93,12 +96,11 @@ class ModelChannel {
       if (dbResult != undefined) {
         console.log("POST DBResult recived");
         console.log("POST DBResult: " + dbResult);
+        return dbResult.content
       } else {
         console.Error("POST DBResult undefined: " + dbResult);
       }
 
-      //Controlla valità base64
-      //console.log("is post "); isBase64()
 
     } catch (error) {
       console.log("ERROR: " + error);
@@ -116,7 +118,6 @@ class ModelChannel {
         var json = JSON.parse(response);
         var content = json.content;
 
-        //Controlla valità base64
         console.log("Saving post image in DB");
         databaseHandler.savePostImage(response)
 
@@ -305,7 +306,11 @@ class ViewChannel {
         //Show default picture
         profileImage.src = "./img/default-user-image.png"
       } else {
-        profileImage.src = "data:image/png;base64," + post.profileImageBis
+        try {
+          profileImage.src = "data:image/png;base64," + post.profileImageBis
+        } catch (error) {
+          postImage.src = "./img/brokeImage.png"
+        }
       }
 
 
@@ -329,10 +334,11 @@ class ViewChannel {
 
       } else if (post.type == 'i') {
         const postImage = this.createElement('img', "PostImage")
-        if (post.postImage == null) {
-          postImage.src = "./img/brokeImage.png"
-        } else {
+
+        try {
           postImage.src = "data:image/png;base64," + post.postImage //"./img/default-user-image.png"
+        } catch (error) {
+          postImage.src = "./img/brokeImage.png"
         }
 
         spanContennt.append(postImage)

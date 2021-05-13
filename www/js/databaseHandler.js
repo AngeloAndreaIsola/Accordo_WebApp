@@ -94,7 +94,7 @@ var databaseHandler = {
                       console.error("DB: error while fetching profile picture, results: " + results + ", results.rows: " + results.rows);
                       reject()
                     } else {
-                      console.log("DB: resolving for: " + profileJSON);
+                      //console.log("DB: resolving for: " + profileJSON);
                       resolve(profileJSON)
                     }
                   }
@@ -208,7 +208,8 @@ var databaseHandler = {
       picture = json.picture
       pversion = json.pversion
 
-      console.log("DB Saveprofile: uid= " + uid + " pversion: " + pversion + " picture: " + picture);
+      //console.log("DB Saveprofile: uid= " + uid + " pversion: " + pversion + " picture: " + picture);
+      console.log("DB Saveprofile")
 
       this.db.transaction(function (transaction) {
           transaction.executeSql('IF EXISTS(select * from Profile_img where uid=values(uid)) update Profile_img set pversion = values(pversion) and set profile_image_content = values(picture) where uid = values(uid) ELSE INSERT INTO Profile_img(uid, profile_image_content, pversion) VALUES( ? , ? , ? );', [uid, picture, pversion], function (tx, results) {  //'INSERT INTO Profile_img(uid, profile_image_content, pversion) VALUES( ? , ? , ? ) ON DUPLICATE KEY UPDATE profile_image_content = VALUES(picture), pversion = VALUES(pversion)'
