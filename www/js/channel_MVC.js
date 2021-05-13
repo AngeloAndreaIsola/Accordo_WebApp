@@ -30,15 +30,10 @@ class ModelChannel {
         postImage: null
       }
 
-      if (post.type == 'i'){
+      if (post.type == 'i') {
         post.postImage = await this.getPostImageBIS(sid, element.pid, element)
       }
 
-      //this.profileImage = this.getProfileImage(sid, element.uid, element)
-
-      //await Promise.all(post.profileImageBis)
-
-      //console.log("porfileImage: " + post.profileImageBis);
       this._posts.push(post)
     } //);
 
@@ -102,8 +97,8 @@ class ModelChannel {
         console.Error("POST DBResult undefined: " + dbResult);
       }
 
-
-      return dbResult.content
+      //Controlla valità base64
+      //console.log("is post "); isBase64()
 
     } catch (error) {
       console.log("ERROR: " + error);
@@ -113,7 +108,7 @@ class ModelChannel {
     }
   }
 
-  getPostImageFromAPI = (sid, pid) =>{
+  getPostImageFromAPI = (sid, pid) => {
     return promise = new Promise((resolve, reject) => {
       console.log("Calling API to get profile...");
       comunicationController.getPostImage(sid, pid, (response) => {
@@ -121,6 +116,7 @@ class ModelChannel {
         var json = JSON.parse(response);
         var content = json.content;
 
+        //Controlla valità base64
         console.log("Saving post image in DB");
         databaseHandler.savePostImage(response)
 
@@ -282,7 +278,7 @@ class ViewChannel {
     //this.title = this.createElement('h1')
     this.title = this.getElement('#titoloCanale')
     this.title.textContent = channelName
-    this.app.prepend(this.title)
+    //this.app.prepend(this.title)
 
     // Delete all nodes
     while (this.postList.firstChild) {
@@ -333,7 +329,11 @@ class ViewChannel {
 
       } else if (post.type == 'i') {
         const postImage = this.createElement('img', "PostImage")
-        postImage.src = "data:image/png;base64," + post.postImage  //"./img/default-user-image.png"
+        if (post.postImage == null) {
+          postImage.src = "./img/brokeImage.png"
+        } else {
+          postImage.src = "data:image/png;base64," + post.postImage //"./img/default-user-image.png"
+        }
 
         spanContennt.append(postImage)
       }

@@ -22,27 +22,27 @@ var databaseHandler = {
           tx.executeSql('CREATE TABLE IF NOT EXISTS Post (uid INTEGER, pid INTEGER PRIMARY KEY, username Text, pversion INTEGER NOT NULL, type TEXT NOT NULL)', [],
             function (tx, results) {},
             function (tx, error) {
-              console.log("Error while creating the table 2: " + error.message);
+              console.error("Error while creating the table 2: " + error.message);
             }
           );
 
           tx.executeSql('CREATE TABLE IF NOT EXISTS Profile_img (uid INTEGER PRIMARY KEY, pversion INTEGER NOT NULL, profile_image_content TEXT)', [],
             function (tx, results) {},
             function (tx, error) {
-              console.log("Error while creating the table 3: " + error.message);
+              console.error("Error while creating the table 3: " + error.message);
             }
           );
 
           tx.executeSql('CREATE TABLE IF NOT EXISTS Post_img (pid INTEGER PRIMARY KEY, post_image_content TEXT)', [],
             function (tx, results) {},
             function (tx, error) {
-              console.log("Error while creating the table 4: " + error.message);
+              console.error("Error while creating the table 4: " + error.message);
             }
           );
 
         },
         function (error) {
-          console.log("Transaction error: " + error.message);
+          console.error("Transaction error: " + error.message);
         },
         function () {
           console.log("Create DB transaction completed successfully");
@@ -119,156 +119,158 @@ var databaseHandler = {
 
     getPostImage: function (pid, callback) {
 
-        return promise = new Promise((resolve, reject) => {
-            this.db.transaction(function (transaction) {
+      return promise = new Promise((resolve, reject) => {
+        this.db.transaction(function (transaction) {
 
-              transaction.executeSql('SELECT * FROM Post_img WHERE EXISTS(SELECT 1 FROM Post_img WHERE pid=?)', [pid], function (tx, results) {
+          transaction.executeSql('SELECT * FROM Post_img WHERE EXISTS(SELECT 1 FROM Post_img WHERE pid=?)', [pid], function (tx, results) {
 
-                console.log("DB: Checking if pid " + pid + " exists in db...");
+            console.log("DB: Checking if pid " + pid + " exists in db...");
+
+            for (var k = 0; k < results.rows.length; k++) {
+
+              var row = results.rows.item(k);
+
+            }
+
+            console.log(row);
+            if (row == undefined) {
+              console.log("DB: Rejeting");
+              reject()
+            } else {
+
+              transaction.executeSql('SELECT * FROM Post_img WHERE pid=?', [pid], function (tx, results) {
+
+                console.log("DB: Retriving post: " + pid);
+
+
+                // if (results != null && results.rows != null) {
 
                 for (var k = 0; k < results.rows.length; k++) {
 
                   var row = results.rows.item(k);
-                  
+
+                  //newJson += '{ "Field0":"' + row.uid + '", "Field1":"' + row.profile_image_content + '", "Field2":"' + row.Field2 + '", "Field3":"' + row.Field3 + '", "Field4":"' + row.Field4 + '", "Field5":"' + row.Field5 + '"},'
+
+                  contentJSON = JSON.stringify({
+                    "pid": row.pid,
+                    "content": row.post_image_content
+                  })
+
+                  console.log("DB: contentJSON " + contentJSON);
+                  if (contentJSON == undefined) {
+                    console.error("DB: error while fetching post picture, results: " + results + ", results.rows: " + results.rows);
+                    reject()
+                  } else {
+                    console.log("DB: resolving for: " + contentJSON);
+                    resolve(contentJSON)
+                  }
                 }
-
-                console.log(row);
-                if (row == undefined) {
-                  console.log("DB: Rejeting");
-                  reject()
-                } else {
-
-                  transaction.executeSql('SELECT * FROM Post_img WHERE pid=?', [pid], function (tx, results) {
-
-                    console.log("DB: Retriving post: " + pid);
-
-
-                   // if (results != null && results.rows != null) {
-
-                      for (var k = 0; k < results.rows.length; k++) {
-
-                        var row = results.rows.item(k);
-
-                        //newJson += '{ "Field0":"' + row.uid + '", "Field1":"' + row.profile_image_content + '", "Field2":"' + row.Field2 + '", "Field3":"' + row.Field3 + '", "Field4":"' + row.Field4 + '", "Field5":"' + row.Field5 + '"},'
-
-                        contentJSON = JSON.stringify({
-                          "pid": row.pid,
-                          "content": row.post_image_content
-                        })
-
-                        console.log("DB: contentJSON " + contentJSON);
-                        if (contentJSON == undefined) {
-                          console.error("DB: error while fetching post picture, results: " + results + ", results.rows: " + results.rows);
-                          reject()
-                        } else {
-                          console.log("DB: resolving for: " + contentJSON);
-                          resolve(contentJSON)
-                        }
-                      }
-                    //}
+                //}
 
 
 
 
-                    // results.forEach(result => {
-                    //   console.log("GETPOSTIMAGERESULT" + result.post_image_content);
-                    // });
+                // results.forEach(result => {
+                //   console.log("GETPOSTIMAGERESULT" + result.post_image_content);
+                // });
 
-                    // callback(results);
-                  },  function (tx, error) {
-                    console.error("DB: Error while retrieving profile picture: " + error.message);
-                  });
-                }
+                // callback(results);
+              }, function (tx, error) {
+                console.error("DB: Error while retrieving profile picture: " + error.message);
               });
-            })
-          })
+            }
+          });
+        })
+      })
+    },
+
+    savePostImage: function (response) {
+      //console.log("DB: savePost response: " + response);
+      var json = JSON.parse(response);
+      pid = json.pid
+      content = json.content
+
+      this.db.transaction(function (transaction) {
+        transaction.executeSql('INSERT INTO Post_img (pid, post_image_content) VALUES (?, ?)', [pid, content], function (tx, results) {
+            console.log("DB: Post " + pid + " content inserted");
           },
+          function (error) {
+            console.error("DB: ERROR! while inserting post " + pid + " error: " + error.message);
+          });
+      });
+    },
 
-          savePostImage: function (response) {
-            //console.log("DB: savePost response: " + response);
-            var json = JSON.parse(response);
-            pid = json.pid
-            content = json.content
+    saveProfileImage: function (response) {
 
-            this.db.transaction(function (transaction) {
-              transaction.executeSql('INSERT INTO Post_img (pid, post_image_content) VALUES (?, ?)', [pid, content], function (tx, results) {
-                  console.log("DB: Post " + pid + " content inserted");
-                },
-                function (error) {
-                  console.log("DB: ERROR! while inserting post " + pid + " error: " + error);
-                });
+      //console.log("DB: saveProfileImage response: " + response);
+      var json = JSON.parse(response);
+      uid = json.uid
+      picture = json.picture
+      pversion = json.pversion
+
+      console.log("DB Saveprofile: uid= " + uid + " pversion: " + pversion + " picture: " + picture);
+
+      this.db.transaction(function (transaction) {
+          transaction.executeSql('IF EXISTS(select * from Profile_img where uid=values(uid)) update Profile_img set pversion = values(pversion) and set profile_image_content = values(picture) where uid = values(uid) ELSE INSERT INTO Profile_img(uid, profile_image_content, pversion) VALUES( ? , ? , ? );', [uid, picture, pversion], function (tx, results) {  //'INSERT INTO Profile_img(uid, profile_image_content, pversion) VALUES( ? , ? , ? ) ON DUPLICATE KEY UPDATE profile_image_content = VALUES(picture), pversion = VALUES(pversion)'
+              console.log("DB: Post " + uid + " content inserted");
+            },
+            function (error) {
+              console.error("DB: ERROR! while inserting profile image " + uid + " error: " + JSON.stringify(error));
             });
-          },
+      });
+  },
 
-          saveProfileImage: function (response) {
+  callbackGetProfile: function (response) {
+    return response
+  },
 
-            //console.log("DB: saveProfileImage response: " + response);
-            var json = JSON.parse(response);
-            uid = json.uid
-            picture = json.picture
-            pversion = json.pversion
+  callbackGetPostImage: function (response) {
+    return response
+  }
 
-            this.db.transaction(function (transaction) {
-              transaction.executeSql('INSERT INTO Profile_img (uid, profile_image_content, pversion) VALUES (?, ?, ?)', [uid, picture, pversion], function (tx, results) {
-                  console.log("DB: Post " + uid + " content inserted");
-                },
-                function (error) {
-                  console.log("DB: ERROR! while inserting profile image " + uid + " error: " + error.message);
-                });
-            });
-          },
+}
 
-          callbackGetProfile: function (response) {
-            return response
-          },
+/*
+    @Query("SELECT image_content FROM content_images WHERE image_pid=:pid")
+    String getContentImage(int pid);
 
-          callbackGetPostImage: function (response) {
-            return response
-          }
+    @Query("SELECT version FROM profile_images WHERE profile_uid=:uid")
+    int getProfileVersion(int uid);
 
-        }
+    @Query("SELECT `Profile Image` FROM profile_images WHERE profile_uid=:uid")
+    String getProfileContent(int uid);
 
-        /*
-            @Query("SELECT image_content FROM content_images WHERE image_pid=:pid")
-            String getContentImage(int pid);
+    @Update
+    void updatePosts(Post... posts);
 
-            @Query("SELECT version FROM profile_images WHERE profile_uid=:uid")
-            int getProfileVersion(int uid);
+    @Insert (onConflict = OnConflictStrategy.REPLACE)
+    void addContentImage(PostContentImage postContentImage);
 
-            @Query("SELECT `Profile Image` FROM profile_images WHERE profile_uid=:uid")
-            String getProfileContent(int uid);
+    @Insert (onConflict = OnConflictStrategy.REPLACE)
+    void addPostProfileImage(PostProfileImage profileImage);
+*/
 
-            @Update
-            void updatePosts(Post... posts);
+// myDB = window.sqlitePlugin.openDatabase({
+//   name: 'my.db',
+//   location: 'default'
+// })
+// myDB.transaction(function (transaction) {
+//   transaction.executeSql('CREATE TABLE IF NOT EXISTS codesundar (id integer primary key, title text, desc text)', [],
+//     function (tx, result) {
+//       alert("Table created successfully");
+//     },
+//     function (error) {
+//       alert("Error occurred while creating the table.");
+//     });
+// });
 
-            @Insert (onConflict = OnConflictStrategy.REPLACE)
-            void addContentImage(PostContentImage postContentImage);
-
-            @Insert (onConflict = OnConflictStrategy.REPLACE)
-            void addPostProfileImage(PostProfileImage profileImage);
-        */
-
-        // myDB = window.sqlitePlugin.openDatabase({
-        //   name: 'my.db',
-        //   location: 'default'
-        // })
-        // myDB.transaction(function (transaction) {
-        //   transaction.executeSql('CREATE TABLE IF NOT EXISTS codesundar (id integer primary key, title text, desc text)', [],
-        //     function (tx, result) {
-        //       alert("Table created successfully");
-        //     },
-        //     function (error) {
-        //       alert("Error occurred while creating the table.");
-        //     });
-        // });
-
-        // let quries =
-        //   myDB.sqlBatch([
-        //     'CREATE TABLE Post (uid INTEGER PRIMARY KEY, pid INTEGER PRIMARY KEY, username Text, pversion INTEGER NOT NULL, type TEXT NOT NULL)',
-        //     'CREATE TABLE Profile_img (uid INTEGER PRIMARY KEY, pversion INTEGER NOT NULL, profile_image_content TEXT)',
-        //     'CREATE TABLE Post_img (pid INTEGER PRIMARY KEY, post_image_content TEXT)'
-        //   ], function () {
-        //     console.log('Populated database OK');
-        //   }, function (error) {
-        //     console.log('SQL batch ERROR: ' + error.message);
-        //   })
+// let quries =
+//   myDB.sqlBatch([
+//     'CREATE TABLE Post (uid INTEGER PRIMARY KEY, pid INTEGER PRIMARY KEY, username Text, pversion INTEGER NOT NULL, type TEXT NOT NULL)',
+//     'CREATE TABLE Profile_img (uid INTEGER PRIMARY KEY, pversion INTEGER NOT NULL, profile_image_content TEXT)',
+//     'CREATE TABLE Post_img (pid INTEGER PRIMARY KEY, post_image_content TEXT)'
+//   ], function () {
+//     console.log('Populated database OK');
+//   }, function (error) {
+//     console.log('SQL batch ERROR: ' + error.message);
+//   })
