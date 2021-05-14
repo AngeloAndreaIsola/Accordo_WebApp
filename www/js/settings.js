@@ -37,7 +37,7 @@ function bindOnBackToWallClicked() {
 
 
 function bindOnChangePictureClicked() {
-    console.log(changePicture);
+    //console.log(changePicture);
     changePicture.addEventListener('click', event => {
         event.preventDefault()
 
@@ -51,7 +51,7 @@ function bindOnChangePictureClicked() {
 
 
 function bindonChangeUsernameClicked() {
-    console.log(changePicture);
+    //console.log(changePicture);
     changeUsername.addEventListener('click', event => {
         event.preventDefault()
 
@@ -176,11 +176,11 @@ function createNewFileEntry(imgUri) {
 
 function changeProfileImage(stringImage) {
     //TODO: mettere condizioni di dimensione e formato qui
-    comunicationController.setPicture(sid, stringImage, ()=>{
+    comunicationController.setPicture(userData.sid, stringImage, ()=>{
 
         console.log("Call %22setPicture%22 succeded");
 
-        comunicationController.getProfile(sid, (response) => {
+        comunicationController.getProfile(userData.sid, (response) => {
             console.log("Saving NEW profile...")
 
             var json = JSON.parse(response);

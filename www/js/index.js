@@ -21,7 +21,8 @@
 // See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
 document.addEventListener('deviceready', onDeviceReady, false);
 
-var sid = "dDYkswaNkBtycWDS"
+//var sid = "dDYkswaNkBtycWDS"
+var sid //userData.sid
 
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
@@ -43,8 +44,14 @@ function onDeviceReady() {
 
     }
 
+    //Carica i dati che ha gia del profilo
+    userData.loadUserData()
+    console.log("sid: " + userData.sid);
+
+    sid = userData.sid
+
     //Salva il resto del profilo
-    comunicationController.getProfile(sid, (response) => {
+    comunicationController.getProfile(userData.sid, (response) => {
         console.log("Call %22getProfile%22 succeded");
         console.log("Saving profile...")
 

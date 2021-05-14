@@ -1,11 +1,5 @@
-// import {
-//   getWall,
-//   getChannel,
-//   getProfile,
-//   addChannel
-// } from './comunicationController.js'
-
-var sid = "dDYkswaNkBtycWDS"
+//var sid = "dDYkswaNkBtycWDS"
+var sid = localStorage.getItem('sid')
 
 class ModelWall {
   constructor() {
@@ -36,6 +30,7 @@ class ModelWall {
   }
 
   refreshWallModel = () => {
+    console.log("wall sid: " + sid + " this.sid= " + this.sid);
     comunicationController.getWall(sid, (response) => {
       console.log("Call %22getWall%22 succeded");
 

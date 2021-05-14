@@ -1,4 +1,5 @@
-var sid = "dDYkswaNkBtycWDS"
+//var sid = "dDYkswaNkBtycWDS"
+var sid = userData.sid
 
 class ModelChannel {
   constructor() {
@@ -506,9 +507,6 @@ class ControllerChannel {
 
     showscreen('#imageScreen')
   }
-
-  //handleClickOnBackToWall
-
 }
 
 function openFilePickerChannel(model) { //selection,

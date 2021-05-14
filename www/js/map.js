@@ -102,10 +102,10 @@ function bindSharePosition() {
     sharePosition.addEventListener('click', event => {
         event.preventDefault()
 
-        console.log("Sid: " + sid + "ChannelName: " + channelName + "lat: " + lat + "lon: " + lon);
+        console.log("Sid: " + userData.sid + "ChannelName: " + channelName + "lat: " + lat + "lon: " + lon);
 
         //invia posizione
-        comunicationController.addPostPosition(sid, channelName, lat, lon, ()=>{
+        comunicationController.addPostPosition(userData.sid, channelName, lat, lon, ()=>{
             console.log("Call %22send position post succeded");
         })
 
