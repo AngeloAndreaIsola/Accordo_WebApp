@@ -130,3 +130,10 @@ li span:focus {
   display: grid;
   place-items: center;
 }
+
+.post {
+  display: block;
+  border: firebrick;
+  color: firebrick;
+
+}

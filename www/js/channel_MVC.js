@@ -291,8 +291,8 @@ class ViewChannel {
 
     // Create todo item nodes for each todo in state
     _posts.forEach(post => {
-      const li = this.createElement('li')
-      li.id = post.pid
+      const li = this.createElement('li', "post")
+      li.id = "post_" + post.pid
 
       // The todo item text will be in a contenteditable span
       const spanName = this.createElement('span')
@@ -311,17 +311,20 @@ class ViewChannel {
       if (post.pversion == 0) {
         //Show default picture
         profileImage.src = "./img/default-user-image.png"
+        profileImage.style = "max-width: 50px; max-height: 50px"
       } else {
         try {
           profileImage.src = "data:image/png;base64," + post.profileImageBis
+          profileImage.style = "max-width: 50px; max-height: 50px"
         } catch (error) {
           postImage.src = "./img/brokeImage.png"
+          profileImage.style = "max-width: 50px; max-height: 50px"
         }
       }
 
 
       //Display content
-      const spanContennt = this.createElement('span')
+      const spanContennt = this.createElement('span', 'postContent')
       if (post.type == 't') {
         spanContennt.textContent = post.content
       } else if (post.type == 'l') {
