@@ -27,10 +27,10 @@ function bindOnBackToWallClicked() {
     bactToWall.addEventListener('click', event => {
         event.preventDefault()
 
-        if (event.target && event.target.nodeName == "svg") {
+        //if (event.target && event.target.nodeName == "svg") {
             console.log("DA settings.js");
             showscreen('#root')
-        }
+        //}
 
     })
 }

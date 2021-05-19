@@ -10,6 +10,7 @@ class ModelChannel {
   }
 
   savePosts = async (response, channelName) => {
+    this._posts= []
     this._channelName = channelName
 
     var json = JSON.parse(response);
@@ -396,9 +397,9 @@ class ViewChannel {
     this.sharePosition.addEventListener('click', event => {
       event.preventDefault()
 
-      if (event.target && event.target.nodeName == "svg") {
+      //if (event.target && event.target.nodeName == "svg") {
         handler()
-      }
+      //}
 
     })
   }
@@ -418,9 +419,9 @@ class ViewChannel {
     this.shareImage.addEventListener('click', event => {
       event.preventDefault()
 
-      if (event.target && event.target.nodeName == "svg") {
+      //if (event.target && event.target.nodeName == "svg") {
         handler()
-      }
+      //}
 
     })
   }

@@ -208,9 +208,9 @@ class ViewWall {
     this.settings.addEventListener('click', event => {
       event.preventDefault()
 
-      if (event.target && event.target.nodeName == "svg") {
+      //if (event.target && event.target.nodeName == "svg") {
         handler()
-      }
+      //}
 
     })
   }
@@ -219,9 +219,9 @@ class ViewWall {
     this.refresh.addEventListener('click', event => {
       event.preventDefault()
 
-      if (event.target && event.target.nodeName == "svg") {
+      //if (event.target && event.target.nodeName == "svg") {
         handler()
-      }
+      //}
 
     })
   }

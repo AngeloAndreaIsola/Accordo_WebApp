@@ -37,14 +37,26 @@ html {
 
 .bottom{
   /*position: -webkit-sticky; */
-  display: inline-block;
+
+
+  /* display: inline-block;
   position: fixed;
   bottom: 5px;
   background-color: white;
   margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  padding: 5%;
+  margin-right: auto; */
+
+
+  /* width: 100%;
+  padding: 5%; */
+
+  position: -webkit-sticky; /* Required for Safari */
+  position: sticky;
+  height: 50px;
+
+  bottom: 100px;
+  margin: 50px auto auto auto;
+  z-index: +1;
 }
 
 #root {
@@ -55,7 +67,7 @@ html {
 
 form {
   display: flex;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 [type="text"],
@@ -140,4 +152,15 @@ li span:focus {
 .PostImage {
   max-width: 99%;
   max-height: 99%;
+}
+
+#post-list{
+  background-image: linear-gradient(
+    to bottom,
+    transparent 50px,
+    #F5A623 50px,
+    #F5A623 calc(100% - 50px),
+    transparent 0
+  );
+  margin: auto auto 50px auto;
 }
