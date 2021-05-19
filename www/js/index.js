@@ -65,15 +65,25 @@ function onDeviceReady() {
         userData.saveUserData(uid, username, picture, pversion)
 
         //Setta profilo nelle impostazioni
-        $("#settingsImmagineProfilo").attr("src", "")
-        $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
-        $("#usernameSettings").text(userData.username)
+        if (pversion == 0 || picture == null) {
+            $("#settingsImmagineProfilo").attr("src", "./img/default-user-image.png")
+        } else {
+            $("#settingsImmagineProfilo").attr("src", "")
+            $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
+        }
+
+        if (username == null) {
+            $("#usernameSettings").text("Default username")
+        } else {
+            $("#usernameSettings").text(userData.username)
+        }
+
 
         //Collega gli eventi
         settingsBindEvents()
 
         console.log("Settings inizialaized");
-        
+
     })
 
     //inizializza database
