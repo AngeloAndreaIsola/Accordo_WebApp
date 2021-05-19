@@ -298,8 +298,13 @@ class ViewChannel {
       const spanName = this.createElement('span')
 
 
-      // Display the name
-      spanName.textContent = post.name
+      // Display the username
+      if (post.name == null){
+        spanName.textContent = "Default username"
+      }else{
+        spanName.textContent = post.name
+      }
+
 
       // The profile image  will be in a img 
       const profileImage = this.createElement('img', 'ProfileImage')
