@@ -404,10 +404,10 @@ class ViewChannel {
   bindOnBackToWallClicked(handler) {
     this.backToWall.addEventListener('click', event => {
       event.preventDefault()
-
-      if (event.target && event.target.nodeName == "svg") {
+      console.log("Click on back to wall");
+      //if (event.target && event.target.nodeName == 'i') {
         handler()
-      }
+      //}
 
     })
   }

@@ -42,6 +42,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+    <!-- fa fa icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    
     <!-- Importazione MapBox  -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
@@ -99,18 +103,21 @@
         <div id="channelScreen" class="screen">
 
             <div id="topChannel" class="container-fluid top">
-                <div class="row">
-                    <div class="col-sm">
-                        <svg id="fromChannelToWall" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                <div class="row align-items-center">
+
+                    <div class="col-1">
+                        <i id="fromChannelToWall" class="bi bi-arrow-left-circle"></i>
+                    </div>
+
+                    <div class="col">
+                        <!-- <svg id="fromChannelToWall" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
                                 d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
-                        </svg>
-                    </div>
+                        </svg> -->
 
 
-                    <div class="col-sm">
-                        <h1 id="titoloCanale"></h1>
+                        <h1 id="titoloCanale" class="text-left"></h1>
                     </div>
                 </div>
 
@@ -157,6 +164,8 @@
         <div id="settingsScreen" class="screen">
 
             <header class="d-block d-lg-flex justify-content-lg-start allign-items-lg-center">
+                <!--  -->
+
 
                 <svg id="fromSettingsToWall" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                     fill="currentColor" class="bi bi-arrow-left-circle d-inline" viewBox="0 0 16 16">
@@ -227,7 +236,7 @@
     </div>
 
     <script src="cordova.js"></script>
-       
+
 
     <!-- CDN JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"

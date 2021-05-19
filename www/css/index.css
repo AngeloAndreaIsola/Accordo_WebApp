@@ -132,7 +132,7 @@ li span:focus {
 }
 
 .post {
-  display: block;
+  display: inline-block;
   border: firebrick;
   color: firebrick;
 
