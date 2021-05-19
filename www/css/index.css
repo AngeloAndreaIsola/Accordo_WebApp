@@ -135,5 +135,9 @@ li span:focus {
   display: inline-block;
   border: firebrick;
   color: firebrick;
+}
 
+.PostImage {
+  max-width: 99%;
+  max-height: 99%;
 }

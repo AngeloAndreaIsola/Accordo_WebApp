@@ -352,8 +352,10 @@ class ViewChannel {
 
         try {
           postImage.src = "data:image/png;base64," + post.postImage //"./img/default-user-image.png"
+          postImage.style = "max-width:300px max-height:100%;"
         } catch (error) {
           postImage.src = "./img/brokeImage.png"
+          postImage.style = "max-width:200px max-height:200px;"
         }
 
         spanContennt.append(postImage)
