@@ -28,8 +28,8 @@ function bindOnBackToWallClicked() {
         event.preventDefault()
 
         //if (event.target && event.target.nodeName == "svg") {
-            console.log("DA settings.js");
-            showscreen('#root')
+        console.log("DA settings.js");
+        showscreen('#root')
         //}
 
     })
@@ -72,29 +72,29 @@ function bindonChangeUsernameClicked() {
         //outputBox.value = favDialog.returnValue + " button clicked - " + (new Date()).toString();
         console.log("ReturnVAlue: " + favDialog.returnValue);
 
-            comunicationController.setUsername(sid, favDialog.returnValue, () => {
-                comunicationController.getProfile(sid, (response) => {
-                    console.log("Call %22getProfile%22 succeded");
-                    console.log("Saving NEW profile...")
+        comunicationController.setUsername(sid, favDialog.returnValue, () => {
+            comunicationController.getProfile(sid, (response) => {
+                console.log("Call %22getProfile%22 succeded");
+                console.log("Saving NEW profile...")
 
-                    var json = JSON.parse(response);
-                    var uid = json.uid;
-                    var username = json.name;
-                    var picture = json.picture;
-                    var pversion = json.pversion;
+                var json = JSON.parse(response);
+                var uid = json.uid;
+                var username = json.name;
+                var picture = json.picture;
+                var pversion = json.pversion;
 
 
-                    userData.saveUserData(uid, username, picture, pversion)
+                userData.saveUserData(uid, username, picture, pversion)
 
-                    //Setta profilo nelle impostazioni
-                    $("#settingsImmagineProfilo").attr("src", "")
-                    $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
-                    $("#usernameSettings").text(userData.username)
-                    this.name = userData.username
+                //Setta profilo nelle impostazioni
+                $("#settingsImmagineProfilo").attr("src", "")
+                $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
+                $("#usernameSettings").text(userData.username)
+                this.name = userData.username
 
-                    console.log("Settings updated");
-                })
+                console.log("Settings updated");
             })
+        })
     });
 }
 
@@ -162,7 +162,10 @@ function createNewFileEntry(imgUri) {
     window.resolveLocalFileSystemURL(cordova.file.cacheDirectory, function success(dirEntry) {
 
         // JPEG file
-        dirEntry.getFile("tempFile.jpeg", { create: true, exclusive: false }, function (fileEntry) {
+        dirEntry.getFile("tempFile.jpeg", {
+            create: true,
+            exclusive: false
+        }, function (fileEntry) {
 
             // Do something with it, like write to it, upload it, etc.
             // writeFile(fileEntry, imgUri);
@@ -176,29 +179,37 @@ function createNewFileEntry(imgUri) {
 
 function changeProfileImage(stringImage) {
     //TODO: mettere condizioni di dimensione e formato qui
-    comunicationController.setPicture(userData.sid, stringImage, ()=>{
+    comunicationController.setPicture(userData.sid, stringImage, () => {
 
-        console.log("Call %22setPicture%22 succeded");
+        if (typeof response === 'error') {
+            console.log("Error while changing profile image: " + response);
+
+            return
+        }else{
+            console.log("Call %22setPicture%22 succeded");
+        }
+
 
         comunicationController.getProfile(userData.sid, (response) => {
-            console.log("Saving NEW profile...")
+                console.log("Saving NEW profile...")
 
-            var json = JSON.parse(response);
-            var uid = json.uid;
-            var username = json.name;
-            var picture = json.picture;
-            var pversion = json.pversion;
+                var json = JSON.parse(response);
+                var uid = json.uid;
+                var username = json.name;
+                var picture = json.picture;
+                var pversion = json.pversion;
 
 
-            userData.saveUserData(uid, username, picture, pversion)
+                userData.saveUserData(uid, username, picture, pversion)
 
-            //Setta profilo nelle impostazioni
-            $("#settingsImmagineProfilo").attr("src", "")
-            $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
-            $("#usernameSettings").text(userData.username)
-            this.name = userData.username
+                //Setta profilo nelle impostazioni
+                $("#settingsImmagineProfilo").attr("src", "")
+                $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
+                $("#usernameSettings").text(userData.username)
+                this.name = userData.username
 
-            console.log("Settings updated");
+                console.log("Settings updated");
+            
         })
     })
 }

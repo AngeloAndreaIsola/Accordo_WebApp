@@ -73,7 +73,7 @@ var mapHandler = {
             .addTo(map);
     },
 
-    sharePosition: function() {
+    sharePosition: function () {
         channelName = getElement('#titoloCanale').textContent
         navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError)
         console.log("ChannelName: " + channelName);
@@ -91,8 +91,8 @@ function bindBackToChannelClicked() {
 
         //console.log("Target: " + event.target);
         //if (event.target && event.target.nodeName == "svg") {
-            console.log("Back to channel from map");
-            showscreen('#channelScreen')
+        console.log("Back to channel from map");
+        showscreen('#channelScreen')
         //}
 
     })
@@ -105,7 +105,7 @@ function bindSharePosition() {
         console.log("Sid: " + userData.sid + "ChannelName: " + channelName + "lat: " + lat + "lon: " + lon);
 
         //invia posizione
-        comunicationController.addPostPosition(userData.sid, channelName, lat, lon, ()=>{
+        comunicationController.addPostPosition(userData.sid, channelName, lat, lon, () => {
             console.log("Call %22send position post succeded");
         })
 

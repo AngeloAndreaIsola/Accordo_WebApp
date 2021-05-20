@@ -31,7 +31,6 @@ html {
   top: 34%;
   left: 50%;
   margin: -100px 0 0 -150px;
-  border: red;
 }
 
 
@@ -146,8 +145,6 @@ li span:focus {
 
 .post {
   display: inline-block;
-  border: firebrick;
-  color: firebrick;
 }
 
 .PostImage {

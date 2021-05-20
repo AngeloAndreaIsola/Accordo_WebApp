@@ -162,19 +162,39 @@
 
         <!-- Div impostazioni -->
         <div id="settingsScreen" class="screen">
+            <div class="row align-items-center">
+                <div class="col-1">
+                    <i id="fromSettingsToWall" class="bi bi-arrow-left-circle"></i>
+                </div>
 
-            <header class="d-block d-lg-flex justify-content-lg-start allign-items-lg-center">
-
-                <i id="fromSettingsToWall" class="bi bi-arrow-left-circle"></i>
-
-
-                <h1 class="d-inline">Impostazioni</h1>
-            </header>
-
-            <div class="center">
-                <img id="settingsImmagineProfilo" alt="10px" class="img-thumbnail" style="height: 300; width: 300;">
-                <span id="usernameSettings">Username standard</span>
+                <div class="col-11">
+                    <h1 class="d-inline">Impostazioni</h1>
+                </div>
             </div>
+
+            <div class="row">
+                <div class="col">
+                    <img id="settingsImmagineProfilo" alt="10px" class="img-thumbnail d-flex justify-content-center" style="height: 300; width: 300;">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <span id="usernameSettings" class="d-flex justify-content-center">Username standard</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-lg btn-block btn-primary bottoneSettings" style="margin-top: 25px;" id="settingsChangeUsername">Cambia
+                        username</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-lg btn-block btn-primary bottoneSettings" style="margin-top: 25px;" id="settingsChangePicture">Cambia
+                        immagine profilo</button></div>
+            </div>
+
 
             <!-- Simple pop-up dialog box containing a form -->
             <dialog id="favDialog">
@@ -187,13 +207,6 @@
                 </form>
             </dialog>
 
-            <div class="bottom">
-                <button class="btn btn-lg btn-block btn-primary bottoneSettings" id="settingsChangeUsername">Cambia
-                    username</button>
-                <button class="btn btn-lg btn-block btn-primary bottoneSettings" id="settingsChangePicture">Cambia
-                    immagine
-                    profilo</button>
-            </div>
 
         </div>
 
