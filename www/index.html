@@ -122,7 +122,7 @@
 
             <div class="bottom">
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-sm-10">
                         <form id="postForm">
 
@@ -141,6 +141,19 @@
                     <div class="col-sm-1"> <i id="imageButton" class="bi bi-card-image"></i></div>
 
                     <div class="col-sm-1"> <i id="mapButton" class="bi bi-geo-alt-fill"></i></div>
+                </div> -->
+
+                <div id="postForm" class="input-group">
+                    <input type="text" class="form-control" placeholder="Scrivi un post"
+                        aria-label="Scrivi un post" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" id="mapButton" type="button"> <i id="mapButton"
+                                class="bi bi-geo-alt-fill"></i></button>
+                        <button class="btn btn-outline-secondary" id="imageButton" type="button"><i id="imageButton"
+                                class="bi bi-card-image"></i></button>
+                        <button class="btn btn-outline-secondary" id="sendPost" type="button"> <i id="sendPost"
+                                class="bi bi-arrow-right-circle-fill"></i></button>
+                    </div>
                 </div>
 
             </div>
@@ -195,40 +208,53 @@
 
         <!-- Div Mappa -->
         <div id="mapScreen" class="screen">
+            <div class="row">
+                <div class="col">
+                    <i id="fromMapToChannel" class="bi bi-arrow-left-circle"></i>
+                </div>
+            </div>
 
-            <i id="fromMapToChannel" class="bi bi-arrow-left-circle"></i>
 
-            <div id='map' style='width: 400px; height: 300px;'></div>
+            <div class="row">
+                <div class="col">
+                    <div id='map'>
+                        <!-- style='width: 100%; height: 300px;'-->
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button id="sharePosition">Invia posizione</button>
+                    </div>
+                </div>
 
 
-            <button id="sharePosition">Invia posizione</button>
+            </div>
 
         </div>
 
-    </div>
-
-    <script src="cordova.js"></script>
+        <script src="cordova.js"></script>
 
 
-    <!-- CDN JQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <!-- CDN JQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-    <!-- CDN Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
-    </script>
+        <!-- CDN Bootstrap -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
+        </script>
 
-    <script src="js/databaseHandler.js"></script>
-    <script src="js/userData.js"></script>
+        <script src="js/databaseHandler.js"></script>
+        <script src="js/userData.js"></script>
 
-    <script src="js/comunicationController.js" charset="utf-8"></script>
-    <script src="js/map.js"></script>
-    <script src="js/channel_MVC.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/wall_MVC.js"></script>
+        <script src="js/comunicationController.js" charset="utf-8"></script>
+        <script src="js/map.js"></script>
+        <script src="js/channel_MVC.js"></script>
+        <script src="js/settings.js"></script>
+        <script src="js/wall_MVC.js"></script>
 
-    <script src="js/index.js"></script>
+        <script src="js/index.js"></script>
 </body>
 
 </html>

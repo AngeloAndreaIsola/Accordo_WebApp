@@ -10,11 +10,11 @@ html {
   color: #444;
 }
 
-.bi-arrow-left-circle{
+.bi-arrow-left-circle {
   float: left;
 }
 
-.top{
+.top {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -23,7 +23,7 @@ html {
 
 }
 
-.center{
+.center {
   position: absolute;
   width: 300px;
   height: 400px;
@@ -35,7 +35,7 @@ html {
 }
 
 
-.bottom{
+.bottom {
   /*position: -webkit-sticky; */
 
 
@@ -50,11 +50,12 @@ html {
   /* width: 100%;
   padding: 5%; */
 
-  position: -webkit-sticky; /* Required for Safari */
+  position: -webkit-sticky;
+  /* Required for Safari */
   position: sticky;
   height: 50px;
 
-  bottom: 100px;
+  bottom: 0px;
   margin: 50px auto auto auto;
   z-index: +1;
 }
@@ -138,7 +139,7 @@ li span:focus {
   background: rgba(179, 207, 255, 0.52)
 }
 
-#settingsImmagineProfilo{
+#settingsImmagineProfilo {
   display: grid;
   place-items: center;
 }
@@ -154,13 +155,18 @@ li span:focus {
   max-height: 99%;
 }
 
-#post-list{
-  background-image: linear-gradient(
-    to bottom,
-    transparent 50px,
-    #F5A623 50px,
-    #F5A623 calc(100% - 50px),
-    transparent 0
-  );
+#post-list {
+  background-image: linear-gradient(to bottom,
+      transparent 50px,
+      #F5A623 50px,
+      #F5A623 calc(100% - 50px),
+      transparent 0);
   margin: auto auto 50px auto;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
 }

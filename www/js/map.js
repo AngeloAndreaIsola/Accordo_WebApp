@@ -89,11 +89,11 @@ function bindBackToChannelClicked() {
     backToChannel.addEventListener('click', event => {
         event.preventDefault()
 
-        console.log("Target: " + event.target);
-        if (event.target && event.target.nodeName == "svg") {
+        //console.log("Target: " + event.target);
+        //if (event.target && event.target.nodeName == "svg") {
             console.log("Back to channel from map");
             showscreen('#channelScreen')
-        }
+        //}
 
     })
 }
