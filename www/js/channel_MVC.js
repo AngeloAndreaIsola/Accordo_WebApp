@@ -436,7 +436,7 @@ class ViewChannel {
 
       if (this._postText) {
         handler(this._postText)
-        this._resetInput
+        this._resetInput()
       }
     })
   }
