@@ -58,22 +58,22 @@ var databaseHandler = {
 
           transaction.executeSql('SELECT * FROM Profile_img WHERE EXISTS(SELECT 1 FROM Profile_img WHERE uid=?)', [uid], function (tx, results) {
 
-            console.log("DB: Checking if uid " + uid + " exists in db...");
+            //console.log("DB: Checking if uid " + uid + " exists in db...");
 
             for (var k = 0; k < results.rows.length; k++) {
 
               var row = results.rows.item(k);
             }
 
-            console.log(row);
+            //console.log(row);
             if (row == undefined) {
-              console.log("DB: Rejeting");
+              //console.log("DB: Rejeting");
               reject()
             } else {
 
               transaction.executeSql('SELECT * FROM Profile_img WHERE uid=?', [uid], function (tx, results) { //
 
-                console.log("DB: Retriving profile of: " + uid);
+                //console.log("DB: Retriving profile of: " + uid);
 
                 if (results != null && results.rows != null) {
 
@@ -91,7 +91,7 @@ var databaseHandler = {
 
                     //console.log("DB: ProfileJSON " + profileJSON);
                     if (profileJSON == undefined) {
-                      console.error("DB: error while fetching profile picture, results: " + results + ", results.rows: " + results.rows);
+                      //console.error("DB: error while fetching profile picture, results: " + results + ", results.rows: " + results.rows);
                       reject()
                     } else {
                       //console.log("DB: resolving for: " + profileJSON);
@@ -105,7 +105,7 @@ var databaseHandler = {
                 //   resolve(profileJSON)
                 // })
               }, function (tx, error) {
-                console.error("DB: Error while retrieving profile picture: " + error.message);
+                //console.error("DB: Error while retrieving profile picture: " + error.message);
               });
 
             }
@@ -124,7 +124,7 @@ var databaseHandler = {
 
           transaction.executeSql('SELECT * FROM Post_img WHERE EXISTS(SELECT 1 FROM Post_img WHERE pid=?)', [pid], function (tx, results) {
 
-            console.log("DB: Checking if pid " + pid + " exists in db...");
+            //console.log("DB: Checking if pid " + pid + " exists in db...");
 
             for (var k = 0; k < results.rows.length; k++) {
 
@@ -132,15 +132,15 @@ var databaseHandler = {
 
             }
 
-            console.log(row);
+            //console.log(row);
             if (row == undefined) {
-              console.log("DB: Rejeting");
+              //console.log("DB: Rejeting");
               reject()
             } else {
 
               transaction.executeSql('SELECT * FROM Post_img WHERE pid=?', [pid], function (tx, results) {
 
-                console.log("DB: Retriving post: " + pid);
+                //console.log("DB: Retriving post: " + pid);
 
 
                 // if (results != null && results.rows != null) {
@@ -158,7 +158,7 @@ var databaseHandler = {
 
                   //console.log("DB: contentJSON " + contentJSON);
                   if (contentJSON == undefined) {
-                    console.error("DB: error while fetching post picture, results: " + results + ", results.rows: " + results.rows);
+                    //console.error("DB: error while fetching post picture, results: " + results + ", results.rows: " + results.rows);
                     reject()
                   } else {
                     //console.log("DB: resolving for: " + contentJSON);
@@ -176,7 +176,7 @@ var databaseHandler = {
 
                 // callback(results);
               }, function (tx, error) {
-                console.error("DB: Error while retrieving profile picture: " + error.message);
+                //console.error("DB: Error while retrieving profile picture: " + error.message);
               });
             }
           });
@@ -192,10 +192,10 @@ var databaseHandler = {
 
       this.db.transaction(function (transaction) {
         transaction.executeSql('INSERT INTO Post_img (pid, post_image_content) VALUES (?, ?)', [pid, content], function (tx, results) {
-            console.log("DB: Post " + pid + " content inserted");
+            //console.log("DB: Post " + pid + " content inserted");
           },
           function (error) {
-            console.error("DB: ERROR! while inserting post " + pid + " error: " + error.message);
+            //console.error("DB: ERROR! while inserting post " + pid + " error: " + error.message);
           });
       });
     },
@@ -209,14 +209,14 @@ var databaseHandler = {
       pversion = json.pversion
 
       //console.log("DB Saveprofile: uid= " + uid + " pversion: " + pversion + " picture: " + picture);
-      console.log("DB Saveprofile")
+      //console.log("DB Saveprofile")
 
       this.db.transaction(function (transaction) {
           transaction.executeSql('IF EXISTS(select * from Profile_img where uid=values(uid)) update Profile_img set pversion = values(pversion) and set profile_image_content = values(picture) where uid = values(uid) ELSE INSERT INTO Profile_img(uid, profile_image_content, pversion) VALUES( ? , ? , ? );', [uid, picture, pversion], function (tx, results) {  //'INSERT INTO Profile_img(uid, profile_image_content, pversion) VALUES( ? , ? , ? ) ON DUPLICATE KEY UPDATE profile_image_content = VALUES(picture), pversion = VALUES(pversion)'
-              console.log("DB: Post " + uid + " content inserted");
+              //console.log("DB: Post " + uid + " content inserted");
             },
             function (error) {
-              console.error("DB: ERROR! while inserting profile image " + uid + " error: " + JSON.stringify(error));
+              //console.error("DB: ERROR! while inserting profile image " + uid + " error: " + JSON.stringify(error));
             });
       });
   },

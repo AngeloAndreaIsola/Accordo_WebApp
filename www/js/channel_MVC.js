@@ -10,8 +10,8 @@ class ModelChannel {
   }
 
   savePosts = async (response, channelName) => {
-    this._posts= []
-    this._channelName = channelName
+    this._posts = []
+
 
     var json = JSON.parse(response);
     var post_list = json.posts;
@@ -39,6 +39,9 @@ class ModelChannel {
       this._posts.push(post)
     } //);
 
+    this._channelName = channelName
+    console.log("Channel in model = " + this._channelName);
+
     this.onPostListChanged(this._posts, this._channelName)
 
     console.log("All posts save into model");
@@ -48,9 +51,12 @@ class ModelChannel {
 
   getPosts = (channelName) => {
     comunicationController.getChannel(sid, channelName, (response) => {
-      console.log("Call %22getChannel%22 succeded");
+      console.log("Call %22getChannel%22 succeded for channel: " + channelName);
 
       //salva nome canale
+      // this._channelName = channelName
+      // console.log("GetPosts channelName = " + channelName + " this._channelName = " + this._channelName);
+
       this.savePosts(response, channelName)
     })
   }
@@ -58,16 +64,16 @@ class ModelChannel {
   getPostImage = (sid, pid) => {
     var postImageDB
     databaseHandler.getPostImage(pid, (response) => {
-      console.log("††: " + response);
+      //console.log("††: " + response);
       postImageDB = JSON.parse(response);
 
-      console.log("postImageDB: " + postImageDB);
+      //console.log("postImageDB: " + postImageDB);
       if (postImageDB != null) {
         //load from db
-        console.log("Post " + pid + " content loaded from database");
+        //console.log("Post " + pid + " content loaded from database");
 
 
-        console.log("PostImage content: " + postImageDB.content);
+        //console.log("PostImage content: " + postImageDB.content);
         return postImageDB.content
       } else {
         comunicationController.getPostImage(sid, pid, (response) => {
@@ -76,7 +82,7 @@ class ModelChannel {
 
           databaseHandler.savePostImage(response)
 
-          console.log("PostImage content: " + content);
+          //console.log("PostImage content: " + content);
           return content
         })
       }
@@ -84,7 +90,7 @@ class ModelChannel {
   }
 
   getPostImageBIS = async (sid, pid, post) => {
-    console.log("GetPostImageBIS");
+    //console.log("GetPostImageBIS");
     try {
       const dbResult = await databaseHandler.getPostImage(pid).then(result => {
 
@@ -96,17 +102,17 @@ class ModelChannel {
       })
 
       if (dbResult != undefined) {
-        console.log("POST DBResult recived");
-        console.log("POST DBResult: " + dbResult);
+        //console.log("POST DBResult recived");
+        //console.log("POST DBResult: " + dbResult);
         return dbResult.content
       } else {
-        console.Error("POST DBResult undefined: " + dbResult);
+        //console.Error("POST DBResult undefined: " + dbResult);
       }
 
 
     } catch (error) {
-      console.log("ERROR: " + error);
-      console.log("POST DBResult not recived, calling API");
+      //console.log("ERROR: " + error);
+      //console.log("POST DBResult not recived, calling API");
       var pic = await this.getPostImageFromAPI(sid, pid)
       return pic
     }
@@ -114,13 +120,13 @@ class ModelChannel {
 
   getPostImageFromAPI = (sid, pid) => {
     return promise = new Promise((resolve, reject) => {
-      console.log("Calling API to get profile...");
+      //console.log("Calling API to get profile...");
       comunicationController.getPostImage(sid, pid, (response) => {
-        console.log("Call %getPostImage%22 succeded");
+        //console.log("Call %getPostImage%22 succeded");
         var json = JSON.parse(response);
         var content = json.content;
 
-        console.log("Saving post image in DB");
+        //console.log("Saving post image in DB");
         databaseHandler.savePostImage(response)
 
         //return picture
@@ -130,7 +136,7 @@ class ModelChannel {
   }
 
   getProfileBIS = async (sid, uid, post) => { // se aspetta qua non fa vedre i canali dove c'è una immagine profilo, prova a cambiare aggiungetdo try e cart e reject di db
-    console.log("GetProfileBis");
+    //console.log("GetProfileBis");
 
     try {
       const dbResult = await databaseHandler.getProfile(uid).then(result => {
@@ -143,20 +149,20 @@ class ModelChannel {
       })
 
       if (dbResult != undefined) {
-        console.log("PROFILE DBResult recived");
+        //console.log("PROFILE DBResult recived");
       } else {
-        console.Error("PROFILE DBResult undefined: " + dbResult);
+        //console.Error("PROFILE DBResult undefined: " + dbResult);
       }
 
-      console.log("pversion: " + post.pversion + " db pversion: " + dbResult.pversion);
+      //console.log("pversion: " + post.pversion + " db pversion: " + dbResult.pversion);
       if (dbResult.pversion >= post.pversion) {
         return dbResult.picture
       } else {
         throw 'pversion saved is outdated'
       }
     } catch (error) {
-      console.log("PROFILE ERROR: " + error);
-      console.log("PROFILE DBResult not recived, calling API");
+      //console.log("PROFILE ERROR: " + error);
+      //console.log("PROFILE DBResult not recived, calling API");
       var pic = await this.getProfileFromAPI(sid, uid)
       return pic
     }
@@ -164,13 +170,13 @@ class ModelChannel {
 
   getProfileFromAPI = (sid, uid) => {
     return promise = new Promise((resolve, reject) => {
-      console.log("Calling API to get profile...");
+      //console.log("Calling API to get profile...");
       comunicationController.getUserPicture(sid, uid, (response) => {
-        console.log("Call %22getProfile%22 succeded");
+        //console.log("Call %22getProfile%22 succeded");
         var json = JSON.parse(response);
         var picture = json.picture;
 
-        console.log("Saving profile in DB");
+        //console.log("Saving profile in DB");
         databaseHandler.saveProfileImage(response)
 
         //return picture
@@ -206,12 +212,13 @@ class ModelChannel {
 
   }
 
-  addPostText(textContent) {
-    console.log("PostText content: " + textContent);
+  addPostText(textContent, channelName) {
+    //console.log("PostText content: " + textContent);
+    console.log("Channel in addPost: " + channelName);
     if (textContent.length < 100) {
-      console.log("Sending text post");
-      comunicationController.addPostText(sid, this._channelName, textContent, () => {
-        this.getPosts(this._channelName)
+      console.log("Sending text post on: " + channelName);
+      comunicationController.addPostText(sid, channelName, textContent, () => {
+        this.getPosts(channelName)
       })
     } else {
       console.log("Error: post text content can't be longer than 100 charaters");
@@ -300,9 +307,9 @@ class ViewChannel {
 
 
       // Display the username
-      if (post.name == null){
+      if (post.name == null) {
         spanName.textContent = "Default username"
-      }else{
+      } else {
         spanName.textContent = post.name
       }
 
@@ -336,7 +343,7 @@ class ViewChannel {
 
         //Controlla che la pos sia valida
         if (!(post.lon >= -90 && post.lon <= 90 && post.lat >= -180 && post.lat <= 180)) {
-          
+
           $(posButton).disabled = true
         } else {
           // Bind del bottone creato dinamicamente
@@ -398,7 +405,7 @@ class ViewChannel {
       event.preventDefault()
 
       //if (event.target && event.target.nodeName == "svg") {
-        handler()
+      handler()
       //}
 
     })
@@ -409,7 +416,7 @@ class ViewChannel {
       event.preventDefault()
       console.log("Click on back to wall");
       //if (event.target && event.target.nodeName == 'i') {
-        handler()
+      handler()
       //}
 
     })
@@ -420,7 +427,7 @@ class ViewChannel {
       event.preventDefault()
 
       //if (event.target && event.target.nodeName == "svg") {
-        handler()
+      handler()
       //}
 
     })
@@ -435,7 +442,8 @@ class ViewChannel {
       console.log("this._postText: " + this._postText);
 
       if (this._postText) {
-        handler(this._postText)
+        console.log("title: " + this.title.textContent);
+        handler(this._postText, this.title.textContent)
         this._resetInput()
       }
     })
@@ -478,6 +486,7 @@ class ControllerChannel {
   }
 
   onPostListChanged = (_posts, channelName) => {
+    this.model._channelName = channelName
     this.view.displayPosts(_posts, channelName)
   }
 
@@ -488,7 +497,7 @@ class ControllerChannel {
   }
 
   shareImageClicked = () => {
-    console.log("Clicked on share image! That's to handle");
+    //console.log("Clicked on share image");
     openFilePickerChannel(this.model)
   }
 
@@ -497,8 +506,8 @@ class ControllerChannel {
     showscreen('#root')
   }
 
-  handleAddPostText = (text) => {
-    this.model.addPostText(text)
+  handleAddPostText = (text, channel) => {
+    this.model.addPostText(text, channel)
   }
 
   //handleClickOnCreaPost
@@ -511,8 +520,8 @@ class ControllerChannel {
     var bigImage = getElement('#bigImage')
     bigImage.src = imageContent
 
-   var back = getElement('#fromImageToChannel')
-    back.addEventListener('click', event =>{
+    var back = getElement('#fromImageToChannel')
+    back.addEventListener('click', event => {
       showscreen('#channelScreen')
     })
 

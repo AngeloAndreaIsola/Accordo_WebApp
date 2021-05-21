@@ -182,7 +182,7 @@ class ViewWall {
 
       if (event.target && event.target.nodeName == "SPAN") {
 
-        const channelName = event.target.parentElement.id
+        var channelName = event.target.parentElement.id
         console.log(event.target.parentElement.id + " was clicked");
 
         handler(channelName)
@@ -257,9 +257,11 @@ class ControllerWall {
 
     console.log("WALL_MVC: Hai cliccato su : " + channelName);
 
-    var appc = new ControllerChannel(new ModelChannel(), new ViewChannel())
+    var appc = new ControllerChannel(new ModelChannel(channelName), new ViewChannel())
 
-    appc.model.getPosts(channelName)
+    console.log("Wall passa " + channelName);
+
+    appc.model.getPosts(channelName) 
 
     this.view.showscreen("#channelScreen")
 

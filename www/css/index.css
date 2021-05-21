@@ -49,9 +49,12 @@ html {
   /* width: 100%;
   padding: 5%; */
 
-  position: -webkit-sticky;
+
+  /* position: -webkit-sticky;
   /* Required for Safari */
-  position: sticky;
+  /*position: sticky; */
+
+  position: fixed;
   height: 50px;
 
   bottom: 0px;
