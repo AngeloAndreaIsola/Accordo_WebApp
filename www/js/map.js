@@ -23,26 +23,34 @@ var mapHandler = {
         //     'Heading: ' + position.coords.heading + '\n' +
         //     'Speed: ' + position.coords.speed + '\n' +
         //     'Timestamp: ' + position.timestamp + '\n');
+        console.log("function onSuccess()");
+        try {
 
-        bindEvents()
+            //mostra bottone invia
+            sharePositionBtn.style.display = ""
 
-        console.log('Latitude: ' + position.coords.latitude + '\n' + 'Longitude: ' + position.coords.longitude + '\n');
 
-        lat = position.coords.latitude 
-        lon = position.coords.longitude
 
-        //Crea mappa centrata su pos
-        var map = new mapboxgl.Map({
-            container: 'map', // container ID
-            style: 'mapbox://styles/mapbox/streets-v11', // style URL
-            center: [position.coords.longitude, position.coords.latitude], // starting position [lng, lat]
-            zoom: 5 // starting zoom
-        });
+            console.log('Latitude: ' + position.coords.latitude + '\n' + 'Longitude: ' + position.coords.longitude + '\n');
 
-        // Create a default Marker and add it to the map.
-        var marker1 = new mapboxgl.Marker()
-            .setLngLat([position.coords.longitude, position.coords.latitude])
-            .addTo(map);
+            lat = position.coords.latitude
+            lon = position.coords.longitude
+
+            //Crea mappa centrata su pos
+            var map = new mapboxgl.Map({
+                container: 'map', // container ID
+                style: 'mapbox://styles/mapbox/streets-v11', // style URL
+                center: [position.coords.longitude, position.coords.latitude], // starting position [lng, lat]
+                zoom: 5 // starting zoom
+            });
+
+            // Create a default Marker and add it to the map.
+            var marker1 = new mapboxgl.Marker()
+                .setLngLat([position.coords.longitude, position.coords.latitude])
+                .addTo(map);
+        } catch (error) {
+            console.log("Map error: " + error);
+        }
     },
 
     // onError Callback receives a PositionError object
@@ -50,9 +58,12 @@ var mapHandler = {
     onError: function (error) {
         alert('code: ' + error.code + '\n' +
             'message: ' + error.message + '\n');
+
+        console.error("MAP ERROR: " + error.message);
     },
 
     sharedPosition: function (lon, lat) {
+        console.log("Function sharedPosition(lon, lat)");
 
         //Nascondi bottone invia
         sharePositionBtn.style.display = "none"
@@ -73,16 +84,17 @@ var mapHandler = {
             .addTo(map);
     },
 
-    sharePosition: function () {
+    sharePosition: function (callback) {
+        bindEvents(callback)
         channelName = getElement('#titoloCanale').textContent
         navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError)
         console.log("ChannelName: " + channelName);
     }
 }
 
-function bindEvents() {
+function bindEvents(callback) {
     bindBackToChannelClicked()
-    bindSharePosition()
+    bindSharePosition(callback)
 }
 
 function bindBackToChannelClicked() {
@@ -98,15 +110,18 @@ function bindBackToChannelClicked() {
     })
 }
 
-function bindSharePosition() {
+function bindSharePosition(callback) {
     sharePosition.addEventListener('click', event => {
         event.preventDefault()
+        event.stopImmediatePropagation();
 
         console.log("Sid: " + userData.sid + "ChannelName: " + channelName + "lat: " + lat + "lon: " + lon);
 
         //invia posizione
         comunicationController.addPostPosition(userData.sid, channelName, lat, lon, () => {
             console.log("Call %22send position post succeded");
+
+            callback(channelName)
         })
 
         showscreen('#channelScreen')

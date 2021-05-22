@@ -405,7 +405,7 @@ class ViewChannel {
       event.preventDefault()
 
       //if (event.target && event.target.nodeName == "svg") {
-      handler()
+      handler() //this.title.textContent
       //}
 
     })
@@ -492,7 +492,10 @@ class ControllerChannel {
 
   sharePositionClicked = () => {
     //navigator.geolocation.getCurrentPosition(mapHandler.onSuccess, mapHandler.onError)
-    mapHandler.sharePosition()
+    mapHandler.sharePosition((channelName) =>{
+      console.log("Callback channel for position, channelName: " +  channelName);
+      this.model.getPosts(channelName)
+    })
     showscreen('#mapScreen')
   }
 
