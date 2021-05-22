@@ -104,6 +104,7 @@ class ModelChannel {
       if (dbResult != undefined) {
         //console.log("POST DBResult recived");
         //console.log("POST DBResult: " + dbResult);
+        console.log("Post fetched from DB");
         return dbResult.content
       } else {
         //console.Error("POST DBResult undefined: " + dbResult);
@@ -149,7 +150,7 @@ class ModelChannel {
       })
 
       if (dbResult != undefined) {
-        //console.log("PROFILE DBResult recived");
+        console.log("PROFILE DBResult recived");
       } else {
         //console.Error("PROFILE DBResult undefined: " + dbResult);
       }
@@ -170,13 +171,13 @@ class ModelChannel {
 
   getProfileFromAPI = (sid, uid) => {
     return promise = new Promise((resolve, reject) => {
-      //console.log("Calling API to get profile...");
+      console.log("Calling API to get profile...");
       comunicationController.getUserPicture(sid, uid, (response) => {
-        //console.log("Call %22getProfile%22 succeded");
+        console.log("Call %22getProfile%22 succeded");
         var json = JSON.parse(response);
         var picture = json.picture;
 
-        //console.log("Saving profile in DB");
+        console.log("Saving profile in DB");
         databaseHandler.saveProfileImage(response)
 
         //return picture
@@ -492,8 +493,8 @@ class ControllerChannel {
 
   sharePositionClicked = () => {
     //navigator.geolocation.getCurrentPosition(mapHandler.onSuccess, mapHandler.onError)
-    mapHandler.sharePosition((channelName) =>{
-      console.log("Callback channel for position, channelName: " +  channelName);
+    mapHandler.sharePosition((channelName) => {
+      console.log("Callback channel for position, channelName: " + channelName);
       this.model.getPosts(channelName)
     })
     showscreen('#mapScreen')
