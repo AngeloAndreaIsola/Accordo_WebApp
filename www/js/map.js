@@ -7,6 +7,8 @@ mapboxgl.accessToken =
 backToChannel = this.getElement('#fromMapToChannel')
 sharePositionBtn = this.getElement('#sharePosition')
 
+//Target emulator: cordova run android --target="Pixel_3_API_28_x86_64_g"
+
 var channelName
 var lat, lon
 var mapHandler = {
@@ -87,8 +89,12 @@ var mapHandler = {
     sharePosition: function (callback) {
         bindEvents(callback)
         channelName = getElement('#titoloCanale').textContent
+
+        //Chiama onSuccess
         navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError)
-        console.log("ChannelName: " + channelName);
+        
+        
+        //console.log("ChannelName: " + channelName);
     }
 }
 
