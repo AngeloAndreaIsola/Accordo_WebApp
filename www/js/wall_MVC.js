@@ -3,12 +3,13 @@ var sid = localStorage.getItem('sid')
 
 class ModelWall {
   constructor() {
+    console.log("Cosntructing model wall");
 
     this._channels = []
 
   }
 
-  saveChannels = (response) => {
+  saveChannels(response) {
     var json = JSON.parse(response);
     var channels_list = json.channels;
     var tempChannelList = []
@@ -23,13 +24,14 @@ class ModelWall {
 
     });
     this._channels = tempChannelList
-    this.onChannelListChanged(this._channels)
+    this._commit(this._channels)
+    //this.onChannelListChanged(this._channels)
 
     console.log("All channles save into model");
     console.log(this._channels);
   }
 
-  refreshWallModel = () => {
+  refreshWallModel() {
     console.log("wall sid: " + sid + " this.sid= " + this.sid);
     comunicationController.getWall(sid, (response) => {
       console.log("Call %22getWall%22 succeded");
@@ -50,7 +52,7 @@ class ModelWall {
   
       this._channels.push(todo)
       */
-     console.log("TodoText: " + todoText + " Length: " + todoText.length);
+    console.log("TodoText: " + todoText + " Length: " + todoText.length);
     if (todoText.length < 20) {
       comunicationController.addChannel(sid, todoText, () => {
         console.log("Adding channel: " + todoText);
@@ -68,11 +70,17 @@ class ModelWall {
     this.onChannelListChanged = callback
   }
 
+  _commit(todos) {
+    this.onChannelListChanged(todos)
+  }
+
 }
 
 
 class ViewWall {
   constructor() {
+    console.log("Cosntructing view wall");
+
     // The root element
     this.app = this.getElement('#root')
     console.log("this.app= " + this.app);
@@ -209,7 +217,7 @@ class ViewWall {
       event.preventDefault()
 
       //if (event.target && event.target.nodeName == "svg") {
-        handler()
+      handler()
       //}
 
     })
@@ -220,7 +228,7 @@ class ViewWall {
       event.preventDefault()
 
       //if (event.target && event.target.nodeName == "svg") {
-        handler()
+      handler()
       //}
 
     })
@@ -231,13 +239,14 @@ class ViewWall {
 
 class ControllerWall {
   constructor(model, view) {
+    console.log("Cosntructing controller wall");
     this.model = model
     this.view = view
 
     //Display initial channels
     //this.onChannelListChanged(this.model._channels)
 
-  
+
     this.model.bindOnChannelListChanged(this.onChannelListChanged)
 
     this.view.bindClickOnChannel(this.handleClickOnChannel)
@@ -247,13 +256,13 @@ class ControllerWall {
 
   }
 
-  onChannelListChanged = (_channels) => {
+  onChannelListChanged (_channels) {
+    //console.log("test: " + this.prova);
     console.log("Channel list changed");
     this.view.displayChannels(_channels)
   }
 
-
-  handleClickOnChannel = (channelName) => {
+  handleClickOnChannel(channelName) {
 
     console.log("WALL_MVC: Hai cliccato su : " + channelName);
 
@@ -261,21 +270,21 @@ class ControllerWall {
 
     console.log("Wall passa " + channelName);
 
-    appc.model.getPosts(channelName) 
+    appc.model.getPosts(channelName)
 
     this.view.showscreen("#channelScreen")
 
   }
 
-  handleAddTodo = (todoText) => {
+  handleAddTodo(todoText) {
     this.model.addTodo(todoText)
   }
 
-  handleClickOnSettings = () => {
+  handleClickOnSettings() {
     this.view.showscreen('#settingsScreen')
   }
 
-  handleCLickOnRefresh = () => {
+  handleCLickOnRefresh() {
     this.model.refreshWallModel()
   }
 

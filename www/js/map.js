@@ -87,8 +87,11 @@ var mapHandler = {
     },
 
     sharePosition: function (callback) {
+        console.log("sharePosition()");
         bindEvents(callback)
         channelName = getElement('#titoloCanale').textContent
+
+       //checkIfLocationIsOn()
 
         //Chiama onSuccess
         navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError)
@@ -141,3 +144,27 @@ function getElement(selector) {
 
     return element
 }
+
+
+
+// function checkIfLocationIsOn(){
+//     cordova.plugins.diagnostic.isLocationEnabled(function(enabled){
+//             console.log("Location is " + (enabled ? "enabled" : "disabled"));
+//             if(!enabled){
+//                 navigator.notification.confirm("Your GPS is switched OFF - would you like to open the Settings page to turn it ON?", 
+//                     function(result){
+//                         if(result == 1){ // Yes
+//                             cordova.plugins.diagnostic.switchToLocationSettings();
+//                         }
+//                     }, "Open Location Settings?");
+//             }else{
+//                 if(positionWatchId){
+//                     clearWatch();
+//                 }
+//                 addWatch();
+//             }
+//         }, function(error){
+//             console.error("The following error occurred: "+error);
+//         }
+//     );
+// }

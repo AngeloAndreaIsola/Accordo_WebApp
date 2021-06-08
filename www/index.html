@@ -50,8 +50,8 @@
 
 
     <!-- Importazione MapBox  -->
-    <script src='loc/mapbox-gl.js'></script>
-    <link href='loc/mapbox-gl.css' rel='stylesheet' />
+    <script src='js/loc/mapbox-gl.js'></script>
+    <link href='js/loc/mapbox-gl.css' rel='stylesheet' />
 
     <link rel="stylesheet" href="css/index.css">
 
@@ -94,7 +94,7 @@
                 </svg>
 
                 <form id="form"><input id="inputChannel" type="text" placeholder="Aggiungi cananle"
-                        name="canale"><button type="button">Aggiungi</button>
+                        name="canale"><button type="submit">Aggiungi</button>
                 </form>
 
             </div>
@@ -124,7 +124,7 @@
             </ul>
 
             <div class="bottom">
-                <div id="postForm" class="input-group">
+                <form id="postForm" class="input-group">
                     <input id="postInput" type="text" class="form-control" placeholder="Scrivi un post"
                         aria-label="Scrivi un post" aria-describedby="basic-addon2">
                     <div class="input-group-append">
@@ -133,10 +133,10 @@
                                 class="bi bi-geo-alt-fill"></i></button>
                         <button class="btn btn-outline-secondary" id="imageButton" type="button"
                             style="background-color:#f4f4f4;"><i id="imageButton" class="bi bi-card-image"></i></button>
-                        <button class="btn btn-outline-secondary" id="sendPost" type="button"
+                        <button class="btn btn-outline-secondary" id="sendPost" type="submit"
                             style="background-color:#007bff;"> <i id="sendPost"
                                 class="bi bi-arrow-right-circle-fill"></i></button>
-                    </div>
+                    </form>
                 </div>
 
             </div>
@@ -258,9 +258,14 @@
 
         <script src="js/comunicationController.js" charset="utf-8"></script>
         <script src="js/map.js"></script>
-        <script src="js/channel_MVC.js"></script>
+
+        <!-- <script src="js/channel_MVC.js"></script> -->
+        <script src="js/channel.js"></script>
+
         <script src="js/settings.js"></script>
-        <script src="js/wall_MVC.js"></script>
+
+        <!-- <script src="js/wall_MVC.js"></script> -->
+        <script src="js/wall.js"></script>
 
         <script src="js/index.js"></script>
 </body>

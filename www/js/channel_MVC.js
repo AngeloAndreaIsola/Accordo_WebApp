@@ -9,7 +9,7 @@ class ModelChannel {
 
   }
 
-  savePosts = async (response, channelName) => {
+  async savePosts(response, channelName) {
     this._posts = []
 
 
@@ -49,7 +49,7 @@ class ModelChannel {
 
   }
 
-  getPosts = (channelName) => {
+  getPosts(channelName) {
     comunicationController.getChannel(sid, channelName, (response) => {
       console.log("Call %22getChannel%22 succeded for channel: " + channelName);
 
@@ -61,7 +61,7 @@ class ModelChannel {
     })
   }
 
-  getPostImage = (sid, pid) => {
+  getPostImage(sid, pid) {
     var postImageDB
     databaseHandler.getPostImage(pid, (response) => {
       //console.log("††: " + response);
@@ -89,7 +89,7 @@ class ModelChannel {
     })
   }
 
-  getPostImageBIS = async (sid, pid, post) => {
+  async getPostImageBIS(sid, pid, post) {
     //console.log("GetPostImageBIS");
     try {
       const dbResult = await databaseHandler.getPostImage(pid).then(result => {
@@ -119,7 +119,7 @@ class ModelChannel {
     }
   }
 
-  getPostImageFromAPI = (sid, pid) => {
+  getPostImageFromAPI(sid, pid) {
     return promise = new Promise((resolve, reject) => {
       //console.log("Calling API to get profile...");
       comunicationController.getPostImage(sid, pid, (response) => {
@@ -136,7 +136,7 @@ class ModelChannel {
     })
   }
 
-  getProfileBIS = async (sid, uid, post) => { // se aspetta qua non fa vedre i canali dove c'è una immagine profilo, prova a cambiare aggiungetdo try e cart e reject di db
+  async getProfileBIS(sid, uid, post) { // se aspetta qua non fa vedre i canali dove c'è una immagine profilo, prova a cambiare aggiungetdo try e cart e reject di db
     //console.log("GetProfileBis");
 
     try {
@@ -169,7 +169,7 @@ class ModelChannel {
     }
   }
 
-  getProfileFromAPI = (sid, uid) => {
+  getProfileFromAPI(sid, uid) {
     return promise = new Promise((resolve, reject) => {
       console.log("Calling API to get profile...");
       comunicationController.getUserPicture(sid, uid, (response) => {
@@ -186,7 +186,7 @@ class ModelChannel {
     })
   }
 
-  getProfileImage = (sid, uid, post, callback) => {
+  getProfileImage(sid, uid, post, callback) {
     var profileDB
     databaseHandler.getProfile(uid, (response) => {
       profileDB = JSON.parse(response);
@@ -492,7 +492,7 @@ class ControllerChannel {
     this.view.displayPosts(_posts, channelName)
   }
 
-  sharePositionClicked = () => {
+  sharePositionClicked() {
     //navigator.geolocation.getCurrentPosition(mapHandler.onSuccess, mapHandler.onError)
     mapHandler.sharePosition((channelName) => {
       console.log("Callback channel for position, channelName: " + channelName);
@@ -501,17 +501,17 @@ class ControllerChannel {
     showscreen('#mapScreen')
   }
 
-  shareImageClicked = () => {
+  shareImageClicked() {
     //console.log("Clicked on share image");
     openFilePickerChannel(this.model)
   }
 
-  backToWallClicked = () => {
+  backToWallClicked ()  {
     console.log("Clicked on back to wall");
     showscreen('#root')
   }
 
-  handleAddPostText = (text, channel) => {
+  handleAddPostText(text, channel) {
     this.model.addPostText(text, channel)
   }
 
@@ -521,7 +521,7 @@ class ControllerChannel {
 
   //hanndleClickOnCondividiPosizione
 
-  handleClickOnImmagine = (imageContent) => {
+  handleClickOnImmagine(imageContent) {
     var bigImage = getElement('#bigImage')
     bigImage.src = imageContent
 

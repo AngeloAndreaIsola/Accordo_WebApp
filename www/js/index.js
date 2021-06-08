@@ -90,8 +90,20 @@ function onDeviceReady() {
     databaseHandler.createDatabase();
 
     //Il model fa la chiamata, salva, notifica la view che mostra
-    const app = new ControllerWall(new ModelWall(), new ViewWall())
-    app.model.refreshWallModel()
+    // const app = new ControllerWall(new ModelWall(), new ViewWall())
+    // app.model.refreshWallModel()
+
+    // Test
+    var modal = new Modal();
+    var consoleView = new View(modal);
+    var controller = new Controller(modal, consoleView);
+    //consoleView.pressButton();
+    //consoleView.pressButton("JS dominates the web world");
+    //consoleView.pressButton("JQuery is a useful library of JS");
+    controller.getWall()
+
+    controller.updateView()
+    showscreen('#root')
 
 }
 
