@@ -258,6 +258,29 @@ function ViewChannel(m) {
         })
 
 
+        getElement('#post-list').addEventListener("click", function (e) {
+            // e.target is the clicked element!
+            // If it was a list item
+            if (e.target && e.target.className == "PostImage") {
+              // List item found!  Output the ID!
+              console.log("Post image clicked");
+      
+              //Prendo il contenuto del post immagine
+              var imageContent = e.target.getAttribute('src')
+      
+              var bigImage = getElement('#bigImage')
+              bigImage.src = imageContent
+          
+              var back = getElement('#fromImageToChannel')
+              back.addEventListener('click', event => {
+                showscreen('#channelScreen')
+              })
+          
+              showscreen('#imageScreen')
+            }
+          });
+
+
 
     };
 
