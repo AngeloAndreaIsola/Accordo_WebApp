@@ -6,6 +6,7 @@ mapboxgl.accessToken =
 
 backToChannel = this.getElement('#fromMapToChannel')
 sharePositionBtn = this.getElement('#sharePosition')
+headerPositon = this.getElement('#headerPositon')
 
 //Target emulator: cordova run android --target="Pixel_3_API_28_x86_64_g"
 
@@ -67,6 +68,8 @@ var mapHandler = {
     sharedPosition: function (lon, lat) {
         console.log("Function sharedPosition(lon, lat)");
 
+        headerPositon.textContent = "Posizione condivisa"
+
         //Nascondi bottone invia
         sharePositionBtn.style.display = "none"
 
@@ -88,13 +91,17 @@ var mapHandler = {
 
     sharePosition: function (callback) {
         console.log("sharePosition()");
+
+        headerPositon.textContent = "La tua posizione"
+
         bindEvents(callback)
         channelName = getElement('#titoloCanale').textContent
 
        //checkIfLocationIsOn()
 
         //Chiama onSuccess
-        navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError)
+        var options = { enableHighAccuracy: true };
+        navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError, options)
         
         
         //console.log("ChannelName: " + channelName);

@@ -158,14 +158,15 @@ function ViewChannel(m) {
                 spanContennt.append(posButton)
 
                 //Controlla che la pos sia valida
-                if (!(post.lon >= -90 && post.lon <= 90 && post.lat >= -180 && post.lat <= 180)) {
-
+                if (!(post.lat >= -90 && post.lat <= 90 && post.lon >= -180 && post.lon <= 180)) {
+                    console.log("NOT VALID => lon: " + post.lon + " lat: " + post.lat);
                     $(posButton).disabled = true
                 } else {
                     // Bind del bottone creato dinamicamente
-                    posButton.addEventListener("click", function () {
+                    posButton.addEventListener("click", event => {
+                        event.preventDefault()
                         //$(this).parent().remove();
-                        console.log("Clicked on ShowSharedPosition");
+                        console.log("Clicked on ShowSharedPosition, lon: " + post.lon +  " lat: " + post.lat);
                         console.log("Maphandler: " + mapHandler);
                         mapHandler.sharedPosition(post.lon, post.lat)
                         showscreen('#mapScreen')
@@ -233,13 +234,13 @@ function ViewChannel(m) {
                 //handler(this._postText, this.title.textContent)
 
                 if (this.postInput.value.length < 100) {
-                    console.log("Sending text post: " + this.postInput.value+ " on: " + this.modal.channelName);
+                    console.log("Sending text post: " + this.postInput.value + " on: " + this.modal.channelName);
                     comunicationController.addPostText(sid, this.modal.channelName, this.postInput.value, () => {
-                      //this.modal.getPosts(channelName)
+                        //this.modal.getPosts(channelName)
                     })
-                  } else {
+                } else {
                     console.log("Error: post text content can't be longer than 100 charaters");
-                  }
+                }
 
 
 
@@ -248,7 +249,11 @@ function ViewChannel(m) {
             }
         })
 
-        this.sharePosition.addEventListener('click', function () {
+        this.sharePosition.addEventListener('click', event => {
+
+            event.preventDefault()
+            event.stopPropagation()
+
             console.log('click on map button');
             mapHandler.sharePosition((channelName) => {
                 console.log("Callback channel for position, channelName: " + channelName);
@@ -262,23 +267,23 @@ function ViewChannel(m) {
             // e.target is the clicked element!
             // If it was a list item
             if (e.target && e.target.className == "PostImage") {
-              // List item found!  Output the ID!
-              console.log("Post image clicked");
-      
-              //Prendo il contenuto del post immagine
-              var imageContent = e.target.getAttribute('src')
-      
-              var bigImage = getElement('#bigImage')
-              bigImage.src = imageContent
-          
-              var back = getElement('#fromImageToChannel')
-              back.addEventListener('click', event => {
-                showscreen('#channelScreen')
-              })
-          
-              showscreen('#imageScreen')
+                // List item found!  Output the ID!
+                console.log("Post image clicked");
+
+                //Prendo il contenuto del post immagine
+                var imageContent = e.target.getAttribute('src')
+
+                var bigImage = getElement('#bigImage')
+                bigImage.src = imageContent
+
+                var back = getElement('#fromImageToChannel')
+                back.addEventListener('click', event => {
+                    showscreen('#channelScreen')
+                })
+
+                showscreen('#imageScreen')
             }
-          });
+        });
 
 
 
@@ -508,4 +513,3 @@ function sendPostImage(stringImage, channelName, model) {
         //model.getPosts(channelName)
     })
 }
-
