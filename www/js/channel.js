@@ -199,16 +199,13 @@ function ViewChannel(m) {
 
         });
 
-        this.shareImage.addEventListener('click', event => {
+        $(this.shareImage).unbind('click').click(function(event){    //addEventListener('click', event => {
+            console.log("ShareImage()");
+
+            openFilePickerChannel(m.channelName)
+
             event.preventDefault()
             event.stopPropagation()
-
-            //if (event.target && event.target.nodeName == "svg") {
-            //handler()
-            //}
-
-            openFilePickerChannel(this.modal)
-
         })
 
         this.backToWall.addEventListener('click', event => {
@@ -224,8 +221,6 @@ function ViewChannel(m) {
 
         this.form.addEventListener('click', event => {
             console.log("Clicked on add post text");
-
-            event.preventDefault()
 
             console.log("this._postText: " + this.postInput.value);
 
@@ -247,6 +242,9 @@ function ViewChannel(m) {
                 console.log("Post = " + this.postInput.value);
                 this.postInput.value = ''
             }
+
+            event.preventDefault()
+            event.stopPropagation()
         })
 
         this.sharePosition.addEventListener('click', event => {
@@ -449,20 +447,20 @@ function getPostImageFromAPI(sid, pid) {
     })
 }
 
-function openFilePickerChannel(model) { //selection,
+function openFilePickerChannel(channelName) { //selection,
 
     console.log("openFilePickerChannel");
-    var srcType = Camera.PictureSourceType.SAVEDPHOTOALBUM;
+    var srcType = Camera.PictureSourceType.PHOTOLIBRARY;
     var options = setOptions(srcType);
-    var func = createNewFileEntry;
+    var func = createNewFileEntryChannel;
 
     navigator.camera.getPicture(function cameraSuccess(imageUri) {
 
         // Do something
-        console.log("Getting image from gallery from channel");
+        console.log("Getting image from gallery for channel");
         console.log("Image URI: " + imageUri);
 
-        sendPostImage(imageUri, model.channelName, model)
+        sendPostImage(imageUri, channelName)
 
     }, function cameraError(error) {
         console.debug("Unable to obtain picture: " + error, "app");
@@ -485,7 +483,7 @@ function setOptions(srcType) {
     return options;
 }
 
-function createNewFileEntry(imgUri) {
+function createNewFileEntryChannel(imgUri) {
     window.resolveLocalFileSystemURL(cordova.file.cacheDirectory, function success(dirEntry) {
 
         // JPEG file
@@ -504,7 +502,7 @@ function createNewFileEntry(imgUri) {
     }, onErrorResolveUrl);
 }
 
-function sendPostImage(stringImage, channelName, model) {
+function sendPostImage(stringImage, channelName) {
     //TODO: mettere condizioni di dimensione e formato qui
     comunicationController.addPostImage(sid, channelName, stringImage, () => {
 
