@@ -223,14 +223,16 @@ function ViewChannel(m) {
             console.log("Clicked on add post text");
 
             console.log("this._postText: " + this.postInput.value);
+            var titolo = getElement('#titoloCanale').textContent
 
             if (this.postInput.value) {
 
                 //handler(this._postText, this.title.textContent)
+                console.log("m.channelName = "+ m.channelName+"; this.modal.channelName="+ this.modal.channelName+"; channelName=" + channelName);
 
                 if (this.postInput.value.length < 100) {
-                    console.log("Sending text post: " + this.postInput.value + " on: " + this.modal.channelName);
-                    comunicationController.addPostText(sid, this.modal.channelName, this.postInput.value, () => {
+                    console.log("Sending text post: " + this.postInput.value + " on: " + titolo);
+                    comunicationController.addPostText(sid,  titolo, this.postInput.value, () => {
                         //this.modal.getPosts(channelName)
                     })
                 } else {
@@ -506,7 +508,7 @@ function sendPostImage(stringImage, channelName) {
     //TODO: mettere condizioni di dimensione e formato qui
     comunicationController.addPostImage(sid, channelName, stringImage, () => {
 
-        console.log("Call %22addPostImage%22 succeded");
+        console.log("Call %22addPostImage%22 succeded for channel: " + channelName);
 
         //model.getPosts(channelName)
     })
