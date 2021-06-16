@@ -41,12 +41,14 @@
     <!-- <meta name="color-scheme" content="light dark"> -->
 
     <!-- Importazione CSS Bootstrap -->
-    <!-- <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="js/loc/bootstrap.min.css" crossorigin="anonymous">
+
 
     <!-- fa fa icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"> -->
+    <link rel="stylesheet" href="js/loc/bootstrap-icons.css">
 
 
     <!-- Importazione MapBox  -->
@@ -75,23 +77,10 @@
             <div class="top">
                 <h1 class="titolo">Bacheca</h1>
 
-                <svg id="settingsButton" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-gear" viewBox="0 0 16 16">
-                    <path
-                        d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z">
-                    </path>
-                    <path
-                        d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z">
-                    </path>
-                </svg>
+                <i id="settingsButton" class="bi bi-gear"></i>
 
-                <svg id="refreshButton" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-arrow-repeat" viewBox="0 0 16 16">
-                    <path
-                        d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z" />
-                    <path fill-rule="evenodd"
-                        d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z" />
-                </svg>
+
+                <i id="refreshButton" class="bi bi-arrow-repeat"></i>
 
                 <form id="form"><input id="inputChannel" type="text" placeholder="Aggiungi cananle"
                         name="canale"><button type="submit">Aggiungi</button>
@@ -129,145 +118,146 @@
                         aria-label="Scrivi un post" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" id="mapButton" type="button"
-                            style="background-color:#f4f4f4;"> <i
-                                class="bi bi-geo-alt-fill"></i></button>
+                            style="background-color:#f4f4f4;"> <i class="bi bi-geo-alt-fill"></i></button>
                         <button class="btn btn-outline-secondary" id="imageButton" type="button"
                             style="background-color:#f4f4f4;"><i class="bi bi-card-image"></i></button>
                         <button class="btn btn-outline-secondary" id="sendPost" type="submit"
-                            style="background-color:#007bff;"> <i
-                                class="bi bi-arrow-right-circle-fill"></i></button>
-                    </form>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Div impostazioni -->
-        <div id="settingsScreen" class="screen">
-            <div class="row align-items-center">
-                <div class="col-1">
-                    <i id="fromSettingsToWall" class="bi bi-arrow-left-circle"></i>
-                </div>
-
-                <div class="col-11">
-                    <h1 class="d-inline">Impostazioni</h1>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <img id="settingsImmagineProfilo" alt="10px" class="img-thumbnail d-flex justify-content-center"
-                        style="height: 300; width: 300;">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <span id="usernameSettings" class="d-flex justify-content-center">Username standard</span>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <button class="btn btn-lg btn-block btn-primary bottoneSettings" style="margin-top: 25px;"
-                        id="settingsChangeUsername">Cambia
-                        username</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <button class="btn btn-lg btn-block btn-primary bottoneSettings" style="margin-top: 25px;"
-                        id="settingsChangePicture">Cambia
-                        immagine profilo</button></div>
-            </div>
-
-
-            <!-- Simple pop-up dialog box containing a form -->
-            <dialog id="favDialog">
-                <form method="dialog">
-                    <input id="inputEL" type="Inserisci nuvo usernamer">
-                    <menu>
-                        <button id="cancelBtn" value="cancel">Annulla</button>
-                        <button id="confirmBtn" value="default">Conferma</button>
-                    </menu>
+                            style="background-color:#007bff;"> <i class="bi bi-arrow-right-circle-fill"></i></button>
                 </form>
-            </dialog>
-
+            </div>
 
         </div>
 
-        <!-- Div immagine -->
-        <div id="imageScreen" class="screen">
+    </div>
 
-            <i id="fromImageToChannel" class="bi bi-arrow-left-circle"></i>
+    <!-- Div impostazioni -->
+    <div id="settingsScreen" class="screen">
+        <div class="row align-items-center">
+            <div class="col-1">
+                <i id="fromSettingsToWall" class="bi bi-arrow-left-circle"></i>
+            </div>
 
-            <img id="bigImage" src="" alt="" style="  max-height : 100%;
+            <div class="col-11">
+                <h1 class="d-inline">Impostazioni</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <img id="settingsImmagineProfilo" alt="10px" class="img-thumbnail d-flex justify-content-center"
+                    style="height: 300; width: 300;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <span id="usernameSettings" class="d-flex justify-content-center">Username standard</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-lg btn-block btn-primary bottoneSettings" style="margin-top: 25px;"
+                    id="settingsChangeUsername">Cambia
+                    username</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-lg btn-block btn-primary bottoneSettings" style="margin-top: 25px;"
+                    id="settingsChangePicture">Cambia
+                    immagine profilo</button></div>
+        </div>
+
+
+        <!-- Simple pop-up dialog box containing a form -->
+        <dialog id="favDialog">
+            <form method="dialog">
+                <input id="inputEL" type="Inserisci nuvo usernamer">
+                <menu>
+                    <button id="cancelBtn" value="cancel">Annulla</button>
+                    <button id="confirmBtn" value="default">Conferma</button>
+                </menu>
+            </form>
+        </dialog>
+
+
+    </div>
+
+    <!-- Div immagine -->
+    <div id="imageScreen" class="screen">
+
+        <i id="fromImageToChannel" class="bi bi-arrow-left-circle"></i>
+
+        <img id="bigImage" src="" alt="" style="  max-height : 100%;
             max-width : 100%;
             background-size:100% 100%;
             background-repeat:no-repeat;
             overflow-y: hidden;
             overflow-x: hidden;">
 
+    </div>
+
+    <!-- Div Mappa -->
+    <div id="mapScreen" class="screen">
+
+        <div class="row align-items-center">
+            <div class="col-1">
+                <i id="fromMapToChannel" class="bi bi-arrow-left-circle"></i>
+            </div>
+            <div class="col-11">
+                <h1 id="headerPositon">La tua posizione</h1>
+            </div>
         </div>
 
-        <!-- Div Mappa -->
-        <div id="mapScreen" class="screen">
 
-            <div class="row align-items-center">
-                <div class="col-1">
-                    <i id="fromMapToChannel" class="bi bi-arrow-left-circle"></i>
-                </div>
-                <div class="col-11">
-                    <h1 id="headerPositon">La tua posizione</h1>
+        <div class="row">
+            <div class="col-12">
+                <div id='map' style='width: 100%; height: 300px;'>
+                    <!-- style='width: 100%; height: 300px;'-->
                 </div>
             </div>
 
-
-            <div class="row ">
-                <div class="col-12">
-                    <div id='map' style='width: 100%; height: 300px;'>
-                        <!-- style='width: 100%; height: 300px;'-->
-                    </div>
-                </div>
-
-
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <button id="sharePosition">Invia posizione</button>
-                </div>
-            </div>
 
         </div>
 
-        <script src="cordova.js"></script>
+        <div class="row justify-items-center" style="position: fixed; bottom: 10%;">  
+            <div class="col-12">
+                <button class="btn btn-lg btn-block btn-primary" id="sharePosition"  style="margin-top: 25px;">Invia posizione</button>
+            </div>
+        </div>
 
 
-        <!-- CDN JQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    </div>
 
-        <!-- CDN Bootstrap -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
-        </script>
+    <script src="cordova.js"></script>
 
-        <script src="js/databaseHandler.js"></script>
-        <script src="js/userData.js"></script>
 
-        <script src="js/comunicationController.js" charset="utf-8"></script>
-        <script src="js/map.js"></script>
+    <!-- CDN JQuery -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+    <script src="js/loc/jquery-3.6.0.min.js"></script>
 
-        <!-- <script src="js/channel_MVC.js"></script> -->
-        <script src="js/channel.js"></script>
+    <!-- CDN Bootstrap -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous">
+    </script> -->
+    <script src="js/loc/bootstrap.bundle.min.js"></script>
 
-        <script src="js/settings.js"></script>
+    <script src="js/databaseHandler.js"></script>
+    <script src="js/userData.js"></script>
 
-        <!-- <script src="js/wall_MVC.js"></script> -->
-        <script src="js/wall.js"></script>
+    <script src="js/comunicationController.js" charset="utf-8"></script>
+    <script src="js/map.js"></script>
 
-        <script src="js/index.js"></script>
+    <!-- <script src="js/channel_MVC.js"></script> -->
+    <script src="js/channel.js"></script>
+
+    <script src="js/settings.js"></script>
+
+    <!-- <script src="js/wall_MVC.js"></script> -->
+    <script src="js/wall.js"></script>
+
+    <script src="js/index.js"></script>
 </body>
 
 </html>
