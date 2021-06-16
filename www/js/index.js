@@ -29,6 +29,7 @@ function onDeviceReady() {
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
 
+    settingsBindEvents()
 
     if (localStorage.getItem("firstUse") == null) {
         localStorage.setItem("firstUse", false);
@@ -90,7 +91,7 @@ function onDeviceReady() {
 
 
         //Collega gli eventi
-        settingsBindEvents()
+        //settingsBindEvents()
 
         console.log("Settings inizialaized");
 
