@@ -9,6 +9,7 @@ function Modal() {
     };
 
     this.saveChannels = function (response) {
+        channels = []
         var json = JSON.parse(response);
         var channels_list = json.channels;
 
@@ -126,7 +127,8 @@ function View(m) {
             this.channelList.append(li)
         }
 
-        $('.channel').on("click", function () {
+        $('.channel').on("click", function (event) {
+            event.preventDefault()
             console.log("Click on channel: " + $(this).text());
 
 
@@ -141,6 +143,8 @@ function View(m) {
             controllerChannel.updateView()
 
             showScreen('#channelScreen')
+
+            event.stopPropagation()
         });
 
         this.settings.addEventListener('click', event => {
@@ -210,6 +214,15 @@ function Controller(m, v) {
 
         }
     })
+
+    v.refresh.addEventListener('click', event =>{
+        event.preventDefault()
+        event.stopPropagation()
+
+        this.getWall()
+    })
+
+
 
 
 
