@@ -21,8 +21,8 @@
 // See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
 document.addEventListener('deviceready', onDeviceReady, false);
 
-//var sid = "dDYkswaNkBtycWDS"
-var sid //userData.sid
+var sid = "dDYkswaNkBtycWDS"
+//var sid //userData.sid
 
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
@@ -41,14 +41,24 @@ function onDeviceReady() {
         userImplicitRegistration();
 
 
+    } else {
 
+        //Carica i dati che ha gia del profilo
+        userData.loadUserData()
+        console.log("sid: " + userData.sid);
+
+        // Test
+        var modal = new Modal();
+        var consoleView = new View(modal);
+        var controller = new Controller(modal, consoleView);
+        //consoleView.pressButton();
+        //consoleView.pressButton("JS dominates the web world");
+        //consoleView.pressButton("JQuery is a useful library of JS");
+        controller.getWall()
+        controller.updateView()
     }
 
-    //Carica i dati che ha gia del profilo
-    userData.loadUserData()
-    console.log("sid: " + userData.sid);
 
-    sid = userData.sid
 
     //Salva il resto del profilo
     comunicationController.getProfile(userData.sid, (response) => {
@@ -93,16 +103,7 @@ function onDeviceReady() {
     // const app = new ControllerWall(new ModelWall(), new ViewWall())
     // app.model.refreshWallModel()
 
-    // Test
-    var modal = new Modal();
-    var consoleView = new View(modal);
-    var controller = new Controller(modal, consoleView);
-    //consoleView.pressButton();
-    //consoleView.pressButton("JS dominates the web world");
-    //consoleView.pressButton("JQuery is a useful library of JS");
-    controller.getWall()
 
-    controller.updateView()
     showscreen('#root')
 
 }
@@ -115,8 +116,24 @@ function userImplicitRegistration() {
 
         //Salva sid
         var json = JSON.parse(response);
-        var sid = json.sid;
-        userData.saveSid(sid) //TODO: SID NON SI SALVA IN MODO PESISTENTE
+        sidJ = json.sid;
+        userData.saveSid(sidJ)
+        sid = this.sid
+
+        userData.loadUserData()
+        console.log("sid: " + userData.sid);
+        sid = userData.sid
+
+        // Test
+        var modal = new Modal();
+        var consoleView = new View(modal);
+        var controller = new Controller(modal, consoleView);
+        //consoleView.pressButton();
+        //consoleView.pressButton("JS dominates the web world");
+        //consoleView.pressButton("JQuery is a useful library of JS");
+
+        controller.getWall()
+        controller.updateView()
     })
 }
 
