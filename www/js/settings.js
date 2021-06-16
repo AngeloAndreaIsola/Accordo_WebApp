@@ -75,7 +75,7 @@ function bindonChangeUsernameClicked() {
 
         console.log("ReturnVAlue: " + favDialog.returnValue);
 
-        if (favDialog.returnValue == "cancel") {
+        if (favDialog.returnValue == "cancel" || favDialog.returnValue.length<20) {
             if (userData.username != null) {
                 $("#usernameSettings").text(userData.username)
             } else {

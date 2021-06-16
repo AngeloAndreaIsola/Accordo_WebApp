@@ -212,6 +212,8 @@ function Controller(m, v) {
             })
 
 
+        }else{
+            console.error("Title too long");
         }
     })
 
