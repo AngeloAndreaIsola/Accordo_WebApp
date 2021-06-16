@@ -210,12 +210,13 @@ function ViewChannel(m) {
 
         this.backToWall.addEventListener('click', event => {
             event.preventDefault()
-            event.stopPropagation()
+
 
             //if (event.target && event.target.nodeName == 'i') {
             console.log("Clicked on back to wall");
             showscreen('#root')
             //}
+            event.stopPropagation()
 
         })
 
@@ -462,7 +463,12 @@ function openFilePickerChannel(channelName) { //selection,
         console.log("Getting image from gallery for channel");
         console.log("Image URI: " + imageUri);
 
-        sendPostImage(imageUri, channelName)
+        if (imageUri.length < 137000){
+            sendPostImage(imageUri, channelName)
+        }else{
+            console.error("Image too large");
+        }
+
 
     }, function cameraError(error) {
         console.debug("Unable to obtain picture: " + error, "app");

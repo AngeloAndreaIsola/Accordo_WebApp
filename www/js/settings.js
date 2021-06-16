@@ -11,6 +11,7 @@ inputEL = this.getElement('#inputEL');
 confirmBtn = this.getElement('#confirmBtn')
 
 cancelBtn = this.getElement('#cancelBtn')
+//cancelBtn.value = "Default username"
 
 var sid = "dDYkswaNkBtycWDS"
 var name = ""
@@ -70,31 +71,51 @@ function bindonChangeUsernameClicked() {
     // "Confirm" button of form triggers "close" on dialog because of [method="dialog"]
     favDialog.addEventListener('close', function onClose() {
         //outputBox.value = favDialog.returnValue + " button clicked - " + (new Date()).toString();
+
+
         console.log("ReturnVAlue: " + favDialog.returnValue);
 
-        comunicationController.setUsername(sid, favDialog.returnValue, () => {
-            comunicationController.getProfile(sid, (response) => {
-                console.log("Call %22getProfile%22 succeded");
-                console.log("Saving NEW profile...")
-
-                var json = JSON.parse(response);
-                var uid = json.uid;
-                var username = json.name;
-                var picture = json.picture;
-                var pversion = json.pversion;
-
-
-                userData.saveUserData(uid, username, picture, pversion)
-
-                //Setta profilo nelle impostazioni
-                $("#settingsImmagineProfilo").attr("src", "")
-                $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
+        if (favDialog.returnValue == "cancel") {
+            if (userData.username != null) {
                 $("#usernameSettings").text(userData.username)
-                this.name = userData.username
+            } else {
+                $("#usernameSettings").text("Default username")
+            }
+        } else {
 
-                console.log("Settings updated");
+            comunicationController.setUsername(sid, favDialog.returnValue, () => {
+                comunicationController.getProfile(sid, (response) => {
+                    console.log("Call %22getProfile%22 succeded");
+                    console.log("Saving NEW profile...")
+
+                    var json = JSON.parse(response);
+                    var uid = json.uid;
+                    var username = json.name;
+                    var picture = json.picture;
+                    var pversion = json.pversion;
+
+
+                    userData.saveUserData(uid, username, picture, pversion)
+
+                    //Setta profilo nelle impostazioni
+                    $("#settingsImmagineProfilo").attr("src", "")
+
+                    if (userData.pversion != 0) {
+                        $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
+                    } else {
+
+                        $("#settingsImmagineProfilo").attr("src", "./img/default-user-image.png")
+                    }
+
+                    $("#usernameSettings").text(userData.username)
+                    this.name = userData.username
+
+                    console.log("Settings updated");
+                })
             })
-        })
+        }
+
+
     });
 }
 
@@ -135,7 +156,18 @@ function openFilePicker(selection) {
         // Do something
         console.log("Getting image from gallery");
         console.log("Image URI: " + imageUri);
-        changeProfileImage(imageUri)
+        var image = new Image();
+        image.src = "data:image/png;base64, " + imageUri
+        console.log("image = " + image);
+        console.log("image.height = " + image.height);
+        console.log("image.length = " + image.length);
+
+
+        if (imageUri.length < 137000) {
+            changeProfileImage(imageUri)
+        } else {
+            console.error("Profile image too large")
+        }
 
     }, function cameraError(error) {
         console.debug("Unable to obtain picture: " + error, "app");
@@ -185,31 +217,31 @@ function changeProfileImage(stringImage) {
             console.log("Error while changing profile image: " + response);
 
             return
-        }else{
+        } else {
             console.log("Call %22setPicture%22 succeded");
         }
 
 
         comunicationController.getProfile(userData.sid, (response) => {
-                console.log("Saving NEW profile...")
+            console.log("Saving NEW profile...")
 
-                var json = JSON.parse(response);
-                var uid = json.uid;
-                var username = json.name;
-                var picture = json.picture;
-                var pversion = json.pversion;
+            var json = JSON.parse(response);
+            var uid = json.uid;
+            var username = json.name;
+            var picture = json.picture;
+            var pversion = json.pversion;
 
 
-                userData.saveUserData(uid, username, picture, pversion)
+            userData.saveUserData(uid, username, picture, pversion)
 
-                //Setta profilo nelle impostazioni
-                $("#settingsImmagineProfilo").attr("src", "")
-                $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
-                $("#usernameSettings").text(userData.username)
-                this.name = userData.username
+            //Setta profilo nelle impostazioni
+            $("#settingsImmagineProfilo").attr("src", "")
+            $("#settingsImmagineProfilo").attr("src", "data:image/png;base64," + userData.picture)
+            $("#usernameSettings").text(userData.username)
+            this.name = userData.username
 
-                console.log("Settings updated");
-            
+            console.log("Settings updated");
+
         })
     })
 }
